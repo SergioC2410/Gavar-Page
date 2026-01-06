@@ -429,3 +429,49 @@ header {
     .profile-section { padding: 20px; }
     .profile-img-container { height: 300px; width: 100%; }
 }
+/* --- CORRECCIÓN FINAL: PERFIL MÓVIL (Fix Ignacio) --- */
+
+@media (max-width: 600px) {
+    /* 1. Evitar que se corte el contenido */
+    .profile-section {
+        padding: 20px;
+        align-items: flex-start; /* Alinear a la izquierda para ganar espacio */
+        overflow: hidden; /* Cortar cualquier desborde fantasma */
+    }
+
+    .profile-info {
+        width: 100%; /* Que ocupe todo el ancho disponible */
+        padding-top: 20px;
+    }
+
+    /* 2. TRUCO DE MAGIA: Letra que se achica sola */
+    .artist-role {
+        /* En vez de tamaño fijo (2rem), usamos 'vw' (viewport width).
+           Esto significa "5% del ancho de la pantalla". 
+           Así el texto SIEMPRE cabrá en una línea. */
+        font-size: 5vw; 
+    }
+
+    /* 3. Ajustar la etiqueta del nombre "Nachito Marquez" */
+    .artist-name-bg {
+        font-size: 0.9rem;
+        padding: 4px 10px;
+        width: 100%; /* Que ocupe todo el ancho */
+        text-align: center; /* Centrar el nombre */
+        box-sizing: border-box;
+    }
+
+    /* 4. Ajustar la animación de escritura para móvil */
+    .typing-container {
+        margin-top: 10px;
+        width: 100%;
+        display: block;
+    }
+    
+    .typing-effect {
+        /* Aseguramos que la animación corra fluida en pantallas peques */
+        white-space: nowrap; 
+        width: 0;
+        animation: typing 3s steps(35, end) forwards, blink-caret .75s step-end infinite;
+    }
+}
