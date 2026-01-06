@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAVAR | Artista del Mes</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="assets/img/Logo GAVAR.png" alt="GAVAR">
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="galeria.html">Galería</a></li>
+                <li><a href="exposiciones.html">Exposiciones</a></li>
+                <li><a href="mencion-especial.html" style="color:#000; font-weight:bold;">Artista del Mes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        
+        <section class="profile-section">
+            <div class="profile-img-container">
+                <img src="assets/img/nacho_profile.jpg" alt="Retrato del Maestro" onerror="this.src='https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns='">
+            </div>
+
+            <div class="profile-info">
+                <span class="artist-name-bg">Nachito Marquez</span>
+                <div class="typing-container">
+                    <h1 class="artist-role typing-effect">Maestro en manquear en Valorant</h1>
+                </div>
+
+                <div class="bio-bracket-container">
+                    <p class="bio-text">
+                        Reconocido en la escena internacional de los eSports por su capacidad inigualable de fallar balas que parecían imposibles de errar. Su estilo de juego, denominado por los críticos como <strong>"Desincronización Artística"</strong>, explora los límites de la paciencia humana.
+                        <br><br>
+                        Como él mismo suele decir: <em>"Tengo el talento en la sangre, el problema es que no me circula"</em>. Su obra se centra en el uso vanguardista de la habilidad definitiva (Ultimate) contra las paredes vacías y en flashear a su propio equipo en momentos cruciales.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="carousel-section">
+            <div class="carousel-header">
+                <h2 class="section-title" style="margin:0;">Recopilación de "Talento"</h2>
+                
+                <div class="carousel-controls">
+                    <button class="nav-arrow" onclick="moverCarrusel(-1)">←</button>
+                    <button class="nav-arrow" onclick="moverCarrusel(1)">→</button>
+                </div>
+            </div>
+
+            <div class="carousel-track" id="trackObras">
+                
+                <article class="file-card" onclick="abrirModal(this)"
+                    data-type="image"
+                    data-src="https://i.ytimg.com/vi/bX92oXIq7DA/maxresdefault.jpg" 
+                    data-title="El Whiff Legendario"
+                    data-autor="Nachito Marquez"
+                    data-year="2024"
+                    data-desc="Una composición dramática donde el cargador entero de la Vandal dibuja una silueta perfecta alrededor del enemigo, sin tocarlo ni una sola vez. Sublime.">
+                    <div class="card-preview">
+                        <img src="https://i.ytimg.com/vi/bX92oXIq7DA/maxresdefault.jpg" alt="Whiff">
+                    </div>
+                    <div class="card-footer">
+                        <span class="file-icon">❌</span>
+                        <span class="file-name">Aim_desaparecido.mp4</span>
+                    </div>
+                </article>
+
+                <article class="file-card" onclick="abrirModal(this)"
+                    data-type="image"
+                    data-src="https://pm1.aminoapps.com/6555/08678083812739527f320473534d0b28e67a780b_00.jpg"
+                    data-title="Flasheando al Team"
+                    data-autor="Nachito Marquez"
+                    data-year="2023"
+                    data-desc="Obra maestra del sabotaje involuntario. En esta pieza, Nachito ciega a sus 4 compañeros permitiendo que el enemigo haga un Ace. Táctica incomprendida.">
+                    <div class="card-preview">
+                        <img src="https://pm1.aminoapps.com/6555/08678083812739527f320473534d0b28e67a780b_00.jpg" alt="Flash Fail">
+                    </div>
+                    <div class="card-footer">
+                        <span class="file-icon">🤦‍♂️</span>
+                        <span class="file-name">Perdon_team.jpg</span>
+                    </div>
+                </article>
+
+                <article class="file-card" onclick="abrirModal(this)" 
+                    data-type="image" 
+                    data-src="https://pbs.twimg.com/media/EeE-3WjXYAE1gqi.jpg" 
+                    data-title="La Ulti a la Nada" 
+                    data-autor="Nachito Marquez" 
+                    data-year="2024" 
+                    data-desc="Un tributo al vacío existencial. Lanzar la definitiva a un sitio donde no había nadie hace 3 rondas.">
+                    <div class="card-preview" style="background:#ddd; display:flex; justify-content:center; align-items:center;">
+                        <img src="https://pbs.twimg.com/media/EeE-3WjXYAE1gqi.jpg" alt="Lag">
+                    </div>
+                    <div class="card-footer"><span class="file-icon">📉</span><span class="file-name">Sin_Manos.png</span></div>
+                </article>
+
+                <article class="file-card" onclick="abrirModal(this)" 
+                    data-type="image" 
+                    data-src="" 
+                    data-title="Echándole la culpa al Lag" 
+                    data-autor="Nachito Marquez" 
+                    data-year="Siempre" 
+                    data-desc="La excusa clásica del artista. No es que falle, es que el servidor no aprecia su arte a 900 de ping.">
+                    <div class="card-preview" style="background:#e0e0e0; font-size:3rem;">📶</div>
+                    <div class="card-footer"><span class="file-icon">🔌</span><span class="file-name">Ping_Alto.jpg</span></div>
+                </article>
+
+                <article class="file-card" onclick="abrirModal(this)" 
+                    data-type="image" 
+                    data-src="" 
+                    data-title="Iron 1 Forever" 
+                    data-autor="Nachito Marquez" 
+                    data-year="Eternidad" 
+                    data-desc="Un estudio sobre la permanencia. No importa cuánto juegue, el rango Hierro es su hogar espiritual.">
+                    <div class="card-preview" style="background:#e0e0e0; font-size:3rem;">💩</div>
+                    <div class="card-footer"><span class="file-icon">🏅</span><span class="file-name">Hardstuck.png</span></div>
+                </article>
+
+            </div>
+        </section>
+
+    </main>
+
+    <div id="modalVisualizador" class="modal-overlay" onclick="cerrarModal(event)">
+        <div class="modal-window">
+            <div class="modal-media">
+                <img id="mImg" src="" style="display:none;">
+                <video id="mVideo" controls style="display:none; width:100%;"></video>
+            </div>
+            <div class="modal-details">
+                <button class="close-modal" onclick="cerrarModalBtn()">×</button>
+                <span class="modal-tag">Análisis de la Jugada</span>
+                <h2 id="mTitle" style="font-size: 2rem; margin-bottom: 10px;">Título</h2>
+                <h3 id="mAutor" style="font-size: 1.1rem; color: #555;">Autor</h3>
+                <div class="modal-meta">
+                    <p><strong>📅 Año:</strong> <span id="mYear"></span></p>
+                </div>
+                <div style="margin-top: 20px;">
+                    <p id="mDesc" style="color: #444; line-height: 1.7;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/scripts.js"></script>
+    
+    <script>
+        function moverCarrusel(direccion) {
+            const track = document.getElementById('trackObras');
+            const scrollAmount = 300;
+            if (direccion === 1) {
+                track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            } else {
+                track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
