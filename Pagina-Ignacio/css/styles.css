@@ -250,34 +250,56 @@ header {
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 .card-enter { opacity: 0; animation: fadeInUp 0.6s ease-out forwards; }
 
-/* =========================================
-   7. RESPONSIVE MÓVIL (MENÚ HAMBURGUESA)
-   ========================================= */
+/* --- RESPONSIVE MÓVIL (DISEÑO REVISTA) --- */
 @media (max-width: 768px) {
-    /* Ajustes Header Móvil */
+    /* 1. Header como contenedor relativo */
     header {
-        flex-wrap: wrap; 
-        padding: 10px 20px;
-        position: relative;
+        flex-direction: column; /* Elementos uno sobre otro */
+        align-items: center;    /* Todo centrado */
+        padding: 15px 20px;
+        position: relative;     /* Para poder mover el botón menú libremente */
+        gap: 15px;
     }
 
-    /* Logo a la izquierda */
-    .logo-container { flex: 1; }
+    /* 2. LOGO: Centrado y más grande para que se lea la letra pequeña */
+    .logo-container { 
+        justify-content: center;
+        width: 100%;
+        order: 1; /* El logo va primero visualmente */
+        margin-top: 5px; /* Un poquito de aire arriba */
+    }
+    
+    .logo-container img {
+        /* Aumentamos un poco el tamaño en móvil para que se lea el texto */
+        height: 60px; 
+        /* Truco para evitar pixelado si la imagen es grande: */
+        object-fit: contain; 
+    }
 
-    /* Botón Hamburguesa visible */
-    .menu-toggle { display: block; order: 2; }
+    /* 3. BOTÓN MENÚ (Hamburguesa): Lo movemos a la ESQUINA IZQUIERDA (Absoluto) */
+    .menu-toggle { 
+        display: block; 
+        position: absolute;
+        left: 20px; /* Pegado a la izquierda */
+        top: 25px;  /* Alineado con el logo */
+        z-index: 1003;
+    }
 
-    /* Barra de búsqueda abajo */
+
+    /* 4. BUSCADOR: Centrado abajo */
     .search-box {
-        position: static; transform: none; 
-        order: 3; width: 100%; margin-top: 10px; 
+        position: static; 
+        transform: none; 
+        width: 100%; 
+        order: 3; 
+        margin-top: 5px;
         justify-content: center;
     }
-    .search-box.active .search-input { width: 100%; }
+    .search-box.active .search-input { width: 90%; }
 
-    /* Menú Desplegable Flotante */
+    /* 5. MENÚ DESPLEGABLE */
     .nav-links {
-        display: none; /* Oculto */
+        display: none;
         flex-direction: column;
         width: 100%;
         background-color: #fff;
@@ -287,30 +309,43 @@ header {
         box-shadow: 0 10px 15px rgba(0,0,0,0.1);
         border-top: 1px solid var(--border-color);
         z-index: 999;
-        order: 4;
     }
-    
-    /* Clase que activa el menú (JS) */
     .nav-links.active {
         display: flex;
         animation: slideDown 0.3s ease-out forwards;
     }
-    
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .nav-links a { 
+        display: block; padding: 15px; text-align: center; border-bottom: 1px solid #f9f9f9; 
+    }
+    .hero-img { 
+        width: 100%;
+        display: flex;
+        justify-content: center; /* Centrado horizontal */
+        align-items: center;
+        margin-bottom: 30px; /* Separación con el texto de abajo */
+        order: 1; /* Aseguramos que salga arriba del texto (si usas column-reverse) */
+    }
 
-    .nav-links li { width: 100%; text-align: center; }
-    .nav-links a { display: block; padding: 15px; border-bottom: 1px solid #f9f9f9; }
+    /* 2. La Imagen en sí: Controlamos su tamaño */
+    .hero-img img { 
+        /* Reducimos el ancho máximo al 70-80% para que tenga "aire" a los lados y no se corte */
+        max-width: 75%; 
+        
+        /* IMPORTANTE: Límite de altura para que no sea gigante */
+        max-height: 400px; 
+        
+        width: auto;   /* Mantiene la proporción */
+        height: auto;
+        object-fit: contain; /* Asegura que se vea completa sin recortes */
+        
+        /* Mantenemos la animación flotante pero ajustada */
+        margin-bottom: 0; 
+    }
 
-    /* Ajustes Contenido */
+    /* Ajustes generales */
     .hero { padding: 2rem 1rem; flex-direction: column-reverse; text-align: center; }
-    .hero-text h1 { font-size: 2.5rem; }
-    .hero-img img { max-width: 90%; margin-bottom: 20px; }
-
-    .profile-section { flex-direction: column; padding: 40px 20px; align-items: center; }
-    .profile-img-container { width: 100%; height: auto; aspect-ratio: 3/4; }
-    .bio-bracket-container::before { width: 100%; }
-
-    .modal-window { flex-direction: column; height: 95vh; width: 95%; overflow-y: scroll; }
-    .modal-media { flex: 0 0 auto; height: 300px; background: #000; }
-    .modal-details { flex: 1; padding: 20px; }
+    .hero-text h1 { font-size: 7vw; white-space: nowrap; margin-bottom: 1rem; }
+    .hero-text h1 span { font-size: 7vw; white-space: normal; }
+    .profile-section { flex-direction: column; padding: 40px 20px; }
+    .modal-window { flex-direction: column; height: 95vh; width: 95%; }
 }
