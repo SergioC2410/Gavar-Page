@@ -8,20 +8,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
+<header>
         <div class="logo-container">
             <img src="assets/img/Logo GAVAR.png" alt="GAVAR">
+            <strong>GAVAR</strong>
         </div>
-        <div class="search-container">
-            <span>🔍</span>
-            <input type="text" id="searchInput" placeholder="Filtrar obras..." onkeyup="filtrarObras()">
+
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
+        
+        <div class="search-box">
+            <button class="search-btn" onclick="toggleSearch()">🔍</button>
+            <input type="text" class="search-input" id="searchInput" placeholder="Filtrar obras..." onkeyup="filtrarObras()">
         </div>
+
         <nav>
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="galeria.html" style="color:#000; font-weight:bold;">Galería</a></li>
                 <li><a href="exposiciones.html">Exposiciones</a></li>
-                <li><a href="mencion-especial.html">Artista del Mes</a></li>
+                <li><a href="mencion-especial.html">Artista de Caño Amarillo</a></li>
             </ul>
         </nav>
     </header>

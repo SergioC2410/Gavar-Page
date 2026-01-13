@@ -14,23 +14,28 @@
             <img src="assets/img/Logo GAVAR.png" alt="Logo GAVAR">
         </div>
 
-        <div class="search-container">
-            <span>🔍</span>
-            <input type="text" placeholder="Buscar artista, obra o técnica...">
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
+
+        <div class="search-box">
+            <button class="search-btn" onclick="toggleSearch()">🔍</button>
+            <input type="text" class="search-input" placeholder="Buscar artista, obra...">
         </div>
 
         <nav>
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks">
                 <li><a href="galeria.html">Galería</a></li>
                 <li><a href="exposiciones.html">Exposiciones</a></li>
-                <li><a href="mencion-especial.html">Artista del Mes</a></li>
+                <li><a href="mencion-especial.html">Artista de Caño Amarillo</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="hero">
         <div class="hero-text">
-            <h1>Galería de Arte<br>Virtual <span style="color: #888;">Armando Reverón</span></h1>
+            <h1>
+                Galería de Arte Virtual
+                <span style="color: #000000; display: block; margin-top: 10px;">Armando Reverón</span>
+            </h1>
             <p>Descubre un espacio donde la historia y la tecnología se encuentran. Una experiencia minimalista diseñada para resaltar lo esencial.</p>
             <a href="galeria.html" class="btn-primary">Explorar Colección →</a>
         </div>

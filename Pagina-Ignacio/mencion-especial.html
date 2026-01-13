@@ -8,39 +8,44 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
-    <header>
+<header>
         <div class="logo-container">
             <img src="assets/img/Logo GAVAR.png" alt="GAVAR">
         </div>
+
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
+        
+        <div class="search-box">
+            <button class="search-btn" onclick="toggleSearch()">🔍</button>
+            <input type="text" class="search-input" placeholder="Buscar en la colección...">
+        </div>
+
         <nav>
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="galeria.html">Galería</a></li>
                 <li><a href="exposiciones.html">Exposiciones</a></li>
-                <li><a href="mencion-especial.html" style="color:#000; font-weight:bold;">Artista del Mes</a></li>
+                <li><a href="mencion-especial.html" style="color:#000; font-weight:bold;">Artista de Caño Amarillo</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
+<main>
         
         <section class="profile-section">
             <div class="profile-img-container">
-                <img src="assets/img/nacho_profile.jpg" alt="Retrato del Maestro" onerror="this.src='https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns='">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Armando_Rever%C3%B3n_en_El_Castillete%2C_c._1954.jpg" alt="Armando Reverón">
             </div>
 
             <div class="profile-info">
-                <span class="artist-name-bg">Nachito Marquez</span>
-                <div class="typing-container">
-                    <h1 class="artist-role typing-effect">Maestro en manquear en Valorant</h1>
-                </div>
+                <span class="artist-name-bg">Armando Reverón</span>
+                <h1 class="artist-role">El Maestro de la Luz</h1>
 
                 <div class="bio-bracket-container">
                     <p class="bio-text">
-                        Reconocido en la escena internacional de los eSports por su capacidad inigualable de fallar balas que parecían imposibles de errar. Su estilo de juego, denominado por los críticos como <strong>"Desincronización Artística"</strong>, explora los límites de la paciencia humana.
+                        Considerado el artista venezolano más influyente del siglo XX. Su obra es única en la historia de la pintura latinoamericana, conocida por su exploración radical de los efectos de la luz tropical sobre las formas, llegando a la casi total abstracción en su "Período Blanco".
                         <br><br>
-                        Como él mismo suele decir: <em>"Tengo el talento en la sangre, el problema es que no me circula"</em>. Su obra se centra en el uso vanguardista de la habilidad definitiva (Ultimate) contra las paredes vacías y en flashear a su propio equipo en momentos cruciales.
+                        Reverón construyó su propio universo en "El Castillete" de Macuto, donde fabricaba sus pinceles, lienzos y objetos, fusionando su vida y su arte en una experiencia indisoluble y mística.
                     </p>
                 </div>
             </div>
@@ -48,7 +53,7 @@
 
         <section class="carousel-section">
             <div class="carousel-header">
-                <h2 class="section-title" style="margin:0;">Recopilación de "Talento"</h2>
+                <h2 class="section-title" style="margin:0;">Obras Destacadas</h2>
                 
                 <div class="carousel-controls">
                     <button class="nav-arrow" onclick="moverCarrusel(-1)">←</button>
@@ -60,69 +65,73 @@
                 
                 <article class="file-card" onclick="abrirModal(this)"
                     data-type="image"
-                    data-src="https://i.ytimg.com/vi/bX92oXIq7DA/maxresdefault.jpg" 
-                    data-title="El Whiff Legendario"
-                    data-autor="Nachito Marquez"
-                    data-year="2024"
-                    data-desc="Una composición dramática donde el cargador entero de la Vandal dibuja una silueta perfecta alrededor del enemigo, sin tocarlo ni una sola vez. Sublime.">
+                    data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/La_Cueva_-_Armando_Rever%C3%B3n.jpg/1200px-La_Cueva_-_Armando_Rever%C3%B3n.jpg"
+                    data-title="La Cueva"
+                    data-autor="Armando Reverón"
+                    data-year="1920"
+                    data-desc="Obra maestra de su Período Azul. Reverón utiliza tonos oscuros y profundos para crear una atmósfera de misterio y sensualidad.">
                     <div class="card-preview">
-                        <img src="https://i.ytimg.com/vi/bX92oXIq7DA/maxresdefault.jpg" alt="Whiff">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/La_Cueva_-_Armando_Rever%C3%B3n.jpg/1200px-La_Cueva_-_Armando_Rever%C3%B3n.jpg" alt="La Cueva">
                     </div>
                     <div class="card-footer">
-                        <span class="file-icon">❌</span>
-                        <span class="file-name">Aim_desaparecido.mp4</span>
+                        <span class="file-icon">🖼️</span>
+                        <span class="file-name">La_Cueva.jpg</span>
                     </div>
                 </article>
 
                 <article class="file-card" onclick="abrirModal(this)"
                     data-type="image"
-                    data-src="https://pm1.aminoapps.com/6555/08678083812739527f320473534d0b28e67a780b_00.jpg"
-                    data-title="Flasheando al Team"
-                    data-autor="Nachito Marquez"
-                    data-year="2023"
-                    data-desc="Obra maestra del sabotaje involuntario. En esta pieza, Nachito ciega a sus 4 compañeros permitiendo que el enemigo haga un Ace. Táctica incomprendida.">
+                    data-src="https://assets-global.website-files.com/604a80695420325d7335d886/6064cd5f5b5b2e5c8e2680e6_reveron-blanco.jpeg"
+                    data-title="Paisaje Blanco"
+                    data-autor="Armando Reverón"
+                    data-year="1934"
+                    data-desc="El epítome de su Período Blanco. La luz del Caribe es tan intensa que disuelve las formas, dejando solo la esencia del paisaje.">
                     <div class="card-preview">
-                        <img src="https://pm1.aminoapps.com/6555/08678083812739527f320473534d0b28e67a780b_00.jpg" alt="Flash Fail">
+                        <img src="https://assets-global.website-files.com/604a80695420325d7335d886/6064cd5f5b5b2e5c8e2680e6_reveron-blanco.jpeg" alt="Paisaje Blanco">
                     </div>
                     <div class="card-footer">
-                        <span class="file-icon">🤦‍♂️</span>
-                        <span class="file-name">Perdon_team.jpg</span>
+                        <span class="file-icon">🖼️</span>
+                        <span class="file-name">Paisaje_Blanco.jpg</span>
                     </div>
                 </article>
 
                 <article class="file-card" onclick="abrirModal(this)" 
                     data-type="image" 
-                    data-src="https://pbs.twimg.com/media/EeE-3WjXYAE1gqi.jpg" 
-                    data-title="La Ulti a la Nada" 
-                    data-autor="Nachito Marquez" 
-                    data-year="2024" 
-                    data-desc="Un tributo al vacío existencial. Lanzar la definitiva a un sitio donde no había nadie hace 3 rondas.">
-                    <div class="card-preview" style="background:#ddd; display:flex; justify-content:center; align-items:center;">
-                        <img src="https://pbs.twimg.com/media/EeE-3WjXYAE1gqi.jpg" alt="Lag">
+                    data-src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Fiesta_en_Caraballeda.jpg" 
+                    data-title="Fiesta en Caraballeda" 
+                    data-autor="Armando Reverón" 
+                    data-year="1924" 
+                    data-desc="Reverón captura el movimiento y la cultura local con pinceladas dinámicas, integrando la figura humana con el entorno natural.">
+                    <div class="card-preview">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Fiesta_en_Caraballeda.jpg" alt="Fiesta">
                     </div>
-                    <div class="card-footer"><span class="file-icon">📉</span><span class="file-name">Sin_Manos.png</span></div>
+                    <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">Fiesta.jpg</span></div>
                 </article>
 
                 <article class="file-card" onclick="abrirModal(this)" 
                     data-type="image" 
-                    data-src="" 
-                    data-title="Echándole la culpa al Lag" 
-                    data-autor="Nachito Marquez" 
-                    data-year="Siempre" 
-                    data-desc="La excusa clásica del artista. No es que falle, es que el servidor no aprecia su arte a 900 de ping.">
-                    <div class="card-preview" style="background:#e0e0e0; font-size:3rem;">📶</div>
-                    <div class="card-footer"><span class="file-icon">🔌</span><span class="file-name">Ping_Alto.jpg</span></div>
+                    data-src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Autorretrato_con_mu%C3%B1ecas.jpg" 
+                    data-title="Autorretrato con Muñecas" 
+                    data-autor="Armando Reverón" 
+                    data-year="1940" 
+                    data-desc="Una mirada íntima al mundo psicológico del artista, rodeado de las muñecas de trapo que él mismo confeccionaba.">
+                    <div class="card-preview">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Autorretrato_con_mu%C3%B1ecas.jpg" alt="Autorretrato">
+                    </div>
+                    <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">Autorretrato.jpg</span></div>
                 </article>
 
                 <article class="file-card" onclick="abrirModal(this)" 
                     data-type="image" 
-                    data-src="" 
-                    data-title="Iron 1 Forever" 
-                    data-autor="Nachito Marquez" 
-                    data-year="Eternidad" 
-                    data-desc="Un estudio sobre la permanencia. No importa cuánto juegue, el rango Hierro es su hogar espiritual.">
-                    <div class="card-preview" style="background:#e0e0e0; font-size:3rem;">💩</div>
-                    <div class="card-footer"><span class="file-icon">🏅</span><span class="file-name">Hardstuck.png</span></div>
+                    data-src="https://upload.wikimedia.org/wikipedia/commons/e/eb/El_Play%C3%B3n_-_Armando_Rever%C3%B3n.jpg" 
+                    data-title="El Playón" 
+                    data-autor="Armando Reverón" 
+                    data-year="1929" 
+                    data-desc="Estudio magistral de la costa, donde el mar y el cielo se funden en una gama cromática sutil y brillante.">
+                    <div class="card-preview">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/El_Play%C3%B3n_-_Armando_Rever%C3%B3n.jpg" alt="El Playon">
+                    </div>
+                    <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">El_Playon.jpg</span></div>
                 </article>
 
             </div>
@@ -138,7 +147,7 @@
             </div>
             <div class="modal-details">
                 <button class="close-modal" onclick="cerrarModalBtn()">×</button>
-                <span class="modal-tag">Análisis de la Jugada</span>
+                <span class="modal-tag">Detalle de Obra</span>
                 <h2 id="mTitle" style="font-size: 2rem; margin-bottom: 10px;">Título</h2>
                 <h3 id="mAutor" style="font-size: 1.1rem; color: #555;">Autor</h3>
                 <div class="modal-meta">

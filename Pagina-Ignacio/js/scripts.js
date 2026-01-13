@@ -1,87 +1,274 @@
-/* Función para abrir el Modal tipo MercadoLibre */
-function abrirModal(elemento) {
-    // 1. Obtener datos del elemento clickeado (data-Attributes)
-    const type = elemento.getAttribute('data-type');
-    const src = elemento.getAttribute('data-src');
-    const title = elemento.getAttribute('data-title');
-    const autor = elemento.getAttribute('data-autor');
-    const desc = elemento.getAttribute('data-desc');
-    const year = elemento.getAttribute('data-year');
-
-    // 2. Referencias a los elementos dentro del Modal
-    const modal = document.getElementById('modalVisualizador');
-    const imgTag = document.getElementById('mImg');
-    const videoTag = document.getElementById('mVideo');
-    
-    // 3. Llenar textos
-    document.getElementById('mTitle').innerText = title;
-    document.getElementById('mAutor').innerText = "Por: " + autor;
-    document.getElementById('mDesc').innerText = desc;
-    document.getElementById('mYear').innerText = year;
-
-    // 4. Mostrar Imagen o Video según corresponda
-    if (type === 'video') {
-        imgTag.style.display = 'none';
-        videoTag.style.display = 'block';
-        videoTag.src = src;
-        videoTag.play(); // Auto-reproducir video
-    } else {
-        videoTag.style.display = 'none';
-        videoTag.pause();
-        imgTag.style.display = 'block';
-        imgTag.src = src;
+/* ===== CONSTANTES Y CONFIGURACIÓN ===== */
+const CONFIG = {
+    animation: {
+        cardDelay: 100,
+        maxDelay: 2000
     }
+};
 
-    // 5. Mostrar el modal con animación flex
-    modal.style.display = 'flex';
-}
+/* ===== CACHE DE ELEMENTOS DEL DOM ===== */
+const DOM = {
+    modal: document.getElementById('modalVisualizador'),
+    modalImg: document.getElementById('mImg'),
+    modalVideo: document.getElementById('mVideo'),
+    modalTitle: document.getElementById('mTitle'),
+    modalAutor: document.getElementById('mAutor'),
+    modalDesc: document.getElementById('mDesc'),
+    modalYear: document.getElementById('mYear'),
+    searchInput: document.getElementById('searchInput'),
+    searchBox: document.querySelector('.search-box'),
+    navLinks: document.getElementById('navLinks')
+};
 
-/* Cerrar Modal desde el botón X */
-function cerrarModalBtn() {
-    const modal = document.getElementById('modalVisualizador');
-    const videoTag = document.getElementById('mVideo');
+/* ===== MÓDULO DE MODAL ===== */
+const ModalManager = {
+    currentVideo: null,
     
-    modal.style.display = 'none';
-    videoTag.pause(); // Importante: Pausar video al cerrar
-    videoTag.src = ""; 
+    init() {
+        this.bindEvents();
+    },
+    
+    bindEvents() {
+        // Cerrar modal con tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && DOM.modal.style.display === 'flex') {
+                this.close();
+            }
+        });
+        
+        // Cerrar modal al hacer clic fuera
+        DOM.modal?.addEventListener('click', (e) => {
+            if (e.target === DOM.modal) {
+                this.close();
+            }
+        });
+    },
+    
+    open(element) {
+        const data = this.extractData(element);
+        this.populateModal(data);
+        this.showContent(data.type, data.src);
+        this.showModal();
+    },
+    
+    extractData(element) {
+        return {
+            type: element.dataset.type,
+            src: element.dataset.src,
+            title: element.dataset.title,
+            autor: element.dataset.autor,
+            desc: element.dataset.desc,
+            year: element.dataset.year
+        };
+    },
+    
+    populateModal(data) {
+        DOM.modalTitle.textContent = data.title;
+        DOM.modalAutor.textContent = `Por: ${data.autor}`;
+        DOM.modalDesc.textContent = data.desc;
+        DOM.modalYear.textContent = data.year;
+    },
+    
+    showContent(type, src) {
+        const isVideo = type === 'video';
+        
+        // Mostrar/ocultar elementos
+        DOM.modalImg.style.display = isVideo ? 'none' : 'block';
+        DOM.modalVideo.style.display = isVideo ? 'block' : 'none';
+        
+        if (isVideo) {
+            DOM.modalVideo.src = src;
+            DOM.modalVideo.play().catch(e => console.log('Auto-play bloqueado:', e));
+            this.currentVideo = DOM.modalVideo;
+        } else {
+            DOM.modalImg.src = src;
+            this.pauseCurrentVideo();
+        }
+    },
+    
+    showModal() {
+        DOM.modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Previene scroll en fondo
+    },
+    
+    close() {
+        DOM.modal.style.display = 'none';
+        document.body.style.overflow = '';
+        this.pauseCurrentVideo();
+        this.resetVideoSource();
+    },
+    
+    pauseCurrentVideo() {
+        if (this.currentVideo) {
+            this.currentVideo.pause();
+            this.currentVideo.currentTime = 0;
+        }
+    },
+    
+    resetVideoSource() {
+        if (DOM.modalVideo) {
+            DOM.modalVideo.src = '';
+        }
+    }
+};
+
+/* ===== MÓDULO DE BÚSQUEDA ===== */
+const SearchManager = {
+    debounceTimer: null,
+    
+    init() {
+        this.bindEvents();
+    },
+    
+    bindEvents() {
+        DOM.searchInput?.addEventListener('input', (e) => {
+            this.debouncedFilter(e.target.value);
+        });
+    },
+    
+    debouncedFilter(text) {
+        clearTimeout(this.debounceTimer);
+        this.debounceTimer = setTimeout(() => {
+            this.filterWorks(text.toLowerCase());
+        }, 300);
+    },
+    
+    filterWorks(searchText) {
+        document.querySelectorAll('.file-card').forEach(card => {
+            const title = card.dataset.title.toLowerCase();
+            const autor = card.dataset.autor.toLowerCase();
+            const isVisible = title.includes(searchText) || autor.includes(searchText);
+            
+            card.style.display = isVisible ? 'block' : 'none';
+            card.style.animation = isVisible ? 'fadeIn 0.3s' : 'none';
+        });
+    },
+    
+    toggleSearch() {
+        DOM.searchBox?.classList.toggle('active');
+        if (DOM.searchBox?.classList.contains('active')) {
+            DOM.searchInput.focus();
+        }
+    }
+};
+
+/* ===== MÓDULO DE ANIMACIONES ===== */
+const AnimationManager = {
+    init() {
+        this.animateCardsOnLoad();
+    },
+    
+    animateCardsOnLoad() {
+        // Usar Intersection Observer para animación más eficiente
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    const delay = Math.min(index * 0.1, 2.0);
+                    entry.target.style.animationDelay = `${delay}s`;
+                    entry.target.classList.add('card-enter');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.file-card').forEach(card => {
+            observer.observe(card);
+        });
+    }
+};
+
+/* ===== MÓDULO DE NAVEGACIÓN MÓVIL ===== */
+const MobileNav = {
+    init() {
+        this.bindEvents();
+    },
+    
+    bindEvents() {
+        // Cerrar menú al hacer clic en un enlace
+        document.querySelectorAll('#navLinks a').forEach(link => {
+            link.addEventListener('click', () => {
+                this.toggle();
+            });
+        });
+        
+        // Cerrar menú al redimensionar (si se cambia a escritorio)
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && DOM.navLinks.classList.contains('active')) {
+                this.toggle();
+            }
+        });
+    },
+    
+    toggle() {
+        DOM.navLinks?.classList.toggle('active');
+        document.body.style.overflow = DOM.navLinks.classList.contains('active') 
+            ? 'hidden' 
+            : '';
+    }
+};
+
+/* ===== FUNCIONES GLOBALES (backward compatibility) ===== */
+function abrirModal(elemento) {
+    ModalManager.open(elemento);
 }
 
-/* Cerrar Modal al hacer click afuera (en el fondo oscuro) */
+function cerrarModalBtn() {
+    ModalManager.close();
+}
+
 function cerrarModal(event) {
     if (event.target.id === 'modalVisualizador') {
-        cerrarModalBtn();
+        ModalManager.close();
     }
 }
 
-/* Buscador en tiempo real */
 function filtrarObras() {
-    const texto = document.getElementById('searchInput').value.toLowerCase();
-    const tarjetas = document.querySelectorAll('.file-card');
-
-    tarjetas.forEach(card => {
-        const titulo = card.getAttribute('data-title').toLowerCase();
-        const autor = card.getAttribute('data-autor').toLowerCase();
-        
-        if (titulo.includes(texto) || autor.includes(texto)) {
-            card.style.display = 'block'; // Mostrar
-        } else {
-            card.style.display = 'none';  // Ocultar
-        }
-    });
+    SearchManager.filterWorks(DOM.searchInput.value.toLowerCase());
 }
-/* --- ANIMACIÓN DE ENTRADA (CASCADA) --- */
+
+function toggleSearch() {
+    SearchManager.toggleSearch();
+}
+
+function toggleMenu() {
+    MobileNav.toggle();
+}
+
+/* ===== INICIALIZACIÓN ===== */
 document.addEventListener('DOMContentLoaded', () => {
-    // Seleccionamos todas las tarjetas (Gallery, Expo, Artist)
-    const cards = document.querySelectorAll('.file-card');
+    // Inicializar módulos
+    ModalManager.init();
+    SearchManager.init();
+    AnimationManager.init();
+    MobileNav.init();
     
-    cards.forEach((card, index) => {
-        // Agregamos la clase de animación
-        card.classList.add('card-enter');
-        
-        // Calculamos el retraso: cada tarjeta espera 100ms más que la anterior
-        // Limitamos a 20 tarjetas para que no tarde años si hay muchas
-        const delay = Math.min(index * 0.1, 2.0); 
-        
-        card.style.animationDelay = `${delay}s`;
-    });
+    // Cargar imágenes de forma diferida
+    this.lazyLoadImages();
 });
+
+/* ===== CARGA DIFERIDA DE IMÁGENES ===== */
+function lazyLoadImages() {
+    const lazyImages = document.querySelectorAll('.file-card img[data-src]');
+    
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+    
+    lazyImages.forEach(img => imageObserver.observe(img));
+}
+
+/* ===== FUNCIONES UTILITARIAS ===== */
+// Helper para formatear texto (opcional)
+function formatText(text, maxLength = 100) {
+    if (!text) return '';
+    return text.length > maxLength 
+        ? text.substring(0, maxLength) + '...' 
+        : text;
+}

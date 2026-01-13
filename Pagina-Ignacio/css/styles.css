@@ -1,4 +1,6 @@
-/* --- CONFIGURACIÓN GENERAL --- */
+/* =========================================
+   1. CONFIGURACIÓN GENERAL & VARIABLES
+   ========================================= */
 :root {
     --bg-color: #ffffff;
     --text-main: #1a1a1a;
@@ -18,7 +20,9 @@ body {
     line-height: 1.6;
 }
 
-/* --- HEADER --- */
+/* =========================================
+   2. HEADER & NAVEGACIÓN
+   ========================================= */
 header {
     background: #fff;
     border-bottom: 1px solid var(--border-color);
@@ -26,51 +30,104 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
+    position: relative; /* Necesario para que el menú móvil y la lupa se posicionen bien */
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
-.logo-container { display: flex; align-items: center; gap: 10px; }
+.logo-container { display: flex; align-items: center; gap: 10px; z-index: 1002; }
 .logo-container img { height: 45px; }
 
-.search-container {
-    background-color: var(--accent-cream);
-    border-radius: 8px;
-    padding: 8px 15px;
-    display: flex;
-    align-items: center;
-    width: 350px;
-}
-.search-container input {
-    border: none; background: transparent; outline: none; width: 100%;
-    font-family: var(--font-stack); font-size: 0.95rem; color: var(--text-main);
+/* Menú Hamburguesa (Oculto en PC) */
+.menu-toggle {
+    display: none; /* Por defecto no se ve */
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--text-main);
+    padding: 5px;
+    z-index: 1002;
 }
 
+/* Enlaces de Navegación (Escritorio) */
 .nav-links { list-style: none; display: flex; gap: 25px; }
 .nav-links a {
-    text-decoration: none; color: var(--text-main); font-weight: 500;
-    font-size: 0.95rem; position: relative; transition: color 0.3s;
+    text-decoration: none; 
+    color: var(--text-main); 
+    font-weight: 500;
+    font-size: 0.95rem; 
+    position: relative; 
+    transition: color 0.3s;
 }
-.nav-links a:hover { color: #555; }
 .nav-links a::after {
     content: ''; position: absolute; width: 0; height: 2px;
     background: var(--text-main); bottom: -4px; left: 0; transition: width 0.3s;
 }
 .nav-links a:hover::after { width: 100%; }
 
-/* --- HERO SECTION --- */
+/* --- BARRA DE BÚSQUEDA --- */
+.search-box {
+    background: #fff;
+    border-radius: 40px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Centrado absoluto en escritorio */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001; /* Encima del header pero debajo del menú móvil desplegado */
+    
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.search-box.active {
+    background: var(--accent-cream);
+    padding: 5px 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.search-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-btn:hover { background: #f0f0f0; transform: scale(1.1); }
+
+.search-input {
+    border: none; background: transparent; outline: none;
+    width: 0; padding: 0; opacity: 0;
+    transition: 0.4s; font-family: var(--font-stack); font-size: 0.95rem;
+}
+
+.search-box.active .search-input { width: 300px; padding-left: 10px; opacity: 1; }
+
+/* =========================================
+   3. SECCIÓN HERO
+   ========================================= */
 .hero {
     display: flex; align-items: center; justify-content: space-between;
     padding: 4rem 6rem; min-height: 85vh;
 }
 .hero-text h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 1.5rem; }
 .hero-text p { color: var(--text-light); font-size: 1.2rem; margin-bottom: 2rem; max-width: 500px; }
+
 .btn-primary {
     background: var(--primary-btn); color: #fff; padding: 12px 30px;
     border-radius: 30px; text-decoration: none; font-weight: 600;
     transition: transform 0.2s; display: inline-block; cursor: pointer;
+    position: relative; overflow: hidden;
 }
 .btn-primary:hover { transform: scale(1.05); }
 
@@ -84,30 +141,21 @@ header {
     100% { transform: translateY(0); }
 }
 
-/* --- GRID TIPO GOOGLE DRIVE (AJUSTADO A 5 COLUMNAS) --- */
+/* =========================================
+   4. GRID Y TARJETAS (Galería/Expos)
+   ========================================= */
 .main-content { padding: 40px; }
 .section-title { margin-bottom: 20px; font-weight: 500; color: var(--text-light); }
 
 .drive-grid {
-    display: grid;
-    gap: 25px; /* Espacio entre tarjetas */
-    /* Por defecto (pantallas grandes): 5 columnas */
+    display: grid; gap: 25px;
     grid-template-columns: repeat(5, 1fr);
 }
 
-/* RESPONSIVE: Ajuste manual de columnas para mantener el tamaño grande */
-@media (max-width: 1600px) {
-    .drive-grid { grid-template-columns: repeat(4, 1fr); }
-}
-@media (max-width: 1200px) {
-    .drive-grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 900px) {
-    .drive-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 600px) {
-    .drive-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 1600px) { .drive-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 1200px) { .drive-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px)  { .drive-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px)  { .drive-grid { grid-template-columns: 1fr; } }
 
 .file-card {
     border: 1px solid var(--border-color);
@@ -115,23 +163,22 @@ header {
     transition: box-shadow 0.2s, transform 0.2s;
     display: flex; flex-direction: column;
 }
-.file-card:hover {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08); transform: translateY(-2px);
-}
+.file-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+
 .card-preview {
-    height: 200px; /* Aumentado para que se vea más grande la imagen */
-    background: #f1f3f4; display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
+    height: 200px; background: #f1f3f4; display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
 .card-preview img, .card-preview video { width: 100%; height: 100%; object-fit: cover; }
+
 .card-footer {
-    padding: 15px; display: flex; align-items: center; gap: 10px;
-    border-top: 1px solid #f1f3f4;
+    padding: 15px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #f1f3f4;
 }
 .file-icon { color: var(--text-light); font-size: 1.2rem; }
 .file-name { font-size: 0.95rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* --- MODAL --- */
+/* =========================================
+   5. MODAL
+   ========================================= */
 .modal-overlay {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.6); z-index: 2000; backdrop-filter: blur(4px);
@@ -144,334 +191,126 @@ header {
 }
 @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-.modal-media { flex: 1.5; background: #000; display: flex; align-items: center; justify-content: center; }
-.modal-media img, .modal-media video { max-width: 100%; max-height: 100%; }
-
+.modal-media { 
+    flex: 1.5; background: #000; display: flex; align-items: center; justify-content: center; padding: 20px; 
+}
+.modal-media img, .modal-media video { 
+    width: 100%; height: 100%; object-fit: contain; max-height: 80vh; 
+}
 .modal-details {
-    flex: 1; padding: 40px; overflow-y: auto; position: relative;
-    display: flex; flex-direction: column;
+    flex: 1; padding: 40px; overflow-y: auto; position: relative; display: flex; flex-direction: column;
 }
 .close-modal {
-    position: absolute; top: 20px; right: 20px; background: none; border: none;
-    font-size: 2rem; cursor: pointer; color: var(--text-light);
+    position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--text-light);
 }
 .modal-tag {
-    background: var(--accent-cream); color: #8B8B66; padding: 4px 12px;
-    border-radius: 20px; font-size: 0.8rem; font-weight: bold; align-self: flex-start; margin-bottom: 15px;
+    background: var(--accent-cream); color: #8B8B66; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; align-self: flex-start; margin-bottom: 15px;
 }
 .modal-meta { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; font-size: 0.9rem; }
 
-/* --- ESTILOS ESPECÍFICOS: MENCIÓN ESPECIAL --- */
-
-/* Contenedor Principal del Perfil */
+/* =========================================
+   6. PERFIL ARTISTA
+   ========================================= */
 .profile-section {
-    display: flex;
-    gap: 50px;
-    padding: 60px 80px;
-    max-width: 1400px;
-    margin: 0 auto;
-    align-items: flex-start;
+    display: flex; gap: 50px; padding: 60px 80px; max-width: 1400px; margin: 0 auto; align-items: flex-start;
 }
-
-/* Foto del Artista */
 .profile-img-container {
-    flex: 0 0 350px; /* Ancho fijo */
-    height: 450px;
-    border-radius: 4px;
-    overflow: hidden;
-    background-color: #e0e0e0; /* Placeholder gris */
-    box-shadow: 15px 15px 0px var(--accent-cream); /* Detalle estético */
+    flex: 0 0 350px; height: 450px; border-radius: 4px; overflow: hidden;
+    background-color: #e0e0e0; box-shadow: 15px 15px 0px var(--accent-cream);
 }
-
-.profile-img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Info del Artista */
-.profile-info {
-    flex: 1;
-    padding-top: 20px;
-}
-
+.profile-img-container img { width: 100%; height: 100%; object-fit: cover; }
+.profile-info { flex: 1; padding-top: 20px; }
 .artist-name-bg {
-    background-color: #e0e0e0;
-    display: inline-block;
-    padding: 5px 20px;
-    font-weight: 700;
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    background-color: #e0e0e0; display: inline-block; padding: 5px 20px;
+    font-weight: 700; font-size: 1.2rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;
 }
-
-.artist-role {
-    font-size: 2rem;
-    font-weight: 300;
-    margin-bottom: 25px;
-    color: var(--text-main);
-}
-
-/* LA LLAVE / BRACKET DECORATIVO (Según Figma) */
-.bio-bracket-container {
-    position: relative;
-    padding-left: 30px; /* Espacio para la línea vertical */
-    padding-bottom: 20px; /* Espacio para la línea horizontal */
-}
-
-/* Línea Vertical Izquierda y Curva Abajo */
+.artist-role { font-size: 2rem; font-weight: 300; margin-bottom: 25px; color: var(--text-main); }
+.bio-bracket-container { position: relative; padding-left: 30px; padding-bottom: 20px; }
 .bio-bracket-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;       /* Largo hacia la derecha */
-    height: 100%;      /* Alto hacia abajo */
-    border-left: 2px solid #000;
-    border-bottom: 2px solid #000;
-    border-bottom-left-radius: 30px; /* La curva de la esquina */
-    z-index: -1;
-    pointer-events: none;
-    /* Truco para que la línea no cubra todo el ancho si no queremos */
-    width: 95%; 
+    content: ''; position: absolute; top: 0; left: 0; width: 95%; height: 100%;
+    border-left: 2px solid #000; border-bottom: 2px solid #000; border-bottom-left-radius: 30px; z-index: -1; pointer-events: none;
 }
+.bio-text { font-size: 1.1rem; line-height: 1.8; color: #444; padding: 10px 0 10px 15px; }
 
-.bio-text {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #444;
-    padding: 10px 0 10px 15px; /* Separación interna */
-}
-
-/* --- CARRUSEL DE OBRAS (Slider) --- */
-.carousel-section {
-    padding: 40px 80px;
-    background-color: #f9f9fa; /* Un gris muy suave para diferenciar sección */
-}
-
-.carousel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.carousel-controls {
-    display: flex;
-    gap: 15px;
-}
-
+/* Carrusel */
+.carousel-section { padding: 40px 80px; background-color: #f9f9fa; }
+.carousel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.carousel-controls { display: flex; gap: 15px; }
 .nav-arrow {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: 1px solid var(--border-color);
-    background: #fff;
-    cursor: pointer;
-    font-size: 1.2rem;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 45px; height: 45px; border-radius: 50%; border: 1px solid var(--border-color); background: #fff;
+    cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
 }
-.nav-arrow:hover {
-    background: var(--text-main);
-    color: #fff;
-}
-
-/* Contenedor deslizable */
 .carousel-track {
-    display: flex;
-    gap: 25px;
-    overflow-x: auto;
-    padding-bottom: 20px;
-    scroll-behavior: smooth;
-    /* Ocultar barra de scroll estéticamente */
-    scrollbar-width: none; /* Firefox */
+    display: flex; gap: 25px; overflow-x: auto; padding-bottom: 20px; scroll-behavior: smooth; scrollbar-width: none;
 }
-.carousel-track::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track .file-card { min-width: 280px; max-width: 280px; }
 
-/* Ajuste para que las cards no se encojan en el carrusel */
-.carousel-track .file-card {
-    min-width: 280px; /* Ancho fijo para cada tarjeta en el carrusel */
-    max-width: 280px;
-}
+/* Animación Entrada */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.card-enter { opacity: 0; animation: fadeInUp 0.6s ease-out forwards; }
 
-/* Responsive básico para la página de artista */
-@media (max-width: 900px) {
-    .profile-section { flex-direction: column; padding: 40px; align-items: center; }
-    .profile-img-container { width: 100%; max-width: 350px; height: auto; aspect-ratio: 3/4; }
-    .bio-bracket-container::before { width: 100%; }
-    .carousel-section { padding: 40px 20px; }
-}
-/* --- NUEVAS ANIMACIONES "PREMIUM" --- */
-
-/* 1. Animación de Entrada para las Tarjetas (Cascada) */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px); /* Vienen de abajo */
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Clase base que activaremos con JS */
-.card-enter {
-    opacity: 0; /* Invisible al inicio */
-    animation: fadeInUp 0.6s ease-out forwards;
-}
-
-/* 2. Efecto Máquina de Escribir (Para el título de Ignacio) */
-
-.typing-container {
-    display: table; /* Truco: Actúa como bloque (salto de línea) pero se ajusta al ancho del texto */
-    margin-top: 15px; /* Empuja el título hacia abajo para que no se monte en el nombre */
-}
-
-.typing-effect {
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 3px solid transparent; /* El borde base es invisible */
-    width: 0;
-    
-    /* LA MAGIA: 
-       1. typing: Escribe el texto en 3.5s.
-       2. blink-caret: Parpadea 6 veces (aprox 4.5s) y LUEGO SE DETIENE (gracias a que el base es transparente).
-    */
-    animation: 
-        typing 3.5s steps(40, end) forwards, 
-        blink-caret .75s step-end 6; 
-}
-
-/* Animaciones */
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-}
-
-@keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: var(--text-main) }
-}
-
-/* 3. Mejoras en Botones (Efecto Ripple sutil al hover) */
-.btn-primary {
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-primary::after {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 0; height: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
-
-.btn-primary:hover::after {
-    width: 300px;
-    height: 300px;
-}
-/* --- CORRECCIONES FINALES PARA MÓVIL (Blindaje) --- */
-
+/* =========================================
+   7. RESPONSIVE MÓVIL (MENÚ HAMBURGUESA)
+   ========================================= */
 @media (max-width: 768px) {
-    /* 1. Header: Que se apile verticalmente */
+    /* Ajustes Header Móvil */
     header {
-        flex-direction: column;
-        gap: 15px;
-        padding: 1rem;
+        flex-wrap: wrap; 
+        padding: 10px 20px;
+        position: relative;
     }
 
-    .search-container {
-        width: 100%; /* Barra de búsqueda ancho completo */
-        order: 3; /* Ponerla al final si quieres, o dejarla en medio */
-    }
+    /* Logo a la izquierda */
+    .logo-container { flex: 1; }
 
-    .nav-links {
-        gap: 15px;
-        font-size: 0.85rem;
-        flex-wrap: wrap; /* Si no caben, bajan a otra línea */
+    /* Botón Hamburguesa visible */
+    .menu-toggle { display: block; order: 2; }
+
+    /* Barra de búsqueda abajo */
+    .search-box {
+        position: static; transform: none; 
+        order: 3; width: 100%; margin-top: 10px; 
         justify-content: center;
     }
+    .search-box.active .search-input { width: 100%; }
 
-    /* 2. Modal: Transformar de Lado a Lado -> Arriba a Abajo */
-    .modal-window {
+    /* Menú Desplegable Flotante */
+    .nav-links {
+        display: none; /* Oculto */
         flex-direction: column;
-        height: 90vh; /* Ocupar casi toda la altura */
-        width: 95%;
-        overflow-y: scroll; /* Permitir scroll dentro del modal completo */
-    }
-
-    .modal-media {
-        flex: 0 0 40%; /* La imagen/video ocupa el 40% de arriba */
-        background: #000;
-        min-height: 250px;
-    }
-
-    .modal-details {
-        flex: 1; /* El texto ocupa el resto */
-        padding: 20px;
-    }
-
-    /* 3. Ajuste de Títulos en Móvil */
-    .hero-text h1 { font-size: 2.5rem; }
-    .hero { padding: 2rem; flex-direction: column-reverse; text-align: center; }
-    .hero-img img { max-width: 80%; margin-bottom: 20px; }
-    
-    /* 4. Perfil Artista en Móvil */
-    .profile-section { padding: 20px; }
-    .profile-img-container { height: 300px; width: 100%; }
-}
-/* --- CORRECCIÓN FINAL: PERFIL MÓVIL (Fix Ignacio) --- */
-
-@media (max-width: 600px) {
-    /* 1. Evitar que se corte el contenido */
-    .profile-section {
-        padding: 20px;
-        align-items: flex-start; /* Alinear a la izquierda para ganar espacio */
-        overflow: hidden; /* Cortar cualquier desborde fantasma */
-    }
-
-    .profile-info {
-        width: 100%; /* Que ocupe todo el ancho disponible */
-        padding-top: 20px;
-    }
-
-    /* 2. TRUCO DE MAGIA: Letra que se achica sola */
-    .artist-role {
-        /* En vez de tamaño fijo (2rem), usamos 'vw' (viewport width).
-           Esto significa "5% del ancho de la pantalla". 
-           Así el texto SIEMPRE cabrá en una línea. */
-        font-size: 5vw; 
-    }
-
-    /* 3. Ajustar la etiqueta del nombre "Nachito Marquez" */
-    .artist-name-bg {
-        font-size: 0.9rem;
-        padding: 4px 10px;
-        width: 100%; /* Que ocupe todo el ancho */
-        text-align: center; /* Centrar el nombre */
-        box-sizing: border-box;
-    }
-
-    /* 4. Ajustar la animación de escritura para móvil */
-    .typing-container {
-        margin-top: 10px;
         width: 100%;
-        display: block;
+        background-color: #fff;
+        position: absolute;
+        top: 100%; left: 0;
+        padding: 20px;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        border-top: 1px solid var(--border-color);
+        z-index: 999;
+        order: 4;
     }
     
-    .typing-effect {
-        /* Aseguramos que la animación corra fluida en pantallas peques */
-        white-space: nowrap; 
-        width: 0;
-        animation: typing 3s steps(35, end) forwards, blink-caret .75s step-end infinite;
+    /* Clase que activa el menú (JS) */
+    .nav-links.active {
+        display: flex;
+        animation: slideDown 0.3s ease-out forwards;
     }
+    
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .nav-links li { width: 100%; text-align: center; }
+    .nav-links a { display: block; padding: 15px; border-bottom: 1px solid #f9f9f9; }
+
+    /* Ajustes Contenido */
+    .hero { padding: 2rem 1rem; flex-direction: column-reverse; text-align: center; }
+    .hero-text h1 { font-size: 2.5rem; }
+    .hero-img img { max-width: 90%; margin-bottom: 20px; }
+
+    .profile-section { flex-direction: column; padding: 40px 20px; align-items: center; }
+    .profile-img-container { width: 100%; height: auto; aspect-ratio: 3/4; }
+    .bio-bracket-container::before { width: 100%; }
+
+    .modal-window { flex-direction: column; height: 95vh; width: 95%; overflow-y: scroll; }
+    .modal-media { flex: 0 0 auto; height: 300px; background: #000; }
+    .modal-details { flex: 1; padding: 20px; }
 }
