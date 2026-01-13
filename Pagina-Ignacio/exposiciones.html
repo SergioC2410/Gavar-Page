@@ -8,29 +8,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<body>
 <header>
-        <div class="logo-container">
-            <img src="assets/img/Logo GAVAR.png" alt="GAVAR">
-        </div>
+    <div class="logo-container">
+        <img src="assets/img/Logo GAVAR.png" alt="GAVAR">
+    </div>
 
-        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
 
+    <nav>
         <div class="search-box">
-            <button class="search-btn" onclick="toggleSearch()">🔍</button>
             <input type="text" class="search-input" id="searchInput" placeholder="Buscar exposición..." onkeyup="filtrarObras()">
+            <button class="search-btn" onclick="toggleSearch()">🔍</button>
         </div>
 
-        <nav>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="galeria.html">Galería</a></li>
-                <li><a href="exposiciones.html" style="color:#000; font-weight:bold;">Exposiciones</a></li>
-                <li><a href="mencion-especial.html">Artista de Caño Amarillo</a></li>
-            </ul>
-        </nav>
-    </header>
+        <ul class="nav-links" id="navLinks">
+            <li class="mobile-only"><a href="#" onclick="abrirBusquedaMovil()">Búsqueda</a></li>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="galeria.html">Galería</a></li>
+            <li><a href="exposiciones.html" style="color:#000; font-weight:bold;">Exposiciones</a></li>
+            <li><a href="mencion-especial.html">Artista de Caño Amarillo</a></li>
+        </ul>
+    </nav>
+</header>
 
     <main class="main-content">
         <h2 class="section-title">Videoteca de Exposiciones</h2>
@@ -121,6 +120,17 @@
                 </div>
 
                 <button class="btn-primary" style="margin-top: auto; text-align: center;">Ver en Pantalla Completa</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobileSearchOverlay" class="search-modal-overlay">
+        <div class="search-modal-content">
+            <h3>¿Qué deseas buscar?</h3>
+            <input type="text" id="mobileInput" placeholder="Ej. Entrevista, Recorrido..." autocomplete="off">
+            <div class="search-modal-actions">
+                <button class="btn-cancel" onclick="cerrarBusquedaMovil()">Cancelar</button>
+                <button class="btn-confirm" onclick="ejecutarBusquedaMovil()">Buscar</button>
             </div>
         </div>
     </div>

@@ -16,13 +16,14 @@
 
         <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
 
-        <div class="search-box">
-            <button class="search-btn" onclick="toggleSearch()">🔍</button>
-            <input type="text" class="search-input" placeholder="Buscar artista, obra...">
-        </div>
-
         <nav>
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar...">
+                <button class="search-btn" onclick="toggleSearch()">🔍</button>
+            </div>
+
             <ul class="nav-links" id="navLinks">
+                <li class="mobile-only"><a href="#" onclick="abrirBusquedaMovil()">Búsqueda</a></li>
                 <li><a href="galeria.html">Galería</a></li>
                 <li><a href="exposiciones.html">Exposiciones</a></li>
                 <li><a href="mencion-especial.html">Artista de Caño Amarillo</a></li>
@@ -44,6 +45,17 @@
             <img src="assets/img/ilustracion 2.png" alt="Arte Digital">
         </div>
     </main>
+
+    <div id="mobileSearchOverlay" class="search-modal-overlay">
+        <div class="search-modal-content">
+            <h3>¿Qué deseas buscar?</h3>
+            <input type="text" id="mobileInput" placeholder="Buscar..." autocomplete="off">
+            <div class="search-modal-actions">
+                <button class="btn-cancel" onclick="cerrarBusquedaMovil()">Cancelar</button>
+                <button class="btn-confirm" onclick="ejecutarBusquedaMovil()">Buscar</button>
+            </div>
+        </div>
+    </div>
 
     <script src="js/scripts.js"></script>
 </body>
