@@ -1,16 +1,13 @@
 /**
  * GAVAR - Galería de Arte Virtual
- * Script Principal (Versión "Smart Modal")
+ * Script Principal
  * ------------------------------------------------------------------
- * Novedad: Ahora el buscador puede abrir la ficha técnica directamente
- * sin recargar la página, usando los datos precargados en SEARCH_DB.
+ * Actualización: Se agregaron palabras clave generales (obras, videos, perfil)
+ * para que aparezcan grupos completos al buscar categorías.
  */
 
 /* ==========================================================================
    1. BASE DE DATOS MAESTRA (SEARCH_DB)
-   --------------------------------------------------------------------------
-   IMPORTANTE: Para que el modal abra directo, aquí debemos poner TODOS
-   los datos de la obra (src, description, year, autor).
    ========================================================================== */
 const SEARCH_DB = [
     // --- SECCIÓN: GALERÍA (OBRAS) ---
@@ -18,67 +15,77 @@ const SEARCH_DB = [
         title: "La Noche Estrellada", 
         url: "galeria.html", 
         type: "Obra", 
-        keywords: "van gogh pintura impresionismo azul noche",
-        // Datos para abrir el modal directo:
+        // Agregamos "obra", "obras", "galeria", "pintura" para búsquedas generales
+        keywords: "van gogh impresionismo azul noche obra obras galeria pintura cuadro",
         src: "https://media.admagazine.com/photos/618a7dbc58ac69e38abb6c2c/16:9/w_1280,c_limit/43884.jpg",
         autor: "Vincent van Gogh",
         year: "1889",
         desc: "Obra maestra del postimpresionismo que representa la vista desde la ventana este de su habitación de asilo."
     },
-    // (Puedes agregar más obras siguiendo este formato)
-
+    { 
+        title: "Obra Pendiente 1", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "futura archivo obra obras galeria pendiente",
+        src: "", 
+        autor: "Desconocido", 
+        year: "2024", 
+        desc: "Espacio reservado." 
+    },
+    
     // --- SECCIÓN: EXPOSICIONES (VIDEOS) ---
     { 
         title: "Recorrido Virtual 2024", 
         url: "exposiciones.html", 
         type: "Video", 
-        keywords: "tour exposicion coleccion virtual introduccion",
-        src: "", // ¡OJO! Pon aquí el link real del video (ej. assets/video.mp4)
+        // Agregamos "video", "videos", "exposicion", "exposiciones"
+        keywords: "tour coleccion virtual introduccion video videos exposicion exposiciones cine",
+        src: "", // Recuerda poner el link real aquí
         autor: "Curaduría GAVAR",
         year: "2024",
-        desc: "Video introductorio al espacio virtual y las nuevas colecciones agregadas este año."
+        desc: "Video introductorio al espacio virtual y las nuevas colecciones."
     },
     { 
         title: "Entrevista a Artista Invitado", 
         url: "exposiciones.html", 
         type: "Video", 
-        keywords: "puntillismo charla entrevista",
-        src: "", // Link del video aquí
+        keywords: "puntillismo charla entrevista video videos exposicion exposiciones",
+        src: "", 
         autor: "Canal GAVAR",
         year: "2023",
         desc: "Entrevista exclusiva sobre la técnica del puntillismo moderno."
     },
 
     // --- SECCIÓN: ARTISTA DEL MES (CAÑO AMARILLO) ---
-    // Este tiene type: "Perfil" para que SI redirija a la página
     { 
         title: "Armando Reverón (Perfil)", 
         url: "mencion-especial.html", 
         type: "Perfil", 
-        keywords: "caño amarillo maestro luz castillete macuto muñecas blanco azul sepia venezuela pintor",
-        // No necesita src ni desc porque este redirige
+        // Agregamos "perfil", "artista", "biografia"
+        keywords: "caño amarillo maestro luz castillete macuto muñecas blanco azul venezuela pintor perfil artista biografia",
+        // Sin src porque redirige
     },
     
-    // Obras de Reverón (Para que abran en modal)
+    // Obras de Reverón (También llevan "obra" y "obras")
     { 
         title: "La Cueva", 
         url: "mencion-especial.html", 
         type: "Obra", 
-        keywords: "reveron azul oscuro misterio mujer desnudo",
+        keywords: "reveron azul oscuro misterio mujer desnudo obra obras galeria pintura",
         src: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/La_Cueva_-_Armando_Rever%C3%B3n.jpg/1200px-La_Cueva_-_Armando_Rever%C3%B3n.jpg",
         autor: "Armando Reverón",
         year: "1920",
-        desc: "Obra maestra de su Período Azul. Reverón utiliza tonos oscuros y profundos para crear una atmósfera de misterio."
+        desc: "Obra maestra de su Período Azul. Reverón utiliza tonos oscuros y profundos."
     },
     { 
         title: "Paisaje Blanco", 
         url: "mencion-especial.html", 
         type: "Obra", 
-        keywords: "reveron luz caribe playa mar",
+        keywords: "reveron luz caribe playa mar obra obras galeria pintura",
         src: "https://assets-global.website-files.com/604a80695420325d7335d886/6064cd5f5b5b2e5c8e2680e6_reveron-blanco.jpeg",
         autor: "Armando Reverón",
         year: "1934",
-        desc: "El epítome de su Período Blanco. La luz del Caribe es tan intensa que disuelve las formas."
+        desc: "El epítome de su Período Blanco. La luz del Caribe disuelve las formas."
     }
 ];
 
@@ -140,10 +147,12 @@ const AutocompleteManager = {
 
     searchInDB(query) {
         const lowerQuery = query.toLowerCase();
+        // Filtramos buscando en título, keywords O tipo
         return SEARCH_DB.filter(item => 
             item.title.toLowerCase().includes(lowerQuery) || 
-            item.keywords.toLowerCase().includes(lowerQuery)
-        ).slice(0, 5);
+            item.keywords.toLowerCase().includes(lowerQuery) ||
+            item.type.toLowerCase().includes(lowerQuery) // Esto ayuda si buscan "Video" directo
+        ).slice(0, 6); // Aumenté un poco el límite a 6 para mostrar más variedad
     },
 
     renderSuggestions(results, container) {
@@ -161,7 +170,6 @@ const AutocompleteManager = {
                     <span class="suggestion-type">${item.type}</span>
                 </div>
             `;
-            // AQUÍ ESTÁ EL CAMBIO CLAVE:
             div.addEventListener('click', () => this.goToResult(item));
             container.appendChild(div);
         });
@@ -173,25 +181,17 @@ const AutocompleteManager = {
         return '🖼️';
     },
 
-    // --- FUNCIÓN CLAVE: DECIDE SI ABRIR MODAL O REDIRIGIR ---
     goToResult(item) {
-        // 1. Si es el Perfil de Reverón, redirigimos siempre (como pediste)
         if (item.type === 'Perfil') {
             window.location.href = item.url;
             return;
         }
 
-        // 2. Si es Obra o Video, intentamos abrir el modal AQUÍ MISMO
         if (DOM.modal) {
-            // Cerramos sugerencias y buscador móvil si estuviera abierto
             this.clearSuggestions();
             cerrarBusquedaMovil();
-            
-            // Abrimos el modal con los datos del JSON
             ModalManager.openFromData(item);
         } else {
-            // 3. Fallback: Si estamos en una página SIN modal (ej. Index sin código modal),
-            // redirigimos a la página original de la obra.
             window.location.href = `${item.url}?search=${encodeURIComponent(item.title)}`;
         }
     },
@@ -206,15 +206,12 @@ const AutocompleteManager = {
    ========================================================================== */
 const ModalManager = {
     currentVideo: null,
-    init() {
-        this.bindEvents();
-    },
+    init() { this.bindEvents(); },
     bindEvents() {
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') this.close(); });
         DOM.modal?.addEventListener('click', (e) => { if (e.target === DOM.modal) this.close(); });
     },
 
-    // Abrir desde el clic en tarjeta HTML
     open(element) {
         const data = {
             type: element.dataset.type,
@@ -227,7 +224,6 @@ const ModalManager = {
         this.openFromData(data);
     },
 
-    // Abrir desde datos JSON (Buscador)
     openFromData(data) {
         if (!DOM.modal) return;
         this.populateModal(data);
@@ -244,7 +240,7 @@ const ModalManager = {
     },
 
     showContent(type, src) {
-        const isVideo = type === 'Video' || type === 'video'; // Aseguramos compatibilidad mayusc/minusc
+        const isVideo = type === 'Video' || type === 'video';
         
         if (DOM.modalImg) DOM.modalImg.style.display = isVideo ? 'none' : 'block';
         if (DOM.modalVideo) DOM.modalVideo.style.display = isVideo ? 'block' : 'none';
@@ -318,7 +314,7 @@ function cerrarModalBtn() { ModalManager.close(); }
 function cerrarModal(e) { if (e.target.id === 'modalVisualizador') ModalManager.close(); }
 function toggleSearch() { SearchManager.toggleSearch(); }
 function toggleMenu() { MobileNav.toggle(); }
-function filtrarObras() { /* Lógica en evento input */ }
+function filtrarObras() { /* Lógica en input event */ }
 
 function abrirBusquedaMovil() {
     MobileNav.toggle();
@@ -333,7 +329,6 @@ function cerrarBusquedaMovil() {
     AutocompleteManager.clearSuggestions();
 }
 function ejecutarBusquedaMovil() {
-    // Si dan Enter en el móvil sin seleccionar sugerencia, redirigimos
     const busqueda = DOM.mobileInput?.value;
     if (busqueda) {
          window.location.href = `galeria.html?search=${encodeURIComponent(busqueda)}`;
@@ -350,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
     MobileNav.init();
     AutocompleteManager.init();
     
-    // Lazy Load e Intersection Observer
+    // Lazy Load & Animaciones
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('card-enter'); observer.unobserve(e.target); } });
     });
