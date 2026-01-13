@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAVAR | Galería</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="logo-container">
+        <img src="assets/img/Logo GAVAR.png" alt="GAVAR">
+    </div>
+
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
+    
+    <nav>
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="Filtrar obras..." onkeyup="filtrarObras()">
+            <button class="search-btn" onclick="toggleSearch()">🔍</button>
+        </div>
+
+        <ul class="nav-links" id="navLinks">
+            <li class="mobile-only"><a href="#" onclick="abrirBusquedaMovil()">Búsqueda</a></li>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="galeria.html" style="color:#000; font-weight:bold;">Galería</a></li>
+            <li><a href="exposiciones.html">Exposiciones</a></li>
+            <li><a href="mencion-especial.html">Artista de Caño Amarillo</a></li>
+        </ul>
+    </nav>
+</header>
+
+    <main class="main-content">
+        <h2 class="section-title">Archivos de Obras</h2>
+
+        <div class="drive-grid" id="gridObras">
+            
+            <article class="file-card" onclick="abrirModal(this)"
+                data-type="image"
+                data-src="https://media.admagazine.com/photos/618a7dbc58ac69e38abb6c2c/16:9/w_1280,c_limit/43884.jpg"
+                data-title="La Noche Estrellada"
+                data-autor="Vincent van Gogh"
+                data-year="1889"
+                data-desc="Obra maestra del postimpresionismo.">
+                <div class="card-preview">
+                    <img src="https://media.admagazine.com/photos/618a7dbc58ac69e38abb6c2c/16:9/w_1280,c_limit/43884.jpg" alt="Preview">
+                </div>
+                <div class="card-footer">
+                    <span class="file-icon">🖼️</span>
+                    <span class="file-name">La Noche Estrellada</span>
+                </div>
+            </article>
+
+            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 1" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
+                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">1</div>
+                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_01.jpg</span></div>
+            </article>
+
+            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 2" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
+                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">2</div>
+                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_02.jpg</span></div>
+            </article>
+
+            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 3" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
+                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">3</div>
+                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_03.jpg</span></div>
+            </article>
+
+            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 4" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
+                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">4</div>
+                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_04.jpg</span></div>
+            </article>
+            
+            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 5" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
+                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">5</div>
+                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_05.jpg</span></div>
+            </article>
+
+            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 6" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
+                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">6</div>
+                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_06.jpg</span></div>
+            </article>
+
+            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 7" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
+                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">7</div>
+                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_07.jpg</span></div>
+            </article>
+
+             <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 8" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
+                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">8</div>
+                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_08.jpg</span></div>
+            </article>
+
+             <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 9" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
+                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">9</div>
+                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_09.jpg</span></div>
+            </article>
+
+             <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 10" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
+                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">10</div>
+                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_10.jpg</span></div>
+            </article>
+        </div>
+    </main>
+
+    <div id="modalVisualizador" class="modal-overlay" onclick="cerrarModal(event)">
+        <div class="modal-window">
+            <div class="modal-media">
+                <img id="mImg" src="" style="display:none;">
+                <video id="mVideo" controls style="display:none; width:100%;"></video>
+            </div>
+            <div class="modal-details">
+                <button class="close-modal" onclick="cerrarModalBtn()">×</button>
+                <span class="modal-tag">Detalles del Archivo</span>
+                <h2 id="mTitle" style="font-size: 2rem; margin-bottom: 10px;">Título</h2>
+                <h3 id="mAutor" style="font-size: 1.1rem; color: #555; font-weight: 500;">Autor</h3>
+                <div class="modal-meta">
+                    <p><strong>📅 Año:</strong> <span id="mYear"></span></p>
+                    <p><strong>📁 Tipo:</strong> Archivo Digital</p>
+                </div>
+                <div style="margin-top: 20px;">
+                    <h4 style="margin-bottom: 10px;">Descripción</h4>
+                    <p id="mDesc" style="color: #444; font-size: 0.95rem; line-height: 1.7;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobileSearchOverlay" class="search-modal-overlay">
+        <div class="search-modal-content">
+            <h3>¿Qué deseas buscar?</h3>
+            <input type="text" id="mobileInput" placeholder="Ej. Van Gogh, Obra 1..." autocomplete="off">
+            <div class="search-modal-actions">
+                <button class="btn-cancel" onclick="cerrarBusquedaMovil()">Cancelar</button>
+                <button class="btn-confirm" onclick="ejecutarBusquedaMovil()">Buscar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>
