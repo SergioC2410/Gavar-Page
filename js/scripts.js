@@ -1,16 +1,19 @@
+
 /**
  * GAVAR - Script Principal
- * Versión: Corregida (Menú Móvil Fix)
+ * Versión: Corregida (Búsqueda Flexible + Galería Full)
  */
 
 /* ==========================================================================
+   0. UTILIDADES GLOBALES (NUEVO: Para ignorar acentos)
+   ========================================================================== */
+const normalizeText = (text) => {
+    if (!text) return "";
+    return text.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+};
+
+/* ==========================================================================
    1. BASE DE DATOS MAESTRA
-   ========================================================================== */
-/* ==========================================================================
-   1. BASE DE DATOS MAESTRA (ACTUALIZADA Y OPTIMIZADA)
-   ========================================================================== */
-/* ==========================================================================
-   1. BASE DE DATOS MAESTRA (ACTUALIZADA - MÚLTIPLES FOTOS)
    ========================================================================== */
 const SEARCH_DB = [
     // --- OBRAS GRÁFICAS Y MIXTAS ---
@@ -189,7 +192,7 @@ const DOM = {
 };
 
 /* ==========================================================================
-   3. AUTOCOMPLETADO
+   3. AUTOCOMPLETADO (CORREGIDO ACENTOS Y DATA)
    ========================================================================== */
 const AutocompleteManager = {
     init() {
@@ -224,14 +227,17 @@ const AutocompleteManager = {
         const matches = this.searchInDB(text);
         this.renderSuggestions(matches, container);
     },
+    
+    // --- BÚSQUEDA INSENSIBLE A ACENTOS ---
     searchInDB(query) {
-        const lowerQuery = query.toLowerCase();
+        const cleanQuery = normalizeText(query);
         return SEARCH_DB.filter(item => 
-            item.title.toLowerCase().includes(lowerQuery) || 
-            item.keywords.toLowerCase().includes(lowerQuery) ||
-            (item.autor && item.autor.toLowerCase().includes(lowerQuery))
+            normalizeText(item.title).includes(cleanQuery) || 
+            normalizeText(item.keywords).includes(cleanQuery) ||
+            (item.autor && normalizeText(item.autor).includes(cleanQuery))
         ).slice(0, 6);
     },
+
     renderSuggestions(results, container) {
         if (!results.length) { container.style.display = 'none'; return; }
         container.innerHTML = ''; container.style.display = 'block';
@@ -252,20 +258,27 @@ const AutocompleteManager = {
             container.appendChild(div);
         });
     },
+    
+    // --- AQUÍ ARREGLAMOS LA CARGA DESDE BÚSQUEDA ---
     goToResult(item) {
         if (item.type === 'Perfil') { window.location.href = item.url; return; }
+        
+        // Si estamos en una página con modal, lo abrimos directamente
         if (DOM.modal) {
             this.clearSuggestions();
             cerrarBusquedaMovil();
+            
+            // CORRECCIÓN: Pasamos el array 'images' en lugar de 'src'
             ModalManager.openFromData({ 
                 title: item.title,
                 autor: item.autor,
                 year: item.year,
                 desc: item.desc,
-                src: item.src,
+                images: item.images, // <--- ESTO ES LO IMPORTANTE
                 type: item.type
             }); 
         } else {
+            // Si estamos en Index y vamos a Galería
             window.location.href = `${item.url}?search=${encodeURIComponent(item.title)}`;
         }
     },
@@ -273,19 +286,12 @@ const AutocompleteManager = {
 };
 
 /* ==========================================================================
-   4. GESTIÓN DE MODALES (VERSIÓN FINAL: GALERÍA + PUNTOS MÓVILES)
-   ========================================================================== */
-/* EN js/scripts.js - Reemplaza todo el objeto ModalManager */
-
-/* ==========================================================================
-   4. GESTIÓN DE MODALES (CON SWIPE TÁCTIL)
+   4. GESTIÓN DE MODALES (CON ARRAY DE IMÁGENES + DB LOOKUP)
    ========================================================================== */
 const ModalManager = {
     currentVideo: null,
     currentImages: [],
     currentIndex: 0,
-    
-    // Variables swipe
     touchStartX: 0,
     touchEndX: 0,
 
@@ -297,35 +303,34 @@ const ModalManager = {
             if (e.key === 'ArrowRight') this.nextImage();
             if (e.key === 'ArrowLeft') this.prevImage();
         });
-        
         DOM.modal?.addEventListener('click', (e) => { if (e.target === DOM.modal) this.close(); });
 
-        // Swipe Táctil
         const mediaContainer = document.querySelector('.media-container');
         if (mediaContainer) {
-            mediaContainer.addEventListener('touchstart', (e) => {
-                this.touchStartX = e.changedTouches[0].screenX;
-            }, { passive: true });
-
-            mediaContainer.addEventListener('touchend', (e) => {
-                this.touchEndX = e.changedTouches[0].screenX;
-                this.handleSwipe();
+            mediaContainer.addEventListener('touchstart', (e) => { this.touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+            mediaContainer.addEventListener('touchend', (e) => { 
+                this.touchEndX = e.changedTouches[0].screenX; 
+                this.handleSwipe(); 
             }, { passive: true });
         }
     },
 
     handleSwipe() {
-        const threshold = 50;
-        if (this.touchEndX < this.touchStartX - threshold) this.nextImage(); // Swipe Izquierda -> Next
-        if (this.touchEndX > this.touchStartX + threshold) this.prevImage(); // Swipe Derecha -> Prev
+        if (this.touchEndX < this.touchStartX - 50) this.nextImage();
+        if (this.touchEndX > this.touchStartX + 50) this.prevImage();
     },
 
+    // --- CORRECCIÓN CRÍTICA PARA ABRIR DESDE TARJETAS HTML ---
     open(element) {
         let imgs = [];
-        const dbEntry = SEARCH_DB.find(item => item.title === element.dataset.title);
+        
+        // 1. INTENTAR BUSCAR EN LA DB POR TÍTULO (Esto arregla si el HTML es viejo)
+        const dbEntry = SEARCH_DB.find(item => normalizeText(item.title) === normalizeText(element.dataset.title));
+        
         if (dbEntry && dbEntry.images && Array.isArray(dbEntry.images)) {
             imgs = dbEntry.images;
         } else if (element.dataset.src) {
+            // Fallback: Si no está en DB, usa lo que tenga el HTML
             imgs = [element.dataset.src];
         }
 
@@ -342,10 +347,15 @@ const ModalManager = {
 
     openFromData(data) {
         if (!DOM.modal) return;
+        
+        // Asegurar que siempre hay un array
         this.currentImages = data.images || [];
+        if (typeof this.currentImages === 'string') this.currentImages = [this.currentImages];
+        
         this.currentIndex = 0;
         this.populateText(data);
         this.updateGalleryUI(data.type);
+        
         DOM.modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     },
@@ -364,15 +374,17 @@ const ModalManager = {
 
     updateGalleryUI(type) {
         const isVideo = type === 'Video' || type === 'video';
-        const uiElements = [document.getElementById('prevBtn'), document.getElementById('nextBtn'), document.getElementById('modalThumbnails'), document.getElementById('mobileDots')];
+        const uiElements = [
+            document.getElementById('prevBtn'), 
+            document.getElementById('nextBtn'), 
+            document.getElementById('modalThumbnails'), 
+            document.getElementById('mobileDots')
+        ];
         const mImg = document.getElementById('mImg');
         const mVideo = document.getElementById('mVideo');
         const mYoutube = document.getElementById('mYoutube');
 
-        if(mImg) {
-            mImg.style.display = 'none';
-            mImg.className = ''; // Limpiar animaciones previas al abrir
-        }
+        if(mImg) { mImg.style.display = 'none'; mImg.className = ''; }
         if(mVideo) mVideo.style.display = 'none';
         if(mYoutube) mYoutube.style.display = 'none';
 
@@ -392,45 +404,29 @@ const ModalManager = {
             }
         } else {
             if(mImg) mImg.style.display = 'block';
-            // Mostrar imagen sin animación la primera vez
-            this.showImage(this.currentIndex, null); 
+            this.showImage(this.currentIndex, null);
             this.renderControls();
         }
     },
 
-    // AHORA showImage ACEPTA UNA DIRECCIÓN ('next' o 'prev')
     showImage(index, direction) {
         const mImg = document.getElementById('mImg');
-        
         if (this.currentImages.length > 0) {
-            // 1. Cambiar fuente
             mImg.src = this.currentImages[index];
-            
-            // 2. Aplicar Animación si hay dirección
             if (direction) {
-                // Quitar clases anteriores para reiniciar animación
                 mImg.classList.remove('anim-next', 'anim-prev');
-                
-                // Forzar "Reflow" (truco para reiniciar animación CSS)
                 void mImg.offsetWidth;
-                
-                // Agregar clase según dirección
                 if (direction === 'next') mImg.classList.add('anim-next');
                 if (direction === 'prev') mImg.classList.add('anim-prev');
             }
         }
-
-        // Actualizar UI (Thumbnails y Puntos)
         document.querySelectorAll('.thumb-img').forEach((t, i) => {
             t.classList.toggle('active', i === index);
-            // Auto-scroll del thumbnail strip para mantener la activa visible
             if (i === index && t.parentNode) {
                 t.parentNode.scrollLeft = t.offsetLeft - (t.parentNode.clientWidth / 2) + (t.clientWidth / 2);
             }
         });
-        document.querySelectorAll('.dot').forEach((d, i) => {
-            d.classList.toggle('active', i === index);
-        });
+        document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === index));
     },
 
     renderControls() {
@@ -453,29 +449,16 @@ const ModalManager = {
         arrows.forEach(a => { if(a) a.style.display = ''; }); 
 
         this.currentImages.forEach((src, index) => {
-            // Thumbnails PC
             const img = document.createElement('img');
             img.src = src; img.className = 'thumb-img';
             if (index === this.currentIndex) img.classList.add('active');
-            // Al hacer click en miniatura, calculamos dirección
-            img.onclick = (e) => { 
-                e.stopPropagation(); 
-                const dir = index > this.currentIndex ? 'next' : 'prev';
-                this.currentIndex = index; 
-                this.showImage(index, dir); 
-            };
+            img.onclick = (e) => { e.stopPropagation(); this.currentIndex = index; this.showImage(index, index > this.currentIndex ? 'next' : 'prev'); };
             if(thumbsContainer) thumbsContainer.appendChild(img);
 
-            // Puntos Móvil
             const dot = document.createElement('div');
             dot.className = 'dot';
             if (index === this.currentIndex) dot.classList.add('active');
-            dot.onclick = (e) => { 
-                e.stopPropagation(); 
-                const dir = index > this.currentIndex ? 'next' : 'prev';
-                this.currentIndex = index; 
-                this.showImage(index, dir); 
-            }; 
+            dot.onclick = (e) => { e.stopPropagation(); this.currentIndex = index; this.showImage(index, 'next'); }; 
             if(dotsContainer) dotsContainer.appendChild(dot);
         });
     },
@@ -483,13 +466,13 @@ const ModalManager = {
     nextImage() {
         if (this.currentImages.length < 2) return;
         this.currentIndex = (this.currentIndex + 1) % this.currentImages.length;
-        this.showImage(this.currentIndex, 'next'); // Pasamos dirección 'next'
+        this.showImage(this.currentIndex, 'next');
     },
 
     prevImage() {
         if (this.currentImages.length < 2) return;
         this.currentIndex = (this.currentIndex - 1 + this.currentImages.length) % this.currentImages.length;
-        this.showImage(this.currentIndex, 'prev'); // Pasamos dirección 'prev'
+        this.showImage(this.currentIndex, 'prev');
     },
 
     close() {
@@ -501,8 +484,9 @@ const ModalManager = {
         if (youtubeFrame) youtubeFrame.src = '';
     }
 };
+
 /* ==========================================================================
-   5. NAVEGACIÓN Y SEARCH
+   5. NAVEGACIÓN Y FILTRADO (BÚSQUEDA CORREGIDA)
    ========================================================================== */
 const SearchManager = {
     init() { this.checkURLParams(); },
@@ -512,17 +496,20 @@ const SearchManager = {
         if (searchTerm && DOM.searchInput) {
             DOM.searchInput.value = searchTerm;
             DOM.searchBox?.classList.add('active');
+            // Esperar un poco para asegurar que las cartas existan
             setTimeout(() => this.filterCardsOnPage(searchTerm), 100);
         }
     },
+    // --- FILTRADO INSENSIBLE A ACENTOS ---
     filterCardsOnPage(text) {
-        const searchText = text.toLowerCase();
+        const cleanText = normalizeText(text);
         document.querySelectorAll('.file-card').forEach(card => {
-            const title = (card.dataset.title || '').toLowerCase();
-            const autor = (card.dataset.autor || '').toLowerCase();
-            const keywords = (card.dataset.keywords || '').toLowerCase();
-            const desc = (card.dataset.desc || '').toLowerCase();
-            const isVisible = title.includes(searchText) || autor.includes(searchText) || keywords.includes(searchText) || desc.includes(searchText);
+            // Buscamos en los atributos data del HTML, normalizándolos también
+            const title = normalizeText(card.dataset.title);
+            const autor = normalizeText(card.dataset.autor);
+            const keywords = normalizeText(card.dataset.keywords);
+            
+            const isVisible = title.includes(cleanText) || autor.includes(cleanText) || keywords.includes(cleanText);
             card.style.display = isVisible ? 'flex' : 'none';
         });
     },
@@ -532,24 +519,17 @@ const SearchManager = {
     }
 };
 
-/* --- AQUÍ ESTABA EL PROBLEMA DEL MENÚ --- */
+/* --- MOBILE NAV --- */
 const MobileNav = {
-    init() {
-        // CORRECCIÓN: Dejamos esto vacío.
-        // Ya no agregamos 'addEventListener' aquí porque el HTML ya tiene onclick="toggleMenu()".
-        // Antes se ejecutaba dos veces (abría y cerraba instantáneamente).
-    },
-    toggle() { 
-        if (DOM.navLinks) DOM.navLinks.classList.toggle('active'); 
-    }
+    init() {},
+    toggle() { if (DOM.navLinks) DOM.navLinks.classList.toggle('active'); }
 };
 
-/* --- Funciones Globales --- */
+/* --- FUNCIONES GLOBALES --- */
 function abrirModal(el) { ModalManager.open(el); }
 function cerrarModalBtn() { ModalManager.close(); }
 function cerrarModal(e) { if (e.target.id === 'modalVisualizador') ModalManager.close(); }
 function toggleSearch() { SearchManager.toggleSearch(); }
-// Esta función es la que llama el HTML. Ahora solo ejecuta una vez la lógica.
 function toggleMenu() { MobileNav.toggle(); } 
 function filtrarObras() { const val = document.getElementById('searchInput').value; SearchManager.filterCardsOnPage(val); }
 function abrirBusquedaMovil() { MobileNav.toggle(); if (DOM.mobileSearchOverlay) { DOM.mobileSearchOverlay.style.display = 'flex'; setTimeout(() => DOM.mobileInput?.focus(), 100); } }
@@ -559,7 +539,15 @@ DOM.mobileInput?.addEventListener('keyup', (e) => { if (e.key === 'Enter') ejecu
 
 document.addEventListener('DOMContentLoaded', () => {
     ModalManager.init(); SearchManager.init(); MobileNav.init(); AutocompleteManager.init();
-    const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('card-enter'); observer.unobserve(e.target); } }); });
+    
+    // Animación de entrada de cartas
+    const observer = new IntersectionObserver((entries) => { 
+        entries.forEach(e => { 
+            if(e.isIntersecting) { e.target.classList.add('card-enter'); observer.unobserve(e.target); } 
+        }); 
+    });
     document.querySelectorAll('.file-card').forEach(c => observer.observe(c));
+
+    // Lazy load para imágenes con data-src (si las hubiera)
     document.querySelectorAll('img[data-src]').forEach(img => { img.src = img.dataset.src; img.removeAttribute('data-src'); });
 });
