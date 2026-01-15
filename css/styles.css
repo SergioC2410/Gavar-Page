@@ -745,3 +745,204 @@ nav {
     
     #mTitle { font-size: 1.8rem; }
 }
+/* =========================================
+   ESTILOS DE GALERÍA (NUEVO)
+   ========================================= */
+
+/* Estructura base del contenedor multimedia */
+.modal-media {
+    position: relative;
+    display: flex;
+    flex-direction: column; /* Apila imagen y miniaturas */
+    gap: 15px;
+}
+
+/* Contenedor de la imagen principal */
+.media-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer; /* Indica que se puede hacer clic */
+}
+
+/* --- ESTILOS ESCRITORIO (PC) --- */
+
+/* Flechas de navegación */
+.modal-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 12px 18px;
+    z-index: 10;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+.modal-arrow:hover { transform: translateY(-50%) scale(1.1); background: #fff; }
+.modal-arrow.left { left: 20px; }
+.modal-arrow.right { right: 20px; }
+
+/* --- TIRA DE MINIATURAS (SCROLLABLE & ADAPTATIVA) --- */
+/* EN css/styles.css - Reemplaza el bloque .thumbnails-strip */
+
+.thumbnails-strip {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    height: 80px;
+    z-index: 5;
+    
+    /* CAMBIO CLAVE: Centrar contenido */
+    justify-content: center; 
+    
+    /* Mantenemos el scroll por si son muchas (más de 10-12) */
+    overflow-x: auto; 
+    overflow-y: hidden;
+    padding: 10px 40px;
+    scroll-behavior: smooth;
+    
+    /* Scrollbar estilizado */
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+}
+
+/* Estilo Scrollbar (Chrome/Safari/Edge) - Para que sea elegante */
+.thumbnails-strip::-webkit-scrollbar {
+    height: 6px;             /* Barrita delgada */
+}
+.thumbnails-strip::-webkit-scrollbar-track {
+    background: transparent;
+}
+.thumbnails-strip::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* Gris translúcido */
+    border-radius: 10px;
+}
+
+.thumb-img {
+    /* CLAVE: "flex: 0 0 auto" impide que las fotos se aplasten */
+    flex: 0 0 auto;
+    height: 60px;            /* Altura fija, el ancho se adapta */
+    width: auto;             /* Mantiene proporción original */
+    
+    cursor: pointer;
+    opacity: 0.6;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    object-fit: cover;       /* Asegura que la foto llene el cuadro */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.thumb-img:hover {
+    opacity: 1;
+    transform: translateY(-2px); /* Pequeño saltito al pasar el mouse */
+}
+
+.thumb-img.active {
+    opacity: 1;
+    border-color: #1a1a1a;   /* Borde negro para la seleccionada */
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Ocultar puntos móviles en PC */
+.mobile-dots { display: none; }
+
+
+/* --- ESTILOS MÓVIL (TIPO ARTSPER) --- */
+@media (max-width: 768px) {
+    /* 1. Ocultar Flechas y Miniaturas en celular */
+    .modal-arrow, 
+    .thumbnails-strip { 
+        display: none !important; 
+    }
+
+    /* 2. Mostrar y estilizar Puntos */
+    .mobile-dots {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 5px;
+        width: 100%;
+    }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+        background-color: #d1d1d1; /* Gris claro */
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .dot.active {
+        background-color: #333; /* Oscuro al estar activo */
+        transform: scale(1.3);
+    }
+    
+    /* Ajuste de altura para que no se corte en pantallas pequeñas */
+    .media-container /* EN css/styles.css */
+
+.media-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    
+    /* --- NUEVO: MEJORA PARA MÓVIL --- */
+    /* Permite deslizar verticalmente (scroll de la página) 
+       pero reserva el movimiento horizontal para nuestra galería */
+    touch-action: pan-y; 
+    -webkit-user-select: none; /* Evita que se seleccione la imagen al arrastrar */
+    user-select: none;
+}
+}
+/* --- ANIMACIONES DE DESLIZAMIENTO --- */
+
+/* Clase base para la imagen */
+.media-container img {
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+/* Animación: Entra desde la DERECHA (Para botón Siguiente) */
+.anim-next {
+    animation: slideInRight 0.3s forwards;
+}
+
+/* Animación: Entra desde la IZQUIERDA (Para botón Anterior) */
+.anim-prev {
+    animation: slideInLeft 0.3s forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0.5;
+        transform: translateX(30px); /* Empieza un poco a la derecha */
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0.5;
+        transform: translateX(-30px); /* Empieza un poco a la izquierda */
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

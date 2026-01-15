@@ -6,23 +6,170 @@
 /* ==========================================================================
    1. BASE DE DATOS MAESTRA
    ========================================================================== */
+/* ==========================================================================
+   1. BASE DE DATOS MAESTRA (ACTUALIZADA Y OPTIMIZADA)
+   ========================================================================== */
+/* ==========================================================================
+   1. BASE DE DATOS MAESTRA (ACTUALIZADA - MÚLTIPLES FOTOS)
+   ========================================================================== */
 const SEARCH_DB = [
-    // --- OBRAS NUEVAS ---
-    { title: "Resiliencia", url: "galeria.html", type: "Obra", keywords: "serigrafia alix velasquez", src: "assets/img/resiliencia.jpg", autor: "Alix Velásquez", year: "2025", desc: "Técnica / Materia: Serigrafía.\nCantidad: 1 pieza.\nInstagram: @alix_v_art" },
-    { title: "Real", url: "galeria.html", type: "Obra", keywords: "xilografia arantza martinez", src: "assets/img/real.jpg", autor: "Arantza Martínez", year: "2025", desc: "Técnica / Materia: Xilografía.\nCantidad: 1 pieza." },
-    { title: "Solaria", url: "galeria.html", type: "Obra", keywords: "digital andrea blanco", src: "assets/img/solaria.jpg", autor: "Andrea Blanco", year: "2024", desc: "Técnica / Materia: Digital.\nCantidad: 1 pieza.\nInstagram: @anbndy22" },
-    { title: "The News", url: "galeria.html", type: "Obra", keywords: "digital isabel figueroa", src: "assets/img/the_news.jpg", autor: "Isabel Figueroa", year: "2022", desc: "Técnica / Materia: Superposición digital.\nCantidad: 1 pieza." },
-    { title: "Antimateria", url: "galeria.html", type: "Obra", keywords: "hilograma koda", src: "assets/img/antimateria.jpg", autor: "Efraín Aguilera (Koda)", year: "2024", desc: "Técnica / Materia: Ensamblaje e hilograma.\nCantidad: 1 pieza.\nInstagram: @6kodafree6" },
-    { title: "El Tapiz del Alma", url: "galeria.html", type: "Obra", keywords: "pop-up cristian rojas", src: "assets/img/el_tapiz_del_alma.jpg", autor: "Cristian Rojas", year: "2025", desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza." },
-    { title: "Bodhiria", url: "galeria.html", type: "Obra", keywords: "pop-up mariend romero", src: "assets/img/bodhiria.jpg", autor: "Mariend Romero", year: "2025", desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza." },
-    { title: "Fábrica de la Memoria", url: "galeria.html", type: "Obra", keywords: "pop-up ricardo suarez", src: "assets/img/fabrica_de_la_memoria.jpg", autor: "Ricardo Suarez", year: "2024", desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza.\nInstagram: @richyross_art" },
-    
-    // --- EXPOSICIONES ---
-    { title: "Recorrido Virtual 2024", url: "exposiciones.html", type: "Video", keywords: "tour virtual", src: "", autor: "Curaduría GAVAR", year: "2024", desc: "Video introductorio al espacio virtual." },
-    
-    // --- REVERÓN ---
-    { title: "Armando Reverón (Perfil)", url: "mencion-especial.html", type: "Perfil", keywords: "reveron muñecas luz" },
-    { title: "La Cueva", url: "mencion-especial.html", type: "Obra", keywords: "reveron azul", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/La_Cueva_-_Armando_Rever%C3%B3n.jpg/1200px-La_Cueva_-_Armando_Rever%C3%B3n.jpg", autor: "Armando Reverón", year: "1920", desc: "Obra maestra de su Período Azul." }
+    // --- OBRAS GRÁFICAS Y MIXTAS ---
+    { 
+        title: "Resiliencia", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "serigrafia grabado tinta papel arte grafico alix velasquez", 
+        // 2 FOTOS
+        images: [
+            "assets/img/resiliencia.jpg",
+            "assets/img/resiliencia_detalle1.jpg" 
+        ], 
+        autor: "Alix Velásquez", 
+        year: "2025", 
+        desc: "Técnica / Materia: Serigrafía.\nCantidad: 1 pieza.\nInstagram: @alix_v_art" 
+    },
+    { 
+        title: "Real", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "xilografia madera grabado relieve impresion arantza martinez", 
+        // 2 FOTOS
+        images: [
+            "assets/img/real.jpg",
+            "assets/img/real_detalle1.jpg"
+        ], 
+        autor: "Arantza Martínez", 
+        year: "2025", 
+        desc: "Técnica / Materia: Xilografía.\nCantidad: 1 pieza." 
+    },
+    { 
+        title: "Solaria", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "digital ilustracion diseño tablet computadora andrea blanco", 
+        // 1 FOTO
+        images: ["assets/img/solaria.jpg"], 
+        autor: "Andrea Blanco", 
+        year: "2024", 
+        desc: "Técnica / Materia: Digital.\nCantidad: 1 pieza.\nInstagram: @anbndy22" 
+    },
+    { 
+        title: "The News", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "superposicion digital capas collage fotomontaje isabel figueroa", 
+        // 1 FOTO
+        images: ["assets/img/the_news.jpg"], 
+        autor: "Isabel Figueroa", 
+        year: "2022", 
+        desc: "Técnica / Materia: Superposición digital.\nCantidad: 1 pieza." 
+    },
+    { 
+        title: "Antimateria", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "ensamblaje hilograma hilos clavos madera escultura mixta koda efrain aguilera", 
+        // 3 FOTOS
+        images: [
+            "assets/img/antimateria.jpg",
+            "assets/img/antimateria_detalle1.jpg",
+            "assets/img/antimateria_detalle2.jpg"
+        ], 
+        autor: "Efraín Aguilera (Koda)", 
+        year: "2024", 
+        desc: "Técnica / Materia: Ensamblaje e hilograma.\nCantidad: 1 pieza.\nInstagram: @6kodafree6" 
+    },
+
+    // --- LIBROS OBJETO (POP-UP) ---
+    { 
+        title: "El Tapiz del Alma", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "pop-up popup libro objeto 3d papel escultura cristian rojas", 
+        // 9 FOTOS
+        images: [
+            "assets/img/el_tapiz_del_alma.jpg",
+            "assets/img/el_tapiz_del_alma1.jpg",
+            "assets/img/el_tapiz_del_alma2.jpg",
+            "assets/img/el_tapiz_del_alma3.jpg",
+            "assets/img/el_tapiz_del_alma4.jpg",
+            "assets/img/el_tapiz_del_alma5.jpg",
+            "assets/img/el_tapiz_del_alma6.jpg",
+            "assets/img/el_tapiz_del_alma7.jpg",
+            "assets/img/el_tapiz_del_alma8.jpg"
+        ], 
+        autor: "Cristian Rojas", 
+        year: "2025", 
+        desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza." 
+    },
+    { 
+        title: "Bodhiria", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "pop-up popup libro objeto plegable papel mariend romero", 
+        // 7 FOTOS
+        images: [
+            "assets/img/bodhiria.jpg",
+            "assets/img/bodhiria_1.jpg",
+            "assets/img/bodhiria_2.jpg",
+            "assets/img/bodhiria_3.jpg",
+            "assets/img/bodhiria_4.jpg",
+            "assets/img/bodhiria_5.jpg",
+            "assets/img/bodhiria_6.jpg"
+        ], 
+        autor: "Mariend Romero", 
+        year: "2025", 
+        desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza." 
+    },
+    { 
+        title: "Fábrica de la Memoria", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "pop-up popup libro objeto memoria papel arquitectura ricardo suarez", 
+        // 9 FOTOS
+        images: [
+            "assets/img/fabrica_de_la_memoria.jpg",
+            "assets/img/fabrica_de_la_memoria_1.jpg",
+            "assets/img/fabrica_de_la_memoria_2.jpg",
+            "assets/img/fabrica_de_la_memoria3.jpg",
+            "assets/img/fabrica_de_la_memoria4.jpg",
+            "assets/img/fabrica_de_la_memoria5.jpg",
+            "assets/img/fabrica_de_la_memoria6.jpg",
+            "assets/img/fabrica_de_la_memoria7.jpg",
+            "assets/img/fabrica_de_la_memoria8.jpg"
+        ], 
+        autor: "Ricardo Suarez", 
+        year: "2024", 
+        desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza.\nInstagram: @richyross_art" 
+    },
+
+    // --- EXPOSICIONES Y REVERÓN (SIN CAMBIOS) ---
+    { 
+        title: "Recorrido Virtual 2024", 
+        url: "exposiciones.html", 
+        type: "Video", 
+        keywords: "tour virtual video recorrido", 
+        images: [""], 
+        autor: "Curaduría GAVAR", 
+        year: "2024", 
+        desc: "Video introductorio al espacio virtual." 
+    },
+    { 
+        title: "Armando Reverón (Perfil)", 
+        url: "mencion-especial.html", 
+        type: "Perfil", 
+        keywords: "reveron armando maestro luz castillete" 
+    },
+    { 
+        title: "La Cueva", 
+        url: "mencion-especial.html", 
+        type: "Obra", 
+        keywords: "reveron azul pintura clasica", 
+        images: ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/La_Cueva_-_Armando_Rever%C3%B3n.jpg/1200px-La_Cueva_-_Armando_Rever%C3%B3n.jpg"], 
+        autor: "Armando Reverón", 
+        year: "1920", 
+        desc: "Obra maestra de su Período Azul." 
+    }
 ];
 
 /* ==========================================================================
@@ -126,96 +273,234 @@ const AutocompleteManager = {
 };
 
 /* ==========================================================================
-   4. GESTIÓN DE MODALES
+   4. GESTIÓN DE MODALES (VERSIÓN FINAL: GALERÍA + PUNTOS MÓVILES)
+   ========================================================================== */
+/* EN js/scripts.js - Reemplaza todo el objeto ModalManager */
+
+/* ==========================================================================
+   4. GESTIÓN DE MODALES (CON SWIPE TÁCTIL)
    ========================================================================== */
 const ModalManager = {
     currentVideo: null,
+    currentImages: [],
+    currentIndex: 0,
+    
+    // Variables swipe
+    touchStartX: 0,
+    touchEndX: 0,
+
     init() { this.bindEvents(); },
+    
     bindEvents() {
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') this.close(); });
+        document.addEventListener('keydown', (e) => { 
+            if (e.key === 'Escape') this.close(); 
+            if (e.key === 'ArrowRight') this.nextImage();
+            if (e.key === 'ArrowLeft') this.prevImage();
+        });
+        
         DOM.modal?.addEventListener('click', (e) => { if (e.target === DOM.modal) this.close(); });
+
+        // Swipe Táctil
+        const mediaContainer = document.querySelector('.media-container');
+        if (mediaContainer) {
+            mediaContainer.addEventListener('touchstart', (e) => {
+                this.touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            mediaContainer.addEventListener('touchend', (e) => {
+                this.touchEndX = e.changedTouches[0].screenX;
+                this.handleSwipe();
+            }, { passive: true });
+        }
+    },
+
+    handleSwipe() {
+        const threshold = 50;
+        if (this.touchEndX < this.touchStartX - threshold) this.nextImage(); // Swipe Izquierda -> Next
+        if (this.touchEndX > this.touchStartX + threshold) this.prevImage(); // Swipe Derecha -> Prev
     },
 
     open(element) {
+        let imgs = [];
+        const dbEntry = SEARCH_DB.find(item => item.title === element.dataset.title);
+        if (dbEntry && dbEntry.images && Array.isArray(dbEntry.images)) {
+            imgs = dbEntry.images;
+        } else if (element.dataset.src) {
+            imgs = [element.dataset.src];
+        }
+
         const data = {
             title: element.dataset.title,
             autor: element.dataset.autor,
             year: element.dataset.year,
             desc: element.dataset.desc,
-            src: element.dataset.src,
-            type: element.dataset.type
+            type: element.dataset.type,
+            images: imgs
         };
         this.openFromData(data);
     },
 
     openFromData(data) {
         if (!DOM.modal) return;
-        this.populateModal(data);
-        this.showContent(data.type, data.src);
+        this.currentImages = data.images || [];
+        this.currentIndex = 0;
+        this.populateText(data);
+        this.updateGalleryUI(data.type);
         DOM.modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     },
 
-    populateModal(data) {
+    populateText(data) {
         if (DOM.modalTitle) DOM.modalTitle.textContent = data.title || 'Sin título';
         if (DOM.modalAutor) DOM.modalAutor.textContent = data.autor || '';
-
         const infoContainer = document.getElementById('mInfoContainer');
         if (infoContainer) {
             let htmlContent = '';
             if (data.year) htmlContent += `<span class="modal-year">${data.year}</span>`;
             if (data.desc) htmlContent += `<div class="modal-desc-block">${data.desc}</div>`;
-            else htmlContent += `<div class="modal-desc-block">Sin descripción disponible.</div>`;
             infoContainer.innerHTML = htmlContent;
         }
     },
 
-    showContent(type, src) {
+    updateGalleryUI(type) {
         const isVideo = type === 'Video' || type === 'video';
-        if (DOM.modalImg) DOM.modalImg.style.display = isVideo ? 'none' : 'block';
-        if (DOM.modalVideo) DOM.modalVideo.style.display = isVideo ? 'block' : 'none';
-        
-        let youtubeFrame = document.getElementById('mYoutube');
-        if (youtubeFrame) youtubeFrame.style.display = 'none';
+        const uiElements = [document.getElementById('prevBtn'), document.getElementById('nextBtn'), document.getElementById('modalThumbnails'), document.getElementById('mobileDots')];
+        const mImg = document.getElementById('mImg');
+        const mVideo = document.getElementById('mVideo');
+        const mYoutube = document.getElementById('mYoutube');
+
+        if(mImg) {
+            mImg.style.display = 'none';
+            mImg.className = ''; // Limpiar animaciones previas al abrir
+        }
+        if(mVideo) mVideo.style.display = 'none';
+        if(mYoutube) mYoutube.style.display = 'none';
 
         if (isVideo) {
-            if (src && (src.includes('youtube.com') || src.includes('youtu.be'))) {
-                if (!youtubeFrame) youtubeFrame = this.createYoutubeFrame();
-                const videoId = src.split('v=')[1] ? src.split('v=')[1].split('&')[0] : src.split('/').pop();
-                youtubeFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                youtubeFrame.style.display = 'block';
-                if(DOM.modalVideo) DOM.modalVideo.style.display = 'none';
-            } else if (DOM.modalVideo) {
-                DOM.modalVideo.src = src;
-                DOM.modalVideo.style.display = 'block';
-                DOM.modalVideo.play().catch(() => {});
-                this.currentVideo = DOM.modalVideo;
+            uiElements.forEach(el => { if(el) el.style.display = 'none'; });
+            const src = this.currentImages[0] || ""; 
+            if (src.includes('youtube') || src.includes('youtu.be')) {
+                if(mYoutube) {
+                    const videoId = src.split('v=')[1] ? src.split('v=')[1].split('&')[0] : src.split('/').pop();
+                    mYoutube.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                    mYoutube.style.display = 'block';
+                }
+            } else if (mVideo) {
+                mVideo.src = src; mVideo.style.display = 'block';
+                mVideo.play().catch(() => {});
+                this.currentVideo = mVideo;
             }
-        } else if (DOM.modalImg) {
-            DOM.modalImg.src = src;
-            this.pauseCurrentVideo();
+        } else {
+            if(mImg) mImg.style.display = 'block';
+            // Mostrar imagen sin animación la primera vez
+            this.showImage(this.currentIndex, null); 
+            this.renderControls();
         }
     },
-    createYoutubeFrame() {
-        const frame = document.createElement('iframe'); frame.id = 'mYoutube';
-        frame.style.width = '100%'; frame.style.height = '100%'; frame.style.border = 'none';
-        frame.allow = "autoplay; encrypted-media";
-        document.querySelector('.modal-media').appendChild(frame);
-        return frame;
+
+    // AHORA showImage ACEPTA UNA DIRECCIÓN ('next' o 'prev')
+    showImage(index, direction) {
+        const mImg = document.getElementById('mImg');
+        
+        if (this.currentImages.length > 0) {
+            // 1. Cambiar fuente
+            mImg.src = this.currentImages[index];
+            
+            // 2. Aplicar Animación si hay dirección
+            if (direction) {
+                // Quitar clases anteriores para reiniciar animación
+                mImg.classList.remove('anim-next', 'anim-prev');
+                
+                // Forzar "Reflow" (truco para reiniciar animación CSS)
+                void mImg.offsetWidth;
+                
+                // Agregar clase según dirección
+                if (direction === 'next') mImg.classList.add('anim-next');
+                if (direction === 'prev') mImg.classList.add('anim-prev');
+            }
+        }
+
+        // Actualizar UI (Thumbnails y Puntos)
+        document.querySelectorAll('.thumb-img').forEach((t, i) => {
+            t.classList.toggle('active', i === index);
+            // Auto-scroll del thumbnail strip para mantener la activa visible
+            if (i === index && t.parentNode) {
+                t.parentNode.scrollLeft = t.offsetLeft - (t.parentNode.clientWidth / 2) + (t.clientWidth / 2);
+            }
+        });
+        document.querySelectorAll('.dot').forEach((d, i) => {
+            d.classList.toggle('active', i === index);
+        });
     },
+
+    renderControls() {
+        const thumbsContainer = document.getElementById('modalThumbnails');
+        const dotsContainer = document.getElementById('mobileDots');
+        const arrows = [document.getElementById('prevBtn'), document.getElementById('nextBtn')];
+        
+        if(thumbsContainer) thumbsContainer.innerHTML = '';
+        if(dotsContainer) dotsContainer.innerHTML = '';
+
+        if (this.currentImages.length < 2) {
+            if(thumbsContainer) thumbsContainer.style.display = 'none';
+            if(dotsContainer) dotsContainer.style.display = 'none';
+            arrows.forEach(a => { if(a) a.style.display = 'none'; });
+            return;
+        }
+
+        if(thumbsContainer) thumbsContainer.style.display = 'flex';
+        if(dotsContainer) dotsContainer.style.display = 'flex'; 
+        arrows.forEach(a => { if(a) a.style.display = ''; }); 
+
+        this.currentImages.forEach((src, index) => {
+            // Thumbnails PC
+            const img = document.createElement('img');
+            img.src = src; img.className = 'thumb-img';
+            if (index === this.currentIndex) img.classList.add('active');
+            // Al hacer click en miniatura, calculamos dirección
+            img.onclick = (e) => { 
+                e.stopPropagation(); 
+                const dir = index > this.currentIndex ? 'next' : 'prev';
+                this.currentIndex = index; 
+                this.showImage(index, dir); 
+            };
+            if(thumbsContainer) thumbsContainer.appendChild(img);
+
+            // Puntos Móvil
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            if (index === this.currentIndex) dot.classList.add('active');
+            dot.onclick = (e) => { 
+                e.stopPropagation(); 
+                const dir = index > this.currentIndex ? 'next' : 'prev';
+                this.currentIndex = index; 
+                this.showImage(index, dir); 
+            }; 
+            if(dotsContainer) dotsContainer.appendChild(dot);
+        });
+    },
+
+    nextImage() {
+        if (this.currentImages.length < 2) return;
+        this.currentIndex = (this.currentIndex + 1) % this.currentImages.length;
+        this.showImage(this.currentIndex, 'next'); // Pasamos dirección 'next'
+    },
+
+    prevImage() {
+        if (this.currentImages.length < 2) return;
+        this.currentIndex = (this.currentIndex - 1 + this.currentImages.length) % this.currentImages.length;
+        this.showImage(this.currentIndex, 'prev'); // Pasamos dirección 'prev'
+    },
+
     close() {
         if (DOM.modal) DOM.modal.style.display = 'none';
         document.body.style.overflow = '';
-        this.pauseCurrentVideo();
+        if (this.currentVideo) { this.currentVideo.pause(); this.currentVideo.currentTime = 0; }
         if (DOM.modalVideo) DOM.modalVideo.src = '';
         const youtubeFrame = document.getElementById('mYoutube');
         if (youtubeFrame) youtubeFrame.src = '';
-    },
-    pauseCurrentVideo() {
-        if (this.currentVideo) { this.currentVideo.pause(); this.currentVideo.currentTime = 0; }
     }
 };
-
 /* ==========================================================================
    5. NAVEGACIÓN Y SEARCH
    ========================================================================== */
