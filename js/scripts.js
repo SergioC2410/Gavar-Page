@@ -1,6 +1,6 @@
 /**
  * GAVAR - Script Principal
- * Versión: Diseño Pro Sincronizado
+ * Versión: Corregida (Menú Móvil Fix)
  */
 
 /* ==========================================================================
@@ -34,7 +34,6 @@ const DOM = {
     modalVideo: document.getElementById('mVideo'),
     modalTitle: document.getElementById('mTitle'),
     modalAutor: document.getElementById('mAutor'),
-    // mInfoContainer se busca dinámicamente
     searchInput: document.getElementById('searchInput'),
     searchBox: document.querySelector('.search-box'),
     navLinks: document.getElementById('navLinks'),
@@ -111,7 +110,6 @@ const AutocompleteManager = {
         if (DOM.modal) {
             this.clearSuggestions();
             cerrarBusquedaMovil();
-            // Adaptamos los datos planos de SEARCH_DB al formato que espera populateModal
             ModalManager.openFromData({ 
                 title: item.title,
                 autor: item.autor,
@@ -128,7 +126,7 @@ const AutocompleteManager = {
 };
 
 /* ==========================================================================
-   4. GESTIÓN DE MODALES (DISEÑO PRO)
+   4. GESTIÓN DE MODALES
    ========================================================================== */
 const ModalManager = {
     currentVideo: null,
@@ -138,9 +136,7 @@ const ModalManager = {
         DOM.modal?.addEventListener('click', (e) => { if (e.target === DOM.modal) this.close(); });
     },
 
-    // Esta función se llama desde el HTML (onclick="abrirModal(this)")
     open(element) {
-        // Extraemos los datos del dataset del HTML
         const data = {
             title: element.dataset.title,
             autor: element.dataset.autor,
@@ -164,21 +160,12 @@ const ModalManager = {
         if (DOM.modalTitle) DOM.modalTitle.textContent = data.title || 'Sin título';
         if (DOM.modalAutor) DOM.modalAutor.textContent = data.autor || '';
 
-        // INYECCIÓN LIMPIA EN EL NUEVO CONTENEDOR
         const infoContainer = document.getElementById('mInfoContainer');
         if (infoContainer) {
             let htmlContent = '';
-            
-            // 1. Año Grande
-            if (data.year) {
-                htmlContent += `<span class="modal-year">${data.year}</span>`;
-            }
-            
-            // 2. Descripción con saltos de línea (Sin etiquetas extra "Tipo de archivo")
-            if (data.desc) {
-                htmlContent += `<div class="modal-desc-block">${data.desc}</div>`;
-            }
-            
+            if (data.year) htmlContent += `<span class="modal-year">${data.year}</span>`;
+            if (data.desc) htmlContent += `<div class="modal-desc-block">${data.desc}</div>`;
+            else htmlContent += `<div class="modal-desc-block">Sin descripción disponible.</div>`;
             infoContainer.innerHTML = htmlContent;
         }
     },
@@ -260,12 +247,16 @@ const SearchManager = {
     }
 };
 
+/* --- AQUÍ ESTABA EL PROBLEMA DEL MENÚ --- */
 const MobileNav = {
     init() {
-        const toggleBtn = document.querySelector('.menu-toggle');
-        if (toggleBtn) toggleBtn.addEventListener('click', () => this.toggle());
+        // CORRECCIÓN: Dejamos esto vacío.
+        // Ya no agregamos 'addEventListener' aquí porque el HTML ya tiene onclick="toggleMenu()".
+        // Antes se ejecutaba dos veces (abría y cerraba instantáneamente).
     },
-    toggle() { DOM.navLinks?.classList.toggle('active'); }
+    toggle() { 
+        if (DOM.navLinks) DOM.navLinks.classList.toggle('active'); 
+    }
 };
 
 /* --- Funciones Globales --- */
@@ -273,7 +264,8 @@ function abrirModal(el) { ModalManager.open(el); }
 function cerrarModalBtn() { ModalManager.close(); }
 function cerrarModal(e) { if (e.target.id === 'modalVisualizador') ModalManager.close(); }
 function toggleSearch() { SearchManager.toggleSearch(); }
-function toggleMenu() { MobileNav.toggle(); }
+// Esta función es la que llama el HTML. Ahora solo ejecuta una vez la lógica.
+function toggleMenu() { MobileNav.toggle(); } 
 function filtrarObras() { const val = document.getElementById('searchInput').value; SearchManager.filterCardsOnPage(val); }
 function abrirBusquedaMovil() { MobileNav.toggle(); if (DOM.mobileSearchOverlay) { DOM.mobileSearchOverlay.style.display = 'flex'; setTimeout(() => DOM.mobileInput?.focus(), 100); } }
 function cerrarBusquedaMovil() { if (DOM.mobileSearchOverlay) DOM.mobileSearchOverlay.style.display = 'none'; if (DOM.mobileInput) DOM.mobileInput.value = ''; AutocompleteManager.clearSuggestions(); }

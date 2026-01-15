@@ -192,10 +192,44 @@ nav {
 .card-preview img, .card-preview video { width: 100%; height: 100%; object-fit: cover; }
 
 .card-footer {
-    padding: 15px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #f1f3f4;
+    padding: 18px 20px; /* Un poco más de aire para elegancia */
+    display: flex;
+    flex-direction: column; /* Apila los textos uno sobre otro */
+    align-items: flex-start; /* Alinea todo a la izquierda */
+    justify-content: center;
+    gap: 6px; /* Espacio sutil entre Título y Autor */
+    border-top: 1px solid #f1f3f4;
+    background-color: #fff;
+    min-height: 80px; /* Altura mínima para uniformidad */
 }
-.file-icon { color: var(--text-light); font-size: 1.2rem; }
-.file-name { font-size: 0.95rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Título de la Obra */
+.card-title-text {
+    font-family: var(--font-stack);
+    font-size: 1.05rem;
+    font-weight: 700; /* Negrita para destacar */
+    color: #1a1a1a;
+    line-height: 1.2;
+    margin: 0;
+    /* Si el título es muy largo, puntos suspensivos */
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    width: 100%;
+}
+
+/* Nombre del Artista */
+.card-author-text {
+    font-family: var(--font-stack);
+    font-size: 0.85rem; /* Más pequeño para jerarquía */
+    color: #666; /* Gris elegante */
+    font-weight: 500;
+    text-transform: uppercase; /* Toque "Museo" opcional (muy elegante) */
+    letter-spacing: 0.5px;
+}
+
+/* Eliminamos estilos viejos que ya no sirven */
+.file-icon, .file-name { display: none; }
 
 /* =========================================
    5. MODAL VISUALIZADOR (DISEÑO PRO ARTSPER)
@@ -591,3 +625,119 @@ nav {
 /* Scrollbar bonito para la lista */
 .suggestions-list::-webkit-scrollbar { width: 6px; }
 .suggestions-list::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+/* =========================================
+   9. RESPONSIVE MÓVIL (PEGA ESTO AL FINAL DEL CSS)
+   ========================================= */
+@media (max-width: 768px) {
+    /* HEADER: Fijo y organizado */
+    header {
+        padding: 0 15px;
+        height: 60px;
+        justify-content: center; /* Logo centrado */
+        position: sticky;
+        top: 0;
+        background: #fff; /* Asegura fondo blanco */
+    }
+
+    /* Logo: Siempre visible */
+    .logo-container { order: 1; }
+    .logo-container img { height: 35px; } 
+
+    /* Botón Hamburguesa: Izquierda absoluta */
+    .menu-toggle {
+        display: block;
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1003;
+        font-size: 1.6rem;
+        padding: 10px; /* Zona de toque amplia */
+    }
+
+    /* Ocultar barra de búsqueda de escritorio */
+    header .search-box { display: none !important; }
+
+    /* MENÚ DESPLEGABLE (ESTILO APP) */
+    .nav-links {
+        display: none; /* Oculto por defecto */
+        position: fixed;
+        top: 60px; /* Justo debajo del header */
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 60px); /* Toda la altura restante */
+        background-color: #fff;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        z-index: 999;
+        overflow-y: auto; /* Scroll si el menú es muy largo */
+        border-top: 1px solid #eee;
+    }
+
+    /* Clase activa para mostrar el menú (Activada por JS) */
+    .nav-links.active { display: flex; animation: slideInLeft 0.3s ease; }
+    
+    @keyframes slideInLeft { 
+        from { opacity: 0; transform: translateX(-20px); } 
+        to { opacity: 1; transform: translateX(0); } 
+    }
+
+    .nav-links li { width: 100%; }
+    .nav-links a { 
+        display: block; 
+        padding: 20px 10px; 
+        font-size: 1.1rem; 
+        color: #333;
+        border-bottom: 1px solid #f5f5f5;
+    }
+
+    /* Botón de búsqueda (Solo móvil) */
+    .mobile-only { display: block; width: 100%; }
+    .mobile-only a { font-weight: 700; display: flex; align-items: center; gap: 10px; }
+
+    /* HERO */
+    .hero { 
+        flex-direction: column-reverse; 
+        padding: 30px 20px; 
+        min-height: auto; 
+        text-align: center; 
+        gap: 30px; 
+    }
+    .hero-text h1 { font-size: 2.2rem; }
+    .hero-img img { max-width: 90%; height: auto; }
+
+    /* GRILLA: 1 Columna para ver bien la obra */
+    .main-content { padding: 30px 15px; }
+    .drive-grid { grid-template-columns: 1fr; gap: 25px; }
+    
+    /* MODAL MÓVIL: Imagen arriba, Texto abajo */
+    .modal-window { 
+        flex-direction: column; 
+        width: 100%; height: 100%; 
+        border-radius: 0; 
+    }
+    .modal-media { 
+        flex: none; /* Tamaño fijo según contenido */
+        height: 40vh; /* 40% de la pantalla */
+        padding: 20px; 
+        background: #f4f4f4; 
+    }
+    .modal-details { 
+        flex: 1; /* El resto para texto */
+        padding: 30px 25px; 
+        justify-content: flex-start; 
+    }
+    
+    /* Botón cerrar más fácil de tocar */
+    .close-modal { 
+        top: 15px; right: 15px; 
+        background: rgba(255,255,255,0.9); 
+        width: 40px; height: 40px; 
+        border-radius: 50%; 
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    #mTitle { font-size: 1.8rem; }
+}
