@@ -46,25 +46,24 @@
         </div>
     </main>
 
-    <div id="modalVisualizador" class="modal-overlay" onclick="cerrarModal(event)">
+<div id="modalVisualizador" class="modal-overlay" onclick="cerrarModal(event)">
         <div class="modal-window">
+            
             <div class="modal-media">
-                <img id="mImg" src="" style="display:none;">
+                <img id="mImg" src="" style="display:none;" alt="Obra">
                 <video id="mVideo" controls style="display:none; width:100%;"></video>
             </div>
+
             <div class="modal-details">
                 <button class="close-modal" onclick="cerrarModalBtn()">×</button>
-                <span class="modal-tag">Detalles del Archivo</span>
-                <h2 id="mTitle" style="font-size: 2rem; margin-bottom: 10px;">Título</h2>
-                <h3 id="mAutor" style="font-size: 1.1rem; color: #555; font-weight: 500;">Autor</h3>
-                <div class="modal-meta">
-                    <p><strong>📅 Año:</strong> <span id="mYear"></span></p>
-                    <p><strong>📁 Tipo:</strong> Archivo Digital</p>
-                </div>
-                <div style="margin-top: 20px;">
-                    <h4 style="margin-bottom: 10px;">Descripción</h4>
-                    <p id="mDesc" style="color: #444; font-size: 0.95rem; line-height: 1.7;"></p>
-                </div>
+                
+                <div id="mTitle"></div>
+                
+                <div id="mAutor"></div>
+                
+                <div id="mInfoContainer">
+                    </div>
+
             </div>
         </div>
     </div>

@@ -140,25 +140,26 @@
 </main>
 
 <div id="modalVisualizador" class="modal-overlay" onclick="cerrarModal(event)">
-    <div class="modal-window">
-        <div class="modal-media">
-            <img id="mImg" src="" style="display:none;">
-            <video id="mVideo" controls style="display:none; width:100%;"></video>
-        </div>
-        <div class="modal-details">
-            <button class="close-modal" onclick="cerrarModalBtn()">×</button>
-            <span class="modal-tag">Detalle de Obra</span>
-            <h2 id="mTitle" style="font-size: 2rem; margin-bottom: 10px;">Título</h2>
-            <h3 id="mAutor" style="font-size: 1.1rem; color: #555;">Autor</h3>
-            <div class="modal-meta">
-                <p><strong>📅 Año:</strong> <span id="mYear"></span></p>
+        <div class="modal-window">
+            
+            <div class="modal-media">
+                <img id="mImg" src="" style="display:none;" alt="Obra">
+                <video id="mVideo" controls style="display:none; width:100%;"></video>
             </div>
-            <div style="margin-top: 20px;">
-                <p id="mDesc" style="color: #444; line-height: 1.7;"></p>
+
+            <div class="modal-details">
+                <button class="close-modal" onclick="cerrarModalBtn()">×</button>
+                
+                <div id="mTitle"></div>
+                
+                <div id="mAutor"></div>
+                
+                <div id="mInfoContainer">
+                    </div>
+
             </div>
         </div>
     </div>
-</div>
 
 <div id="mobileSearchOverlay" class="search-modal-overlay">
     <div class="search-modal-content">

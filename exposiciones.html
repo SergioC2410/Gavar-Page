@@ -91,35 +91,24 @@
 
         </div>
     </main>
-
-    <div id="modalVisualizador" class="modal-overlay" onclick="cerrarModal(event)">
+<div id="modalVisualizador" class="modal-overlay" onclick="cerrarModal(event)">
         <div class="modal-window">
             
             <div class="modal-media">
-                <img id="mImg" src="" style="display:none;">
-                <video id="mVideo" controls style="display:none; width:100%; max-height: 100%;">
-                    Tu navegador no soporta videos HTML5.
-                </video>
+                <img id="mImg" src="" style="display:none;" alt="Obra">
+                <video id="mVideo" controls style="display:none; width:100%;"></video>
             </div>
 
             <div class="modal-details">
                 <button class="close-modal" onclick="cerrarModalBtn()">×</button>
                 
-                <span class="modal-tag">Video de Exposición</span>
-                <h2 id="mTitle" style="font-size: 2rem; margin-bottom: 10px;">Título</h2>
-                <h3 id="mAutor" style="font-size: 1.1rem; color: #555; font-weight: 500;">Autor</h3>
+                <div id="mTitle"></div>
                 
-                <div class="modal-meta">
-                    <p><strong>📅 Año:</strong> <span id="mYear"></span></p>
-                    <p><strong>🎥 Formato:</strong> Alta Definición (HD)</p>
-                </div>
+                <div id="mAutor"></div>
+                
+                <div id="mInfoContainer">
+                    </div>
 
-                <div style="margin-top: 20px;">
-                    <h4 style="margin-bottom: 10px;">Sinopsis</h4>
-                    <p id="mDesc" style="color: #444; font-size: 0.95rem; line-height: 1.7;"></p>
-                </div>
-
-                <button class="btn-primary" style="margin-top: auto; text-align: center;">Ver en Pantalla Completa</button>
             </div>
         </div>
     </div>
