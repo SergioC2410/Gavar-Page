@@ -439,10 +439,14 @@ nav {
         display: block;
         border-bottom: 1px solid #eee;
     }
-    .mobile-only a {
-        font-weight: bold;
-        color: var(--primary-btn);
-    }
+    .mobile-only a { 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; /* <-- ESTA ES LA CLAVE PARA CENTRARLO */
+            gap: 10px; 
+            text-align: center;      /* Asegura que el texto interno también se centre */
+        }
 
     /* Ajustes Hero y Generales */
     .hero-img { 
