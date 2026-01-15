@@ -11,7 +11,11 @@
     --font-stack: 'Montserrat', sans-serif;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
     font-family: var(--font-stack);
@@ -19,6 +23,7 @@ body {
     color: var(--text-main);
     line-height: 1.6;
 }
+
 
 /* =========================================
    2. HEADER & NAVEGACIÓN
@@ -247,14 +252,19 @@ nav {
     box-shadow: 0 30px 60px rgba(0,0,0,0.5); 
     animation: slideUp 0.4s ease-out;
 }
-
-/* LADO IZQUIERDO: IMAGEN (Fondo Gris Elegante) */
-.modal-media { 
-    flex: 1.6; /* Un poco más de espacio a la imagen */
-    background-color: #f4f4f4; /* EL GRIS QUE HACE QUE RESALTE */
-    display: flex; align-items: center; justify-content: center;
-    padding: 40px; 
-    position: relative;
+.modal-media {
+    /* Layout Base (Desktop) */
+    flex: 1.6;                      /* Ocupa el 60% del ancho aprox */
+    position: relative;             /* Necesario para posicionar las flechas */
+    background-color: #f4f4f4;      /* Tu gris elegante */
+    padding: 40px;
+    
+    /* Alineación */
+    display: flex;
+    flex-direction: column;         /* Apila: Imagen arriba, Miniaturas abajo */
+    justify-content: center;        /* Centra verticalmente */
+    align-items: center;            /* Centra horizontalmente */
+    gap: 20px;                      /* Espacio entre la imagen y las miniaturas */
 }
 
 .modal-media img, .modal-media video { 
@@ -311,12 +321,7 @@ nav {
     display: block;
 }
 
-.modal-desc-block {
-    font-size: 1.1rem; 
-    line-height: 1.8; 
-    color: #444;
-    white-space: pre-line; /* Respeta los saltos de línea */
-}
+
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
@@ -353,10 +358,6 @@ nav {
 .carousel-section { padding: 40px 80px; background-color: #f9f9fa; }
 .carousel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
 .carousel-controls { display: flex; gap: 15px; }
-.nav-arrow {
-    width: 45px; height: 45px; border-radius: 50%; border: 1px solid var(--border-color); background: #fff;
-    cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
-}
 .carousel-track {
     display: flex; gap: 25px; overflow-x: auto; padding-bottom: 20px; scroll-behavior: smooth; scrollbar-width: none;
 }
@@ -721,12 +722,7 @@ nav {
         width: 100%; height: 100%; 
         border-radius: 0; 
     }
-    .modal-media { 
-        flex: none; /* Tamaño fijo según contenido */
-        height: 40vh; /* 40% de la pantalla */
-        padding: 20px; 
-        background: #f4f4f4; 
-    }
+
     .modal-details { 
         flex: 1; /* El resto para texto */
         padding: 30px 25px; 
@@ -749,13 +745,6 @@ nav {
    ESTILOS DE GALERÍA (NUEVO)
    ========================================= */
 
-/* Estructura base del contenedor multimedia */
-.modal-media {
-    position: relative;
-    display: flex;
-    flex-direction: column; /* Apila imagen y miniaturas */
-    gap: 15px;
-}
 
 /* Contenedor de la imagen principal */
 .media-container {
@@ -767,6 +756,7 @@ nav {
     position: relative;
     overflow: hidden;
     cursor: pointer; /* Indica que se puede hacer clic */
+    touch-action: pan-y;
 }
 
 /* --- ESTILOS ESCRITORIO (PC) --- */
@@ -888,7 +878,7 @@ nav {
     }
     
     /* Ajuste de altura para que no se corte en pantallas pequeñas */
-    .media-container /* EN css/styles.css */
+
 
 .media-container {
     width: 100%;
@@ -945,4 +935,78 @@ nav {
         opacity: 1;
         transform: translateX(0);
     }
+}
+/* Agrega esto al final de styles.css */
+.hero-subtitle {
+    color: #000000;
+    display: block;
+    margin-top: 10px;
+}
+/* --- CORRECCIONES FINALES (Pegar al final de css/styles.css) --- */
+
+/* 1. ESTILO BASE DEL BOTÓN FLECHA (Para Carrusel y Modal) */
+.nav-arrow {
+    /* Tamaño y Forma */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    
+    /* Centrado Perfecto del Icono */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;        /* Elimina rellenos raros */
+    line-height: 1;    /* Centra verticalmente el caracter */
+    
+    /* Estética */
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    color: #333;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 20;
+    
+    /* Prevenir selección de texto al hacer clic rápido */
+    user-select: none; 
+}
+
+.nav-arrow:hover {
+    background: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* Modal: Texto Descriptivo (Optimizado y Mejorado) */
+.modal-desc-block {
+    font-size: 1rem !important;        /* Tamaño equilibrado, más compacto que 1.15rem */
+    line-height: 1.6 !important;       /* Altura de línea cómoda y legible */
+    color: #444 !important;            /* Color neutro y consistente */
+    
+    margin-top: 15px;                  /* Espaciado superior moderado */
+    padding-top: 15px;                 /* Separación interna */
+    border-top: 1px solid #eee;        /* Línea sutil para dividir contenido */
+    
+    /* Control de texto */
+    white-space: pre-line !important;  /* Respeta saltos de línea de la BD */
+    text-wrap: pretty !important;      /* Evita palabras huérfanas al final */
+    max-width: 100%;                   /* Aprovecha todo el ancho disponible */
+}
+
+/* 3. MINIATURAS EN EL BUSCADOR */
+.suggestion-thumb {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #eee;
+    background-color: #f0f0f0;
+}
+
+/* 4. MÓVIL: OCULTAR FLECHAS (Usar Swipe/Puntos) */
+@media (max-width: 768px) {
+    .nav-arrow { display: none !important; }
+    /* Asegurar que los puntos se vean si hay varias fotos */
+    .mobile-dots { display: flex; margin-top: 15px; }
 }

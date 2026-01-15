@@ -3,197 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Perfil especial: Armando Reverón, el Maestro de la Luz. Biografía y obras destacadas en GAVAR.">
+    <meta name="theme-color" content="#ffffff">
+    
     <title>GAVAR | Artista del Mes</title>
-    <link rel="stylesheet" href="css/styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="assets/img/Logo GAVAR.png" type="image/png">
 </head>
 <body>
-<header>
-    <div class="logo-container">
-        <img src="assets/img/Logo GAVAR.png" alt="GAVAR">
-    </div>
-
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
-    
-    <nav>
-        <div class="search-box">
-            <input type="text" class="search-input" id="searchInput" placeholder="Buscar en la colección...">
-            <button class="search-btn" onclick="toggleSearch()">🔍</button>
+    <header class="main-header">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="assets/img/Logo GAVAR.png" alt="GAVAR Logo" width="120" height="45">
+            </a>
         </div>
 
-        <ul class="nav-links" id="navLinks">
-            <li class="mobile-only"><a href="#" onclick="abrirBusquedaMovil()">Búsqueda</a></li>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="galeria.html">Galería</a></li>
-            <li><a href="exposiciones.html">Exposiciones</a></li>
-            <li><a href="mencion-especial.html" style="color:#000; font-weight:bold;">Artista de Caño Amarillo</a></li>
-        </ul>
-    </nav>
-</header>
-
-<main>
-    <section class="profile-section">
-        <div class="profile-img-container">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Armando_Rever%C3%B3n_en_El_Castillete%2C_c._1954.jpg" alt="Armando Reverón">
-        </div>
-
-        <div class="profile-info">
-            <span class="artist-name-bg">Armando Reverón</span>
-            <h1 class="artist-role">El Maestro de la Luz</h1>
-
-            <div class="bio-bracket-container">
-                <p class="bio-text">
-                    Considerado el artista venezolano más influyente del siglo XX. Su obra es única en la historia de la pintura latinoamericana, conocida por su exploración radical de los efectos de la luz tropical sobre las formas, llegando a la casi total abstracción en su "Período Blanco".
-                    <br><br>
-                    Reverón construyó su propio universo en "El Castillete" de Macuto, donde fabricaba sus pinceles, lienzos y objetos, fusionando su vida y su arte en una experiencia indisoluble y mística.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="carousel-section">
-        <div class="carousel-header">
-            <h2 class="section-title" style="margin:0;">Obras Destacadas</h2>
-            
-            <div class="carousel-controls">
-                <button class="nav-arrow" onclick="moverCarrusel(-1)">←</button>
-                <button class="nav-arrow" onclick="moverCarrusel(1)">→</button>
-            </div>
-        </div>
-
-        <div class="carousel-track" id="trackObras">
-            
-            <article class="file-card" onclick="abrirModal(this)"
-                data-type="image"
-                data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/La_Cueva_-_Armando_Rever%C3%B3n.jpg/1200px-La_Cueva_-_Armando_Rever%C3%B3n.jpg"
-                data-title="La Cueva"
-                data-autor="Armando Reverón"
-                data-year="1920"
-                data-desc="Obra maestra de su Período Azul. Reverón utiliza tonos oscuros y profundos para crear una atmósfera de misterio y sensualidad.">
-                <div class="card-preview">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/La_Cueva_-_Armando_Rever%C3%B3n.jpg/1200px-La_Cueva_-_Armando_Rever%C3%B3n.jpg" alt="La Cueva">
-                </div>
-                <div class="card-footer">
-                    <span class="file-icon">🖼️</span>
-                    <span class="file-name">La_Cueva.jpg</span>
-                </div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)"
-                data-type="image"
-                data-src="https://assets-global.website-files.com/604a80695420325d7335d886/6064cd5f5b5b2e5c8e2680e6_reveron-blanco.jpeg"
-                data-title="Paisaje Blanco"
-                data-autor="Armando Reverón"
-                data-year="1934"
-                data-desc="El epítome de su Período Blanco. La luz del Caribe es tan intensa que disuelve las formas, dejando solo la esencia del paisaje.">
-                <div class="card-preview">
-                    <img src="https://assets-global.website-files.com/604a80695420325d7335d886/6064cd5f5b5b2e5c8e2680e6_reveron-blanco.jpeg" alt="Paisaje Blanco">
-                </div>
-                <div class="card-footer">
-                    <span class="file-icon">🖼️</span>
-                    <span class="file-name">Paisaje_Blanco.jpg</span>
-                </div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)" 
-                data-type="image" 
-                data-src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Fiesta_en_Caraballeda.jpg" 
-                data-title="Fiesta en Caraballeda" 
-                data-autor="Armando Reverón" 
-                data-year="1924" 
-                data-desc="Reverón captura el movimiento y la cultura local con pinceladas dinámicas, integrando la figura humana con el entorno natural.">
-                <div class="card-preview">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Fiesta_en_Caraballeda.jpg" alt="Fiesta">
-                </div>
-                <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">Fiesta.jpg</span></div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)" 
-                data-type="image" 
-                data-src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Autorretrato_con_mu%C3%B1ecas.jpg" 
-                data-title="Autorretrato con Muñecas" 
-                data-autor="Armando Reverón" 
-                data-year="1940" 
-                data-desc="Una mirada íntima al mundo psicológico del artista, rodeado de las muñecas de trapo que él mismo confeccionaba.">
-                <div class="card-preview">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Autorretrato_con_mu%C3%B1ecas.jpg" alt="Autorretrato">
-                </div>
-                <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">Autorretrato.jpg</span></div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)" 
-                data-type="image" 
-                data-src="https://upload.wikimedia.org/wikipedia/commons/e/eb/El_Play%C3%B3n_-_Armando_Rever%C3%B3n.jpg" 
-                data-title="El Playón" 
-                data-autor="Armando Reverón" 
-                data-year="1929" 
-                data-desc="Estudio magistral de la costa, donde el mar y el cielo se funden en una gama cromática sutil y brillante.">
-                <div class="card-preview">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/El_Play%C3%B3n_-_Armando_Rever%C3%B3n.jpg" alt="El Playon">
-                </div>
-                <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">El_Playon.jpg</span></div>
-            </article>
-
-        </div>
-    </section>
-
-</main>
-
-<div id="modalVisualizador" class="modal-overlay" onclick="cerrarModal(event)">
-        <div class="modal-window">
-            
-        <div class="modal-media">
-            <button id="prevBtn" class="nav-arrow modal-arrow left" onclick="ModalManager.prevImage()">&#10094;</button>
-            
-            <div class="media-container" onclick="ModalManager.nextImage()">
-                <img id="mImg" src="" style="display:none;" alt="Obra">
-                <video id="mVideo" controls style="display:none; width:100%;"></video>
-                <iframe id="mYoutube" style="display:none; width:100%; height:100%; border:none;"></iframe>
+        <button id="btnMenuToggle" class="menu-toggle" aria-label="Abrir menú">☰</button>
+        
+        <nav id="mainNav">
+            <div class="search-box" id="searchBoxDesktop">
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar en la colección..." autocomplete="off">
+                <button id="btnSearchToggle" class="search-btn" aria-label="Activar búsqueda">🔍</button>
             </div>
 
-            <button id="nextBtn" class="nav-arrow modal-arrow right" onclick="ModalManager.nextImage()">&#10095;</button>
+            <ul class="nav-links" id="navLinks">
+                <li class="mobile-only">
+                    <a href="#" id="btnMobileSearch">Búsqueda</a>
+                </li>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="galeria.html">Galería</a></li>
+                <li><a href="exposiciones.html">Exposiciones</a></li>
+                <li><a href="mencion-especial.html" class="active">Artista de Caño Amarillo</a></li>
+            </ul>
+        </nav>
+    </header>
 
-            <div id="modalThumbnails" class="thumbnails-strip"></div>
-            
-            <div id="mobileDots" class="mobile-dots"></div>
-        </div>
+    <main>
+        <section class="profile-section">
+            <div class="profile-img-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Armando_Rever%C3%B3n_en_El_Castillete%2C_c._1954.jpg" alt="Retrato de Armando Reverón en El Castillete" fetchpriority="high">
+            </div>
 
-            <div class="modal-details">
-                <button class="close-modal" onclick="cerrarModalBtn()">×</button>
+            <div class="profile-info">
+                <span class="artist-name-bg">Armando Reverón</span>
+                <h1 class="artist-role">El Maestro de la Luz</h1>
+
+                <div class="bio-bracket-container">
+                    <p class="bio-text">
+                        Considerado el artista venezolano más influyente del siglo XX. Su obra es única en la historia de la pintura latinoamericana, conocida por su exploración radical de los efectos de la luz tropical sobre las formas, llegando a la casi total abstracción en su "Período Blanco".
+                        <br><br>
+                        Reverón construyó su propio universo en "El Castillete" de Macuto, donde fabricaba sus pinceles, lienzos y objetos, fusionando su vida y su arte en una experiencia indisoluble y mística.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="carousel-section">
+            <div class="carousel-header">
+                <h2 class="section-title" style="margin:0;">Obras Destacadas</h2>
                 
-                <div id="mTitle"></div>
-                
-                <div id="mAutor"></div>
-                
-                <div id="mInfoContainer">
-                    </div>
-
+                <div class="carousel-controls">
+                    <button id="btnCarouselPrev" class="nav-arrow" aria-label="Anterior obra">←</button>
+                    <button id="btnCarouselNext" class="nav-arrow" aria-label="Siguiente obra">→</button>
+                </div>
             </div>
-        </div>
-    </div>
 
-<div id="mobileSearchOverlay" class="search-modal-overlay">
-    <div class="search-modal-content">
-        <h3>¿Qué deseas buscar?</h3>
-        <input type="text" id="mobileInput" placeholder="Ej. Reverón, Paisaje..." autocomplete="off">
-        <div class="search-modal-actions">
-            <button class="btn-cancel" onclick="cerrarBusquedaMovil()">Cancelar</button>
-            <button class="btn-confirm" onclick="ejecutarBusquedaMovil()">Buscar</button>
-        </div>
-    </div>
-</div>
+            <div class="carousel-track" id="trackObras"></div>
+        </section>
+    </main>
 
-<script src="js/scripts.js"></script>
-<script>
-    function moverCarrusel(direccion) {
-        const track = document.getElementById('trackObras');
-        const scrollAmount = 300;
-        if (direccion === 1) {
-            track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        } else {
-            track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        }
-    }
-</script>
+    <script src="js/scripts.js"></script>
 </body>
 </html>

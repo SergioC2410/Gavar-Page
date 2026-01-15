@@ -3,27 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GAVAR - Galería de Arte Virtual Armando Reverón. Una experiencia minimalista donde la historia y la tecnología se encuentran.">
+    <meta name="author" content="GAVAR Team">
+    <meta name="theme-color" content="#ffffff">
+    
     <title>GAVAR | Inicio</title>
-    <link rel="stylesheet" href="css/styles.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="assets/img/Logo GAVAR.png" type="image/png">
 </head>
 <body>
 
-    <header>
+    <header class="main-header">
         <div class="logo-container">
-            <img src="assets/img/Logo GAVAR.png" alt="Logo GAVAR">
+            <a href="index.html">
+                <img src="assets/img/Logo GAVAR.png" alt="GAVAR Logo" width="120" height="45">
+            </a>
         </div>
 
-        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
+        <button id="btnMenuToggle" class="menu-toggle" aria-label="Abrir menú de navegación">☰</button>
 
-        <nav>
-            <div class="search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="Buscar...">
-                <button class="search-btn" onclick="toggleSearch()">🔍</button>
+        <nav id="mainNav">
+            <div class="search-box" id="searchBoxDesktop">
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar obra o artista..." autocomplete="off">
+                <button id="btnSearchToggle" class="search-btn" aria-label="Activar búsqueda">🔍</button>
             </div>
 
             <ul class="nav-links" id="navLinks">
-                <li class="mobile-only"><a href="#" onclick="abrirBusquedaMovil()">Búsqueda</a></li>
+                <li class="mobile-only">
+                    <a href="#" id="btnMobileSearch">Búsqueda</a>
+                </li>
                 <li><a href="galeria.html">Galería</a></li>
                 <li><a href="exposiciones.html">Exposiciones</a></li>
                 <li><a href="mencion-especial.html">Artista de Caño Amarillo</a></li>
@@ -35,60 +48,19 @@
         <div class="hero-text">
             <h1>
                 Galería de Arte Virtual
-                <span style="color: #000000; display: block; margin-top: 10px;">Armando Reverón</span>
+                <span class="hero-subtitle">Armando Reverón</span>
             </h1>
             <p>Descubre un espacio donde la historia y la tecnología se encuentran. Una experiencia minimalista diseñada para resaltar lo esencial.</p>
             <a href="galeria.html" class="btn-primary">Explorar Colección →</a>
         </div>
         
         <div class="hero-img">
-            <img src="assets/img/ilustracion 2.png" alt="Arte Digital">
+            <img src="assets/img/ilustracion 2.png" 
+                 alt="Ilustración artística de castillo flotante" 
+                 width="500" height="500" 
+                 fetchpriority="high">
         </div>
     </main>
-
-<div id="modalVisualizador" class="modal-overlay" onclick="cerrarModal(event)">
-        <div class="modal-window">
-                
-    <div class="modal-media">
-        <button id="prevBtn" class="nav-arrow modal-arrow left" onclick="ModalManager.prevImage()">&#10094;</button>
-        
-        <div class="media-container" onclick="ModalManager.nextImage()">
-            <img id="mImg" src="" style="display:none;" alt="Obra">
-            <video id="mVideo" controls style="display:none; width:100%;"></video>
-            <iframe id="mYoutube" style="display:none; width:100%; height:100%; border:none;"></iframe>
-        </div>
-
-        <button id="nextBtn" class="nav-arrow modal-arrow right" onclick="ModalManager.nextImage()">&#10095;</button>
-
-        <div id="modalThumbnails" class="thumbnails-strip"></div>
-        
-        <div id="mobileDots" class="mobile-dots"></div>
-    </div>
-
-            <div class="modal-details">
-                <button class="close-modal" onclick="cerrarModalBtn()">×</button>
-                
-                <div id="mTitle"></div>
-                
-                <div id="mAutor"></div>
-                
-                <div id="mInfoContainer">
-                    </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div id="mobileSearchOverlay" class="search-modal-overlay">
-        <div class="search-modal-content">
-            <h3>¿Qué deseas buscar?</h3>
-            <input type="text" id="mobileInput" placeholder="Buscar..." autocomplete="off">
-            <div class="search-modal-actions">
-                <button class="btn-cancel" onclick="cerrarBusquedaMovil()">Cancelar</button>
-                <button class="btn-confirm" onclick="ejecutarBusquedaMovil()">Buscar</button>
-            </div>
-        </div>
-    </div>
 
     <script src="js/scripts.js"></script>
 </body>

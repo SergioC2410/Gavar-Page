@@ -3,219 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Colección de obras de la Galería GAVAR. Explora piezas de serigrafía, xilografía, arte digital y libros pop-up.">
+    <meta name="theme-color" content="#ffffff">
+    
     <title>GAVAR | Galería</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/img/Logo GAVAR.png" type="image/png">
 </head>
 <body>
-    <header>
+
+    <header class="main-header">
         <div class="logo-container">
-            <img src="assets/img/Logo GAVAR.png" alt="GAVAR">
+            <a href="index.html">
+                <img src="assets/img/Logo GAVAR.png" alt="GAVAR Logo" width="120" height="45">
+            </a>
         </div>
 
-        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
+        <button id="btnMenuToggle" class="menu-toggle" aria-label="Abrir menú">☰</button>
         
-        <nav>
-            <div class="search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="Filtrar por obra o artista" onkeyup="filtrarObras()">
-                <button class="search-btn" onclick="toggleSearch()">🔍</button>
+        <nav id="mainNav">
+            <div class="search-box" id="searchBoxDesktop">
+                <input type="text" class="search-input" id="searchInput" placeholder="Filtrar por obra o artista..." autocomplete="off">
+                <button id="btnSearchToggle" class="search-btn" aria-label="Activar búsqueda">🔍</button>
             </div>
 
             <ul class="nav-links" id="navLinks">
-                <li class="mobile-only"><a href="#" onclick="abrirBusquedaMovil()">Búsqueda</a></li>
+                <li class="mobile-only">
+                    <a href="#" id="btnMobileSearch">Búsqueda</a>
+                </li>
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="galeria.html" style="color:#000; font-weight:bold;">Galería</a></li>
+                <li><a href="galeria.html" class="active">Galería</a></li>
                 <li><a href="exposiciones.html">Exposiciones</a></li>
                 <li><a href="mencion-especial.html">Artista de Caño Amarillo</a></li>
             </ul>
         </nav>
     </header>
 
-<main class="main-content">
+    <main class="main-content">
         <h2 class="section-title">Archivos de Obras</h2>
 
-        <div class="drive-grid" id="gridObras">
-            
-            <article class="file-card" onclick="abrirModal(this)"
-                data-type="image"
-                data-src="assets/img/resiliencia.jpg" 
-                data-title="Resiliencia"
-                data-autor="Alix Velásquez"
-                data-year="2025"
-                data-keywords="serigrafia grabado tinta papel arte grafico"
-                data-desc="Técnica / Materia: Serigrafía.&#10;Cantidad: 1 pieza.&#10;Instagram: @alix_v_art">
-                <div class="card-preview">
-                    <img src="assets/img/resiliencia.jpg" alt="Resiliencia" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
-                </div>
-                <div class="card-footer">
-                    <div class="card-title-text">Resiliencia</div>
-                    <div class="card-author-text">Alix Velásquez</div>
-                </div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)"
-                data-type="image"
-                data-src="assets/img/real.jpg" 
-                data-title="Real"
-                data-autor="Arantza Martínez"
-                data-year="2025"
-                data-keywords="xilografia madera grabado relieve impresion"
-                data-desc="Técnica / Materia: Xilografía.&#10;Cantidad: 1 pieza.">
-                <div class="card-preview">
-                    <img src="assets/img/real.jpg" alt="Real" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
-                </div>
-                <div class="card-footer">
-                    <div class="card-title-text">Real</div>
-                    <div class="card-author-text">Arantza Martínez</div>
-                </div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)"
-                data-type="image"
-                data-src="assets/img/solaria.jpg" 
-                data-title="Solaria"
-                data-autor="Andrea Blanco"
-                data-year="2024"
-                data-keywords="digital ilustracion diseño tablet computadora"
-                data-desc="Técnica / Materia: Digital.&#10;Cantidad: 1 pieza.&#10;Instagram: @anbndy22">
-                <div class="card-preview">
-                    <img src="assets/img/solaria.jpg" alt="Solaria" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
-                </div>
-                <div class="card-footer">
-                    <div class="card-title-text">Solaria</div>
-                    <div class="card-author-text">Andrea Blanco</div>
-                </div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)"
-                data-type="image"
-                data-src="assets/img/the_news.jpg" 
-                data-title="The News"
-                data-autor="Isabel Figueroa"
-                data-year="2022"
-                data-keywords="superposicion digital capas collage fotomontaje"
-                data-desc="Técnica / Materia: Superposición digital.&#10;Cantidad: 1 pieza.">
-                <div class="card-preview">
-                    <img src="assets/img/the_news.jpg" alt="The News" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
-                </div>
-                <div class="card-footer">
-                    <div class="card-title-text">The News</div>
-                    <div class="card-author-text">Isabel Figueroa</div>
-                </div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)"
-                data-type="image"
-                data-src="assets/img/antimateria.jpg" 
-                data-title="Antimateria"
-                data-autor="Efraín Aguilera (Koda)"
-                data-year="2024"
-                data-keywords="ensamblaje hilograma hilos clavos madera escultura mixta koda"
-                data-desc="Técnica / Materia: Ensamblaje e hilograma.&#10;Cantidad: 1 pieza.&#10;Instagram: @6kodafree6">
-                <div class="card-preview">
-                    <img src="assets/img/antimateria.jpg" alt="Antimateria" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
-                </div>
-                <div class="card-footer">
-                    <div class="card-title-text">Antimateria</div>
-                    <div class="card-author-text">Efraín Aguilera (Koda)</div>
-                </div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)"
-                data-type="image"
-                data-src="assets/img/el_tapiz_del_alma.jpg" 
-                data-title="El Tapiz del Alma"
-                data-autor="Cristian Rojas"
-                data-year="2025"
-                data-keywords="pop-up popup libro objeto 3d papel escultura"
-                data-desc="Técnica / Materia: Pop-up. Libro objeto.&#10;Cantidad: 1 pieza.">
-                <div class="card-preview">
-                    <img src="assets/img/el_tapiz_del_alma.jpg" alt="El Tapiz del Alma" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
-                </div>
-                <div class="card-footer">
-                    <div class="card-title-text">El Tapiz del Alma</div>
-                    <div class="card-author-text">Cristian Rojas</div>
-                </div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)"
-                data-type="image"
-                data-src="assets/img/bodhiria.jpg" 
-                data-title="Bodhiria"
-                data-autor="Mariend Romero"
-                data-year="2025"
-                data-keywords="pop-up popup libro objeto plegable papel"
-                data-desc="Técnica / Materia: Pop-up. Libro objeto.&#10;Cantidad: 1 pieza.">
-                <div class="card-preview">
-                    <img src="assets/img/bodhiria.jpg" alt="Bodhiria" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
-                </div>
-                <div class="card-footer">
-                    <div class="card-title-text">Bodhiria</div>
-                    <div class="card-author-text">Mariend Romero</div>
-                </div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)"
-                data-type="image"
-                data-src="assets/img/fabrica_de_la_memoria.jpg" 
-                data-title="Fábrica de la Memoria"
-                data-autor="Ricardo Suarez"
-                data-year="2024"
-                data-keywords="pop-up popup libro objeto memoria papel arquitectura"
-                data-desc="Técnica / Materia: Pop-up. Libro objeto.&#10;Cantidad: 1 pieza.&#10;Instagram: @richyross_art">
-                <div class="card-preview">
-                    <img src="assets/img/fabrica_de_la_memoria.jpg" alt="Fabrica de la Memoria" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
-                </div>
-                <div class="card-footer">
-                    <div class="card-title-text">Fábrica de la Memoria</div>
-                    <div class="card-author-text">Ricardo Suarez</div>
-                </div>
-            </article>
-
-        </div>
+        <div class="drive-grid" id="gridObras"></div>
     </main>
-<div id="modalVisualizador" class="modal-overlay" onclick="cerrarModal(event)">
-        <div class="modal-window">
-            
-        <div class="modal-media">
-            <button id="prevBtn" class="nav-arrow modal-arrow left" onclick="ModalManager.prevImage()">&#10094;</button>
-            
-            <div class="media-container" onclick="ModalManager.nextImage()">
-                <img id="mImg" src="" style="display:none;" alt="Obra">
-                <video id="mVideo" controls style="display:none; width:100%;"></video>
-                <iframe id="mYoutube" style="display:none; width:100%; height:100%; border:none;"></iframe>
-            </div>
-
-            <button id="nextBtn" class="nav-arrow modal-arrow right" onclick="ModalManager.nextImage()">&#10095;</button>
-
-            <div id="modalThumbnails" class="thumbnails-strip"></div>
-            
-            <div id="mobileDots" class="mobile-dots"></div>
-        </div>
-
-            <div class="modal-details">
-                <button class="close-modal" onclick="cerrarModalBtn()">×</button>
-                
-                <div id="mTitle"></div>
-                
-                <div id="mAutor"></div>
-                
-                <div id="mInfoContainer">
-                    </div>
-
-            </div>
-        </div>
-    </div>
-    <div id="mobileSearchOverlay" class="search-modal-overlay">
-        <div class="search-modal-content">
-            <h3>¿Qué deseas buscar?</h3>
-            <input type="text" id="mobileInput" placeholder="Ej. Pop-up, Serigrafía..." autocomplete="off">
-            <div class="search-modal-actions">
-                <button class="btn-cancel" onclick="cerrarBusquedaMovil()">Cancelar</button>
-                <button class="btn-confirm" onclick="ejecutarBusquedaMovil()">Buscar</button>
-            </div>
-        </div>
-    </div>
 
     <script src="js/scripts.js"></script>
 </body>

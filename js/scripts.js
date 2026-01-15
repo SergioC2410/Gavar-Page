@@ -145,6 +145,44 @@ const SEARCH_DB = [
         year: "2024", 
         desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza.\nInstagram: @richyross_art" 
     },
+    // --- NUEVAS INCORPORACIONES (2025) ---
+    { 
+        title: "Serie Orquídea", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "karen gonzalez serie orquidea grafito dibujo botanica", 
+        images: [
+            "assets/img/serie_orquidea_1.jpg", 
+            "assets/img/serie_orquidea_2.jpg",
+            "assets/img/serie_orquidea_3.jpg"
+        ], 
+        autor: "Karen González", 
+        year: "2024", 
+        desc: "Técnica / Materia: Grafito.\nCantidad: 1 pieza." 
+    },
+    { 
+        title: "Calma", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "lennis lopez calma estampa agua fuerte grabado", 
+        images: [
+            "assets/img/calma_1.jpg", 
+            "assets/img/calma_2.jpg"
+        ], 
+        autor: "Lennis López", 
+        year: "2025", 
+        desc: "Técnica / Materia: Estampa de agua fuerte.\nCantidad: 1 pieza." 
+    },
+    { 
+        title: "Momo New Year 2025", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "jhonattan rovaina momo new year 2025 digital ilustracion saradragonil1", 
+        images: ["assets/img/momo_new_year.jpg"], 
+        autor: "Jhonattan Rovaina", 
+        year: "2025", 
+        desc: "Técnica: Digital.\nCantidad: 1 pieza.\nInstagram: @saradragonil1" 
+    },
 
     // --- EXPOSICIONES Y REVERÓN (SIN CAMBIOS) ---
     { 
@@ -174,25 +212,139 @@ const SEARCH_DB = [
         desc: "Obra maestra de su Período Azul." 
     }
 ];
+/* ==========================================================================
+   2. DOM GLOBAL
+   ========================================================================== */
+// Se inicializa vacío y se rellena tras la inyección
+let DOM = {}; 
 
 /* ==========================================================================
-   2. DOM & UTILS
+   3. INYECTOR DE HTML (COMPONENTES)
    ========================================================================== */
-const DOM = {
-    modal: document.getElementById('modalVisualizador'),
-    modalImg: document.getElementById('mImg'),
-    modalVideo: document.getElementById('mVideo'),
-    modalTitle: document.getElementById('mTitle'),
-    modalAutor: document.getElementById('mAutor'),
-    searchInput: document.getElementById('searchInput'),
-    searchBox: document.querySelector('.search-box'),
-    navLinks: document.getElementById('navLinks'),
-    mobileSearchOverlay: document.getElementById('mobileSearchOverlay'),
-    mobileInput: document.getElementById('mobileInput')
+/* 3. INYECTOR DE HTML */
+const ComponentInjector = {
+    run: () => {
+        // CORRECCIÓN: Quitamos el '!important' del display base para que el media query funcione
+        const styleFix = `
+            <style>
+                .nav-arrow { 
+                    display: flex; /* Se muestra por defecto, el JS lo ocultará si es necesario */
+                    align-items: center !important; 
+                    justify-content: center !important; 
+                    padding-bottom: 2px !important; 
+                }
+                .modal-desc-block { font-size: 1.1rem !important; line-height: 1.6 !important; margin-top:15px; }
+                .suggestion-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 4px; background: #eee; }
+                
+                /* ESTO AHORA SÍ FUNCIONARÁ: Oculta flechas en móvil obligatoriamente */
+                @media (max-width: 768px) { .nav-arrow { display: none !important; } }
+            </style>`;
+        
+        // ... (El resto del HTML del modal y buscador sigue igual, no necesitas copiarlo todo si no quieres, 
+        // pero asegúrate de que el styleFix sea el de arriba)
+        
+        // CÓDIGO DE INYECCIÓN COMPLETO PARA EVITAR ERRORES DE COPIA:
+        if (!document.getElementById('modalVisualizador')) {
+            const modalHTML = `
+                <div id="modalVisualizador" class="modal-overlay" aria-hidden="true" style="display:none;">
+                    <div class="modal-window">
+                        <div class="modal-media">
+                            <button id="btnModalPrev" class="nav-arrow modal-arrow left">&#10094;</button>
+                            <div class="media-container" id="mediaContainer">
+                                <img id="mImg" src="" style="display:none;" alt="Obra">
+                                <video id="mVideo" controls style="display:none; width:100%;"></video>
+                                <iframe id="mYoutube" style="display:none; width:100%; height:100%; border:none;"></iframe>
+                            </div>
+                            <button id="btnModalNext" class="nav-arrow modal-arrow right">&#10095;</button>
+                            <div id="modalThumbnails" class="thumbnails-strip"></div>
+                            <div id="mobileDots" class="mobile-dots"></div>
+                        </div>
+                        <div class="modal-details">
+                            <button id="btnModalClose" class="close-modal">×</button>
+                            <div id="modalTextContent"></div>
+                        </div>
+                    </div>
+                </div>`;
+            
+            const searchHTML = `
+                <div id="mobileSearchOverlay" class="search-modal-overlay" aria-hidden="true" style="display:none;">
+                    <div class="search-modal-content">
+                        <h3>¿Qué deseas buscar?</h3>
+                        <input type="text" id="mobileInput" placeholder="Buscar..." autocomplete="off">
+                        <div id="mobile-suggestions" class="suggestions-list"></div>
+                        <button onclick="cerrarBusquedaMovil()" class="btn-cancel" style="margin-top:10px;">Cerrar</button>
+                    </div>
+                </div>`;
+
+            document.body.insertAdjacentHTML('beforeend', styleFix + modalHTML + searchHTML);
+        }
+        
+        const desktopBox = document.getElementById('searchBoxDesktop');
+        if(desktopBox && !document.getElementById('desktopSuggestions')) {
+            desktopBox.insertAdjacentHTML('beforeend', '<div id="desktopSuggestions" class="suggestions-list" style="display:none;"></div>');
+        }
+    }
 };
 
 /* ==========================================================================
-   3. AUTOCOMPLETADO (CORREGIDO ACENTOS Y DATA)
+   4. RENDERIZADOR DE TARJETAS (CORREGIDO: EVITA CRASH EN REVERÓN)
+   ========================================================================== */
+const ContentRenderer = {
+    render: () => {
+        // A. GALERÍA PRINCIPAL (Filtro: Es Obra Y NO es Reverón)
+        const grid = document.getElementById('gridObras');
+        if (grid) {
+            // Aseguramos que i.autor existe antes de usar includes
+            const items = SEARCH_DB.filter(i => i.type === 'Obra' && i.autor && !i.autor.includes('Reverón'));
+            grid.innerHTML = items.map(ContentRenderer.cardTemplate).join('');
+        }
+        // B. EXPOSICIONES
+        const gridVideos = document.getElementById('gridExposiciones');
+        if (gridVideos) {
+            const items = SEARCH_DB.filter(i => i.type === 'Video');
+            gridVideos.innerHTML = items.map(ContentRenderer.cardTemplate).join('');
+        }
+        // C. CARRUSEL REVERÓN (SOLUCIÓN DEL ERROR DEL MENÚ AQUÍ)
+        const track = document.getElementById('trackObras');
+        if (track) {
+            // Filtramos solo obras, evitando el 'Perfil' que rompía el código
+            const items = SEARCH_DB.filter(i => i.type === 'Obra' && i.autor && i.autor.includes('Reverón'));
+            track.innerHTML = items.map(ContentRenderer.cardTemplate).join('');
+        }
+        // Asignar clicks
+        document.querySelectorAll('.file-card').forEach(card => {
+            card.addEventListener('click', () => ModalManager.open(card));
+        });
+    },
+    cardTemplate: (item) => {
+        let tech = "";
+        if (item.desc && item.desc.includes("Técnica")) {
+            const match = item.desc.match(/Técnica \/ Materia: (.*?)\./);
+            if(match) tech = match[1];
+        } else if (item.keywords) {
+            tech = item.keywords.split(' ')[0];
+            tech = tech.charAt(0).toUpperCase() + tech.slice(1);
+        }
+        
+        const img = item.images && item.images[0] ? item.images[0] : '';
+        const preview = item.type === 'Video' 
+            ? `<div class="card-preview" style="background:#e8f0fe; display:flex; align-items:center; justify-content:center; font-size:3rem;">▶</div>`
+            : `<div class="card-preview"><img src="${img}" loading="lazy" alt="${item.title}"></div>`;
+
+        return `
+            <article class="file-card" data-title="${item.title}" data-autor="${item.autor}" data-type="${item.type}">
+                ${preview}
+                <div class="card-footer">
+                    <div class="card-title-text">${item.title}</div>
+                    <div class="card-author-text">${item.autor}</div>
+                    <div style="font-size:0.8rem; color:#888; margin-top:2px;">${tech}</div>
+                </div>
+            </article>`;
+    }
+};
+
+/* ==========================================================================
+   5. AUTOCOMPLETADO
    ========================================================================== */
 const AutocompleteManager = {
     init() {
@@ -227,8 +379,6 @@ const AutocompleteManager = {
         const matches = this.searchInDB(text);
         this.renderSuggestions(matches, container);
     },
-    
-    // --- BÚSQUEDA INSENSIBLE A ACENTOS ---
     searchInDB(query) {
         const cleanQuery = normalizeText(query);
         return SEARCH_DB.filter(item => 
@@ -237,48 +387,33 @@ const AutocompleteManager = {
             (item.autor && normalizeText(item.autor).includes(cleanQuery))
         ).slice(0, 6);
     },
-
     renderSuggestions(results, container) {
         if (!results.length) { container.style.display = 'none'; return; }
         container.innerHTML = ''; container.style.display = 'block';
         results.forEach(item => {
+            const imgUrl = item.images && item.images[0] ? item.images[0] : 'assets/img/Logo GAVAR.png';
             const div = document.createElement('div');
             div.className = 'suggestion-item';
-            div.style.cssText = "padding:10px; cursor:pointer; border-bottom:1px solid #eee; display:flex; align-items:center; gap:10px; color: #333;";
-            div.onmouseover = () => div.style.background = "#f9f9f9";
-            div.onmouseout = () => div.style.background = "#fff";
+            div.style.cssText = "padding:10px; cursor:pointer; border-bottom:1px solid #eee; display:flex; align-items:center; gap:10px; color: #333; background:white;";
             div.innerHTML = `
-                <span style="font-size:1.2rem;">${item.type === 'Video' ? '🎬' : '🖼️'}</span>
+                <img src="${imgUrl}" class="suggestion-thumb" alt="Miniatura">
                 <div style="display:flex; flex-direction:column; text-align:left;">
                     <span style="font-weight:600; font-size:0.9rem;">${item.title}</span>
                     <span style="font-size:0.75rem; color:#666;">${item.autor || ''}</span>
-                </div>
-            `;
+                </div>`;
+            div.onmouseover = () => div.style.background = "#f9f9f9";
+            div.onmouseout = () => div.style.background = "#fff";
             div.addEventListener('click', () => this.goToResult(item));
             container.appendChild(div);
         });
     },
-    
-    // --- AQUÍ ARREGLAMOS LA CARGA DESDE BÚSQUEDA ---
     goToResult(item) {
         if (item.type === 'Perfil') { window.location.href = item.url; return; }
-        
-        // Si estamos en una página con modal, lo abrimos directamente
-        if (DOM.modal) {
+        if (document.getElementById('modalVisualizador')) {
             this.clearSuggestions();
             cerrarBusquedaMovil();
-            
-            // CORRECCIÓN: Pasamos el array 'images' en lugar de 'src'
-            ModalManager.openFromData({ 
-                title: item.title,
-                autor: item.autor,
-                year: item.year,
-                desc: item.desc,
-                images: item.images, // <--- ESTO ES LO IMPORTANTE
-                type: item.type
-            }); 
+            ModalManager.openFromData(item); // Pasamos el ITEM completo de la DB
         } else {
-            // Si estamos en Index y vamos a Galería
             window.location.href = `${item.url}?search=${encodeURIComponent(item.title)}`;
         }
     },
@@ -286,7 +421,10 @@ const AutocompleteManager = {
 };
 
 /* ==========================================================================
-   4. GESTIÓN DE MODALES (CON ARRAY DE IMÁGENES + DB LOOKUP)
+   6. GESTIÓN DE MODALES (CORREGIDO: FLECHAS)
+   ========================================================================== */
+/* ==========================================================================
+   6. GESTIÓN DE MODALES (CORREGIDO: SWIPE TÁCTIL ROBUSTO)
    ========================================================================== */
 const ModalManager = {
     currentVideo: null,
@@ -298,57 +436,32 @@ const ModalManager = {
     init() { this.bindEvents(); },
     
     bindEvents() {
+        // Teclado
         document.addEventListener('keydown', (e) => { 
-            if (e.key === 'Escape') this.close(); 
-            if (e.key === 'ArrowRight') this.nextImage();
-            if (e.key === 'ArrowLeft') this.prevImage();
+            const m = document.getElementById('modalVisualizador');
+            if (m && m.style.display === 'flex') {
+                if (e.key === 'Escape') this.close(); 
+                if (e.key === 'ArrowRight') this.nextImage();
+                if (e.key === 'ArrowLeft') this.prevImage();
+            }
         });
-        DOM.modal?.addEventListener('click', (e) => { if (e.target === DOM.modal) this.close(); });
-
-        const mediaContainer = document.querySelector('.media-container');
-        if (mediaContainer) {
-            mediaContainer.addEventListener('touchstart', (e) => { this.touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-            mediaContainer.addEventListener('touchend', (e) => { 
-                this.touchEndX = e.changedTouches[0].screenX; 
-                this.handleSwipe(); 
-            }, { passive: true });
-        }
+        // Clicks en botones estáticos
+        document.body.addEventListener('click', (e) => {
+            if (e.target.id === 'modalVisualizador' || e.target.id === 'btnModalClose') this.close();
+            if (e.target.id === 'btnModalPrev') this.prevImage();
+            if (e.target.id === 'btnModalNext') this.nextImage();
+        });
     },
 
-    handleSwipe() {
-        if (this.touchEndX < this.touchStartX - 50) this.nextImage();
-        if (this.touchEndX > this.touchStartX + 50) this.prevImage();
-    },
-
-    // --- CORRECCIÓN CRÍTICA PARA ABRIR DESDE TARJETAS HTML ---
     open(element) {
-        let imgs = [];
-        
-        // 1. INTENTAR BUSCAR EN LA DB POR TÍTULO (Esto arregla si el HTML es viejo)
         const dbEntry = SEARCH_DB.find(item => normalizeText(item.title) === normalizeText(element.dataset.title));
-        
-        if (dbEntry && dbEntry.images && Array.isArray(dbEntry.images)) {
-            imgs = dbEntry.images;
-        } else if (element.dataset.src) {
-            // Fallback: Si no está en DB, usa lo que tenga el HTML
-            imgs = [element.dataset.src];
-        }
-
-        const data = {
-            title: element.dataset.title,
-            autor: element.dataset.autor,
-            year: element.dataset.year,
-            desc: element.dataset.desc,
-            type: element.dataset.type,
-            images: imgs
-        };
-        this.openFromData(data);
+        if (dbEntry) this.openFromData(dbEntry);
     },
 
     openFromData(data) {
-        if (!DOM.modal) return;
+        const modal = document.getElementById('modalVisualizador');
+        if (!modal) return;
         
-        // Asegurar que siempre hay un array
         this.currentImages = data.images || [];
         if (typeof this.currentImages === 'string') this.currentImages = [this.currentImages];
         
@@ -356,56 +469,108 @@ const ModalManager = {
         this.populateText(data);
         this.updateGalleryUI(data.type);
         
-        DOM.modal.style.display = 'flex';
+        modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+
+        // --- LÓGICA DE SWIPE MEJORADA ---
+        const mediaContainer = document.getElementById('mediaContainer');
+        if(mediaContainer) {
+            // Limpiar eventos anteriores
+            mediaContainer.ontouchstart = null;
+            mediaContainer.ontouchmove = null;
+            mediaContainer.ontouchend = null;
+
+            // 1. Tocar pantalla
+            mediaContainer.ontouchstart = (e) => { 
+                this.touchStartX = e.changedTouches[0].screenX;
+                this.touchEndX = this.touchStartX; // Reiniciar final para evitar saltos
+            };
+            
+            // 2. Mover dedo (IMPORTANTE: Actualizar posición constantemente)
+            mediaContainer.ontouchmove = (e) => {
+                this.touchEndX = e.changedTouches[0].screenX;
+            };
+
+            // 3. Soltar dedo
+            mediaContainer.ontouchend = (e) => { 
+                this.handleSwipe(); 
+            };
+        }
+    },
+
+    handleSwipe() {
+        const limit = 50; // Mínimo de píxeles para considerar swipe
+        // Deslizar a la izquierda (Siguiente)
+        if (this.touchStartX - this.touchEndX > limit) {
+            this.nextImage();
+        }
+        // Deslizar a la derecha (Anterior)
+        if (this.touchEndX - this.touchStartX > limit) {
+            this.prevImage();
+        }
     },
 
     populateText(data) {
-        if (DOM.modalTitle) DOM.modalTitle.textContent = data.title || 'Sin título';
-        if (DOM.modalAutor) DOM.modalAutor.textContent = data.autor || '';
-        const infoContainer = document.getElementById('mInfoContainer');
-        if (infoContainer) {
-            let htmlContent = '';
-            if (data.year) htmlContent += `<span class="modal-year">${data.year}</span>`;
-            if (data.desc) htmlContent += `<div class="modal-desc-block">${data.desc}</div>`;
-            infoContainer.innerHTML = htmlContent;
+        const container = document.getElementById('modalTextContent');
+        if (container) {
+            container.innerHTML = `
+                <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 5px; color: #000; line-height:1.2;">${data.title}</h2>
+                <h3 style="font-size: 1.1rem; font-weight: 400; margin-bottom: 20px; color: #666;">${data.autor || ''}</h3>
+                <span class="modal-year" style="display:block; font-size: 1.5rem; font-weight: 700; color: #000; margin-bottom: 10px;">${data.year || ''}</span>
+                <div class="modal-desc-block">${data.desc || ''}</div>
+            `;
         }
     },
 
     updateGalleryUI(type) {
-        const isVideo = type === 'Video' || type === 'video';
-        const uiElements = [
-            document.getElementById('prevBtn'), 
-            document.getElementById('nextBtn'), 
-            document.getElementById('modalThumbnails'), 
-            document.getElementById('mobileDots')
-        ];
-        const mImg = document.getElementById('mImg');
-        const mVideo = document.getElementById('mVideo');
-        const mYoutube = document.getElementById('mYoutube');
+        const isVideo = type === 'Video';
+        const els = {
+            prev: document.getElementById('btnModalPrev'),
+            next: document.getElementById('btnModalNext'),
+            thumbs: document.getElementById('modalThumbnails'),
+            dots: document.getElementById('mobileDots'),
+            img: document.getElementById('mImg'),
+            vid: document.getElementById('mVideo'),
+            yt: document.getElementById('mYoutube')
+        };
 
-        if(mImg) { mImg.style.display = 'none'; mImg.className = ''; }
-        if(mVideo) mVideo.style.display = 'none';
-        if(mYoutube) mYoutube.style.display = 'none';
+        // Limpieza inicial
+        if(els.img) els.img.style.display = 'none';
+        if(els.vid) els.vid.style.display = 'none';
+        if(els.yt) els.yt.style.display = 'none';
+        
+        // Ocultar controles
+        [els.prev, els.next, els.thumbs, els.dots].forEach(e => { if(e) e.style.setProperty('display', 'none', 'important'); });
 
         if (isVideo) {
-            uiElements.forEach(el => { if(el) el.style.display = 'none'; });
             const src = this.currentImages[0] || ""; 
             if (src.includes('youtube') || src.includes('youtu.be')) {
-                if(mYoutube) {
-                    const videoId = src.split('v=')[1] ? src.split('v=')[1].split('&')[0] : src.split('/').pop();
-                    mYoutube.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                    mYoutube.style.display = 'block';
+                if(els.yt) {
+                    let vidId = src.split('v=')[1] || src.split('/').pop();
+                    if(vidId.includes('&')) vidId = vidId.split('&')[0];
+                    els.yt.src = `https://www.youtube.com/embed/${vidId}?autoplay=1`;
+                    els.yt.style.display = 'block';
                 }
-            } else if (mVideo) {
-                mVideo.src = src; mVideo.style.display = 'block';
-                mVideo.play().catch(() => {});
-                this.currentVideo = mVideo;
+            } else if (els.vid) {
+                els.vid.src = src; els.vid.style.display = 'block';
             }
         } else {
-            if(mImg) mImg.style.display = 'block';
+            // IMAGEN
+            if(els.img) {
+                els.img.style.display = 'block';
+                els.img.draggable = false; // <--- ESTO ES VITAL: Evita que se arrastre la imagen en vez de hacer swipe
+            }
+            
+            // Mostrar controles solo si hay > 1
+            if (this.currentImages.length > 1) {
+                if(els.prev) { els.prev.style.removeProperty('display'); els.prev.style.display = 'flex'; }
+                if(els.next) { els.next.style.removeProperty('display'); els.next.style.display = 'flex'; }
+                if(els.thumbs) { els.thumbs.style.removeProperty('display'); els.thumbs.style.display = 'flex'; }
+                if(els.dots) { els.dots.style.removeProperty('display'); els.dots.style.display = 'flex'; }
+            }
+            
             this.showImage(this.currentIndex, null);
-            this.renderControls();
+            this.renderControls(); 
         }
     },
 
@@ -415,13 +580,14 @@ const ModalManager = {
             mImg.src = this.currentImages[index];
             if (direction) {
                 mImg.classList.remove('anim-next', 'anim-prev');
-                void mImg.offsetWidth;
+                void mImg.offsetWidth; 
                 if (direction === 'next') mImg.classList.add('anim-next');
                 if (direction === 'prev') mImg.classList.add('anim-prev');
             }
         }
         document.querySelectorAll('.thumb-img').forEach((t, i) => {
             t.classList.toggle('active', i === index);
+            // Auto-scroll de miniaturas
             if (i === index && t.parentNode) {
                 t.parentNode.scrollLeft = t.offsetLeft - (t.parentNode.clientWidth / 2) + (t.clientWidth / 2);
             }
@@ -430,36 +596,25 @@ const ModalManager = {
     },
 
     renderControls() {
-        const thumbsContainer = document.getElementById('modalThumbnails');
-        const dotsContainer = document.getElementById('mobileDots');
-        const arrows = [document.getElementById('prevBtn'), document.getElementById('nextBtn')];
-        
-        if(thumbsContainer) thumbsContainer.innerHTML = '';
-        if(dotsContainer) dotsContainer.innerHTML = '';
+        const thumbs = document.getElementById('modalThumbnails');
+        const dots = document.getElementById('mobileDots');
+        if(thumbs) thumbs.innerHTML = ''; 
+        if(dots) dots.innerHTML = '';
 
-        if (this.currentImages.length < 2) {
-            if(thumbsContainer) thumbsContainer.style.display = 'none';
-            if(dotsContainer) dotsContainer.style.display = 'none';
-            arrows.forEach(a => { if(a) a.style.display = 'none'; });
-            return;
-        }
-
-        if(thumbsContainer) thumbsContainer.style.display = 'flex';
-        if(dotsContainer) dotsContainer.style.display = 'flex'; 
-        arrows.forEach(a => { if(a) a.style.display = ''; }); 
+        if (this.currentImages.length < 2) return;
 
         this.currentImages.forEach((src, index) => {
             const img = document.createElement('img');
             img.src = src; img.className = 'thumb-img';
             if (index === this.currentIndex) img.classList.add('active');
-            img.onclick = (e) => { e.stopPropagation(); this.currentIndex = index; this.showImage(index, index > this.currentIndex ? 'next' : 'prev'); };
-            if(thumbsContainer) thumbsContainer.appendChild(img);
+            img.onclick = (e) => { e.stopPropagation(); this.currentIndex = index; this.showImage(index, 'next'); };
+            if(thumbs) thumbs.appendChild(img);
 
             const dot = document.createElement('div');
             dot.className = 'dot';
             if (index === this.currentIndex) dot.classList.add('active');
             dot.onclick = (e) => { e.stopPropagation(); this.currentIndex = index; this.showImage(index, 'next'); }; 
-            if(dotsContainer) dotsContainer.appendChild(dot);
+            if(dots) dots.appendChild(dot);
         });
     },
 
@@ -476,17 +631,16 @@ const ModalManager = {
     },
 
     close() {
-        if (DOM.modal) DOM.modal.style.display = 'none';
+        const modal = document.getElementById('modalVisualizador');
+        if (modal) modal.style.display = 'none';
         document.body.style.overflow = '';
-        if (this.currentVideo) { this.currentVideo.pause(); this.currentVideo.currentTime = 0; }
-        if (DOM.modalVideo) DOM.modalVideo.src = '';
-        const youtubeFrame = document.getElementById('mYoutube');
-        if (youtubeFrame) youtubeFrame.src = '';
+        const vid = document.getElementById('mVideo'); if (vid) { vid.pause(); vid.currentTime = 0; }
+        const yt = document.getElementById('mYoutube'); if (yt) yt.src = '';
     }
 };
 
 /* ==========================================================================
-   5. NAVEGACIÓN Y FILTRADO (BÚSQUEDA CORREGIDA)
+   7. NAVEGACIÓN Y FILTROS
    ========================================================================== */
 const SearchManager = {
     init() { this.checkURLParams(); },
@@ -496,20 +650,19 @@ const SearchManager = {
         if (searchTerm && DOM.searchInput) {
             DOM.searchInput.value = searchTerm;
             DOM.searchBox?.classList.add('active');
-            // Esperar un poco para asegurar que las cartas existan
             setTimeout(() => this.filterCardsOnPage(searchTerm), 100);
         }
     },
-    // --- FILTRADO INSENSIBLE A ACENTOS ---
     filterCardsOnPage(text) {
         const cleanText = normalizeText(text);
         document.querySelectorAll('.file-card').forEach(card => {
-            // Buscamos en los atributos data del HTML, normalizándolos también
             const title = normalizeText(card.dataset.title);
             const autor = normalizeText(card.dataset.autor);
-            const keywords = normalizeText(card.dataset.keywords);
+            // Re-chequear DB para keywords porque no están en el DOM
+            const item = SEARCH_DB.find(i => normalizeText(i.title) === title);
+            const keys = item ? normalizeText(item.keywords) : "";
             
-            const isVisible = title.includes(cleanText) || autor.includes(cleanText) || keywords.includes(cleanText);
+            const isVisible = title.includes(cleanText) || autor.includes(cleanText) || keys.includes(cleanText);
             card.style.display = isVisible ? 'flex' : 'none';
         });
     },
@@ -519,35 +672,56 @@ const SearchManager = {
     }
 };
 
-/* --- MOBILE NAV --- */
 const MobileNav = {
     init() {},
     toggle() { if (DOM.navLinks) DOM.navLinks.classList.toggle('active'); }
 };
 
-/* --- FUNCIONES GLOBALES --- */
-function abrirModal(el) { ModalManager.open(el); }
-function cerrarModalBtn() { ModalManager.close(); }
-function cerrarModal(e) { if (e.target.id === 'modalVisualizador') ModalManager.close(); }
-function toggleSearch() { SearchManager.toggleSearch(); }
-function toggleMenu() { MobileNav.toggle(); } 
-function filtrarObras() { const val = document.getElementById('searchInput').value; SearchManager.filterCardsOnPage(val); }
-function abrirBusquedaMovil() { MobileNav.toggle(); if (DOM.mobileSearchOverlay) { DOM.mobileSearchOverlay.style.display = 'flex'; setTimeout(() => DOM.mobileInput?.focus(), 100); } }
-function cerrarBusquedaMovil() { if (DOM.mobileSearchOverlay) DOM.mobileSearchOverlay.style.display = 'none'; if (DOM.mobileInput) DOM.mobileInput.value = ''; AutocompleteManager.clearSuggestions(); }
-function ejecutarBusquedaMovil() { const busqueda = DOM.mobileInput?.value; if (busqueda) { window.location.href = `galeria.html?search=${encodeURIComponent(busqueda)}`; } }
-DOM.mobileInput?.addEventListener('keyup', (e) => { if (e.key === 'Enter') ejecutarBusquedaMovil(); });
+/* --- FUNCIONES HELPER GLOBALES --- */
+function cerrarBusquedaMovil() { 
+    const overlay = document.getElementById('mobileSearchOverlay');
+    if (overlay) overlay.style.display = 'none';
+    const input = document.getElementById('mobileInput');
+    if (input) input.value = ''; 
+    AutocompleteManager.clearSuggestions(); 
+}
 
+/* ==========================================================================
+   8. BOOTSTRAP FINAL (SOLO UNO, AL FINAL)
+   ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
-    ModalManager.init(); SearchManager.init(); MobileNav.init(); AutocompleteManager.init();
+    // 1. INYECTAR
+    ComponentInjector.run();
     
-    // Animación de entrada de cartas
+    // 2. RENDERIZAR
+    ContentRenderer.render();
+
+    // 3. CAPTURAR ELEMENTOS (Ahora que existen)
+    DOM.modal = document.getElementById('modalVisualizador');
+    DOM.searchInput = document.getElementById('searchInput');
+    DOM.searchBox = document.querySelector('.search-box');
+    DOM.navLinks = document.getElementById('navLinks');
+    DOM.mobileInput = document.getElementById('mobileInput');
+    DOM.mobileSearchOverlay = document.getElementById('mobileSearchOverlay');
+
+    // 4. INICIAR LÓGICAS
+    ModalManager.init(); 
+    SearchManager.init(); 
+    AutocompleteManager.init();
+
+    // Eventos Navbar
+    document.getElementById('btnMenuToggle')?.addEventListener('click', MobileNav.toggle);
+    document.getElementById('btnSearchToggle')?.addEventListener('click', SearchManager.toggleSearch);
+    document.getElementById('btnMobileSearch')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const overlay = document.getElementById('mobileSearchOverlay');
+        if(overlay) overlay.style.display = 'flex';
+        setTimeout(() => document.getElementById('mobileInput')?.focus(), 100);
+    });
+
+    // Animación entrada
     const observer = new IntersectionObserver((entries) => { 
-        entries.forEach(e => { 
-            if(e.isIntersecting) { e.target.classList.add('card-enter'); observer.unobserve(e.target); } 
-        }); 
+        entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('card-enter'); observer.unobserve(e.target); } }); 
     });
     document.querySelectorAll('.file-card').forEach(c => observer.observe(c));
-
-    // Lazy load para imágenes con data-src (si las hubiera)
-    document.querySelectorAll('img[data-src]').forEach(img => { img.src = img.dataset.src; img.removeAttribute('data-src'); });
 });
