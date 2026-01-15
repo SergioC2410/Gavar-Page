@@ -14,18 +14,18 @@
     </div>
 
     <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menú">☰</button>
-    
+
     <nav>
         <div class="search-box">
-            <input type="text" class="search-input" id="searchInput" placeholder="Filtrar obras..." onkeyup="filtrarObras()">
+            <input type="text" class="search-input" id="searchInput" placeholder="Buscar exposición..." onkeyup="filtrarObras()">
             <button class="search-btn" onclick="toggleSearch()">🔍</button>
         </div>
 
         <ul class="nav-links" id="navLinks">
             <li class="mobile-only"><a href="#" onclick="abrirBusquedaMovil()">Búsqueda</a></li>
             <li><a href="index.html">Inicio</a></li>
-            <li><a href="galeria.html" style="color:#000; font-weight:bold;">Galería</a></li>
-            <li><a href="exposiciones.html">Exposiciones</a></li>
+            <li><a href="galeria.html" style="color:#000; font-weight:bold;" >Galería</a></li>
+            <li><a href="exposiciones.html" >Exposiciones</a></li>
             <li><a href="mencion-especial.html">Artista de Caño Amarillo</a></li>
         </ul>
     </nav>
@@ -38,69 +38,116 @@
             
             <article class="file-card" onclick="abrirModal(this)"
                 data-type="image"
-                data-src="https://media.admagazine.com/photos/618a7dbc58ac69e38abb6c2c/16:9/w_1280,c_limit/43884.jpg"
-                data-title="La Noche Estrellada"
-                data-autor="Vincent van Gogh"
-                data-year="1889"
-                data-desc="Obra maestra del postimpresionismo.">
+                data-src="assets/img/resiliencia.jpg" 
+                data-title="Resiliencia"
+                data-autor="Alix Velásquez"
+                data-year="2025"
+                data-keywords="serigrafia grabado tinta papel arte grafico"
+                data-desc="Técnica / Materia: Serigrafía.&#10;Cantidad: 1 pieza.&#10;Instagram: @alix_v_art">
                 <div class="card-preview">
-                    <img src="https://media.admagazine.com/photos/618a7dbc58ac69e38abb6c2c/16:9/w_1280,c_limit/43884.jpg" alt="Preview">
+                    <img src="assets/img/resiliencia.jpg" alt="Resiliencia" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
                 </div>
-                <div class="card-footer">
-                    <span class="file-icon">🖼️</span>
-                    <span class="file-name">La Noche Estrellada</span>
+                <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">Resiliencia</span></div>
+            </article>
+
+            <article class="file-card" onclick="abrirModal(this)"
+                data-type="image"
+                data-src="assets/img/real.jpg" 
+                data-title="Real"
+                data-autor="Arantza Martínez"
+                data-year="2025"
+                data-keywords="xilografia madera grabado relieve impresion"
+                data-desc="Técnica / Materia: Xilografía.&#10;Cantidad: 1 pieza.">
+                <div class="card-preview">
+                    <img src="assets/img/real.jpg" alt="Real" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
                 </div>
+                <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">Real</span></div>
             </article>
 
-            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 1" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
-                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">1</div>
-                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_01.jpg</span></div>
+            <article class="file-card" onclick="abrirModal(this)"
+                data-type="image"
+                data-src="assets/img/solaria.jpg" 
+                data-title="Solaria"
+                data-autor="Andrea Blanco"
+                data-year="2024"
+                data-keywords="digital ilustracion diseño tablet computadora"
+                data-desc="Técnica / Materia: Digital.&#10;Cantidad: 1 pieza.&#10;Instagram: @anbndy22">
+                <div class="card-preview">
+                    <img src="assets/img/solaria.jpg" alt="Solaria" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
+                </div>
+                <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">Solaria</span></div>
             </article>
 
-            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 2" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
-                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">2</div>
-                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_02.jpg</span></div>
+            <article class="file-card" onclick="abrirModal(this)"
+                data-type="image"
+                data-src="assets/img/the_news.jpg" 
+                data-title="The News"
+                data-autor="Isabel Figueroa"
+                data-year="2022"
+                data-keywords="superposicion digital capas collage fotomontaje"
+                data-desc="Técnica / Materia: Superposición digital.&#10;Cantidad: 1 pieza.">
+                <div class="card-preview">
+                    <img src="assets/img/the_news.jpg" alt="The News" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
+                </div>
+                <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">The News</span></div>
             </article>
 
-            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 3" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
-                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">3</div>
-                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_03.jpg</span></div>
+            <article class="file-card" onclick="abrirModal(this)"
+                data-type="image"
+                data-src="assets/img/antimateria.jpg" 
+                data-title="Antimateria"
+                data-autor="Efraín Aguilera (Koda)"
+                data-year="2024"
+                data-keywords="ensamblaje hilograma hilos clavos madera escultura mixta koda"
+                data-desc="Técnica / Materia: Ensamblaje e hilograma.&#10;Cantidad: 1 pieza.&#10;Instagram: @6kodafree6">
+                <div class="card-preview">
+                    <img src="assets/img/antimateria.jpg" alt="Antimateria" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
+                </div>
+                <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">Antimateria</span></div>
             </article>
 
-            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 4" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
-                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">4</div>
-                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_04.jpg</span></div>
-            </article>
-            
-            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 5" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
-                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">5</div>
-                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_05.jpg</span></div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 6" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
-                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">6</div>
-                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_06.jpg</span></div>
-            </article>
-
-            <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 7" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
-                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">7</div>
-                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_07.jpg</span></div>
+            <article class="file-card" onclick="abrirModal(this)"
+                data-type="image"
+                data-src="assets/img/el_tapiz_del_alma.jpg" 
+                data-title="El Tapiz del Alma"
+                data-autor="Cristian Rojas"
+                data-year="2025"
+                data-keywords="pop-up popup libro objeto 3d papel escultura"
+                data-desc="Técnica / Materia: Pop-up. Libro objeto.&#10;Cantidad: 1 pieza.">
+                <div class="card-preview">
+                    <img src="assets/img/el_tapiz_del_alma.jpg" alt="El Tapiz del Alma" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
+                </div>
+                <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">El_Tapiz_Alma</span></div>
             </article>
 
-             <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 8" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
-                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">8</div>
-                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_08.jpg</span></div>
+            <article class="file-card" onclick="abrirModal(this)"
+                data-type="image"
+                data-src="assets/img/bodhiria.jpg" 
+                data-title="Bodhiria"
+                data-autor="Mariend Romero"
+                data-year="2025"
+                data-keywords="pop-up popup libro objeto plegable papel"
+                data-desc="Técnica / Materia: Pop-up. Libro objeto.&#10;Cantidad: 1 pieza.">
+                <div class="card-preview">
+                    <img src="assets/img/bodhiria.jpg" alt="Bodhiria" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
+                </div>
+                <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">Bodhiria</span></div>
             </article>
 
-             <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 9" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
-                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">9</div>
-                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_09.jpg</span></div>
+            <article class="file-card" onclick="abrirModal(this)"
+                data-type="image"
+                data-src="assets/img/fabrica_de_la_memoria.jpg" 
+                data-title="Fábrica de la Memoria"
+                data-autor="Ricardo Suarez"
+                data-year="2024"
+                data-keywords="pop-up popup libro objeto memoria papel arquitectura"
+                data-desc="Técnica / Materia: Pop-up. Libro objeto.&#10;Cantidad: 1 pieza.&#10;Instagram: @richyross_art">
+                <div class="card-preview">
+                    <img src="assets/img/fabrica_de_la_memoria.jpg" alt="Fabrica de la Memoria" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+Pendiente'">
+                </div>
+                <div class="card-footer"><span class="file-icon">🖼️</span><span class="file-name">Fabrica_Memoria</span></div>
             </article>
 
-             <article class="file-card" onclick="abrirModal(this)" data-type="image" data-src="" data-title="Obra Pendiente 10" data-autor="Desconocido" data-year="2024" data-desc="Espacio reservado para futura obra.">
-                <div class="card-preview" style="background: #e0e0e0; color: #999; font-size: 3rem;">10</div>
-                <div class="card-footer"><span class="file-icon">📁</span><span class="file-name">Obra_10.jpg</span></div>
-            </article>
         </div>
     </main>
 
@@ -120,20 +167,8 @@
                     <p><strong>📁 Tipo:</strong> Archivo Digital</p>
                 </div>
                 <div style="margin-top: 20px;">
-                    <h4 style="margin-bottom: 10px;">Descripción</h4>
-                    <p id="mDesc" style="color: #444; font-size: 0.95rem; line-height: 1.7;"></p>
+                    <p id="mDesc" style="color: #444; font-size: 0.95rem; line-height: 1.7; white-space: pre-line;"></p>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="mobileSearchOverlay" class="search-modal-overlay">
-        <div class="search-modal-content">
-            <h3>¿Qué deseas buscar?</h3>
-            <input type="text" id="mobileInput" placeholder="Ej. Van Gogh, Obra 1..." autocomplete="off">
-            <div class="search-modal-actions">
-                <button class="btn-cancel" onclick="cerrarBusquedaMovil()">Cancelar</button>
-                <button class="btn-confirm" onclick="ejecutarBusquedaMovil()">Buscar</button>
             </div>
         </div>
     </div>

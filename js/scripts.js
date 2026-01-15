@@ -2,35 +2,93 @@
  * GAVAR - Galería de Arte Virtual
  * Script Principal
  * ------------------------------------------------------------------
- * Actualización: Se agregaron palabras clave generales (obras, videos, perfil)
- * para que aparezcan grupos completos al buscar categorías.
+ * Actualización: Base de datos sincronizada con los nuevos artistas.
  */
 
 /* ==========================================================================
    1. BASE DE DATOS MAESTRA (SEARCH_DB)
    ========================================================================== */
 const SEARCH_DB = [
-    // --- SECCIÓN: GALERÍA (OBRAS) ---
+    // --- SECCIÓN: GALERÍA (OBRAS NUEVAS) ---
     { 
-        title: "La Noche Estrellada", 
+        title: "Resiliencia", 
         url: "galeria.html", 
         type: "Obra", 
-        // Agregamos "obra", "obras", "galeria", "pintura" para búsquedas generales
-        keywords: "van gogh impresionismo azul noche obra obras galeria pintura cuadro",
-        src: "https://media.admagazine.com/photos/618a7dbc58ac69e38abb6c2c/16:9/w_1280,c_limit/43884.jpg",
-        autor: "Vincent van Gogh",
-        year: "1889",
-        desc: "Obra maestra del postimpresionismo que representa la vista desde la ventana este de su habitación de asilo."
+        keywords: "serigrafia grabado tinta papel arte grafico alix velasquez",
+        src: "assets/img/resiliencia.jpg",
+        autor: "Alix Velásquez",
+        year: "2025",
+        desc: "Técnica / Materia: Serigrafía.\nCantidad: 1 pieza.\nInstagram: @alix_v_art"
     },
     { 
-        title: "Obra Pendiente 1", 
+        title: "Real", 
         url: "galeria.html", 
         type: "Obra", 
-        keywords: "futura archivo obra obras galeria pendiente",
-        src: "", 
-        autor: "Desconocido", 
-        year: "2024", 
-        desc: "Espacio reservado." 
+        keywords: "xilografia madera grabado relieve impresion arantza martinez",
+        src: "assets/img/real.jpg",
+        autor: "Arantza Martínez",
+        year: "2025",
+        desc: "Técnica / Materia: Xilografía.\nCantidad: 1 pieza."
+    },
+    { 
+        title: "Solaria", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "digital ilustracion diseño tablet computadora andrea blanco",
+        src: "assets/img/solaria.jpg",
+        autor: "Andrea Blanco",
+        year: "2024",
+        desc: "Técnica / Materia: Digital.\nCantidad: 1 pieza.\nInstagram: @anbndy22"
+    },
+    { 
+        title: "The News", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "superposicion digital capas collage fotomontaje isabel figueroa",
+        src: "assets/img/the_news.jpg",
+        autor: "Isabel Figueroa",
+        year: "2022",
+        desc: "Técnica / Materia: Superposición digital.\nCantidad: 1 pieza."
+    },
+    { 
+        title: "Antimateria", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "ensamblaje hilograma hilos clavos madera escultura mixta koda efrain aguilera",
+        src: "assets/img/antimateria.jpg",
+        autor: "Efraín Aguilera (Koda)",
+        year: "2024",
+        desc: "Técnica / Materia: Ensamblaje e hilograma.\nCantidad: 1 pieza.\nInstagram: @6kodafree6"
+    },
+    { 
+        title: "El Tapiz del Alma", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "pop-up popup libro objeto 3d papel escultura cristian rojas",
+        src: "assets/img/el_tapiz_del_alma.jpg",
+        autor: "Cristian Rojas",
+        year: "2025",
+        desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza."
+    },
+    { 
+        title: "Bodhiria", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "pop-up popup libro objeto plegable papel mariend romero",
+        src: "assets/img/bodhiria.jpg",
+        autor: "Mariend Romero",
+        year: "2025",
+        desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza."
+    },
+    { 
+        title: "Fábrica de la Memoria", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "pop-up popup libro objeto memoria papel arquitectura ricardo suarez",
+        src: "assets/img/fabrica_de_la_memoria.jpg",
+        autor: "Ricardo Suarez",
+        year: "2024",
+        desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza.\nInstagram: @richyross_art"
     },
     
     // --- SECCIÓN: EXPOSICIONES (VIDEOS) ---
@@ -38,35 +96,22 @@ const SEARCH_DB = [
         title: "Recorrido Virtual 2024", 
         url: "exposiciones.html", 
         type: "Video", 
-        // Agregamos "video", "videos", "exposicion", "exposiciones"
         keywords: "tour coleccion virtual introduccion video videos exposicion exposiciones cine",
-        src: "", // Recuerda poner el link real aquí
+        src: "", 
         autor: "Curaduría GAVAR",
         year: "2024",
         desc: "Video introductorio al espacio virtual y las nuevas colecciones."
     },
-    { 
-        title: "Entrevista a Artista Invitado", 
-        url: "exposiciones.html", 
-        type: "Video", 
-        keywords: "puntillismo charla entrevista video videos exposicion exposiciones",
-        src: "", 
-        autor: "Canal GAVAR",
-        year: "2023",
-        desc: "Entrevista exclusiva sobre la técnica del puntillismo moderno."
-    },
 
-    // --- SECCIÓN: ARTISTA DEL MES (CAÑO AMARILLO) ---
+    // --- SECCIÓN: ARTISTA DE CAÑO AMARILLO ---
     { 
         title: "Armando Reverón (Perfil)", 
         url: "mencion-especial.html", 
         type: "Perfil", 
-        // Agregamos "perfil", "artista", "biografia"
         keywords: "caño amarillo maestro luz castillete macuto muñecas blanco azul venezuela pintor perfil artista biografia",
-        // Sin src porque redirige
     },
     
-    // Obras de Reverón (También llevan "obra" y "obras")
+    // Obras de Reverón (Para que aparezcan en búsqueda)
     { 
         title: "La Cueva", 
         url: "mencion-especial.html", 
@@ -75,17 +120,7 @@ const SEARCH_DB = [
         src: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/La_Cueva_-_Armando_Rever%C3%B3n.jpg/1200px-La_Cueva_-_Armando_Rever%C3%B3n.jpg",
         autor: "Armando Reverón",
         year: "1920",
-        desc: "Obra maestra de su Período Azul. Reverón utiliza tonos oscuros y profundos."
-    },
-    { 
-        title: "Paisaje Blanco", 
-        url: "mencion-especial.html", 
-        type: "Obra", 
-        keywords: "reveron luz caribe playa mar obra obras galeria pintura",
-        src: "https://assets-global.website-files.com/604a80695420325d7335d886/6064cd5f5b5b2e5c8e2680e6_reveron-blanco.jpeg",
-        autor: "Armando Reverón",
-        year: "1934",
-        desc: "El epítome de su Período Blanco. La luz del Caribe disuelve las formas."
+        desc: "Obra maestra de su Período Azul."
     }
 ];
 
@@ -103,7 +138,7 @@ const DOM = {
     searchInput: document.getElementById('searchInput'),
     searchBox: document.querySelector('.search-box'),
     navLinks: document.getElementById('navLinks'),
-    mobileSearchOverlay: document.getElementById('mobileSearchOverlay'),
+    mobileSearchOverlay: document.getElementById('mobileSearchOverlay'), // Si decides implementarlo a futuro
     mobileInput: document.getElementById('mobileInput')
 };
 
@@ -113,7 +148,6 @@ const DOM = {
 const AutocompleteManager = {
     init() {
         this.createSuggestionsBox('desktop-suggestions', DOM.searchBox);
-        this.createSuggestionsBox('mobile-suggestions', document.querySelector('.search-modal-content'));
         this.bindEvents();
     },
 
@@ -122,15 +156,20 @@ const AutocompleteManager = {
         const box = document.createElement('div');
         box.id = id;
         box.className = 'suggestions-list';
+        // Estilos básicos inyectados para que funcione sin tocar mucho CSS
+        box.style.cssText = "display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ccc; border-radius:0 0 12px 12px; z-index:1000; box-shadow:0 4px 6px rgba(0,0,0,0.1); max-height:300px; overflow-y:auto;";
         parent.appendChild(box);
     },
 
     bindEvents() {
-        DOM.searchInput?.addEventListener('input', (e) => this.handleInput(e.target.value, 'desktop-suggestions'));
-        DOM.mobileInput?.addEventListener('input', (e) => this.handleInput(e.target.value, 'mobile-suggestions'));
+        DOM.searchInput?.addEventListener('input', (e) => {
+            this.handleInput(e.target.value, 'desktop-suggestions');
+            // También filtramos la grilla en tiempo real
+            SearchManager.filterCardsOnPage(e.target.value);
+        });
         
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('.search-box') && !e.target.closest('.search-modal-content')) {
+            if (!e.target.closest('.search-box')) {
                 this.clearSuggestions();
             }
         });
@@ -147,12 +186,12 @@ const AutocompleteManager = {
 
     searchInDB(query) {
         const lowerQuery = query.toLowerCase();
-        // Filtramos buscando en título, keywords O tipo
         return SEARCH_DB.filter(item => 
             item.title.toLowerCase().includes(lowerQuery) || 
             item.keywords.toLowerCase().includes(lowerQuery) ||
-            item.type.toLowerCase().includes(lowerQuery) // Esto ayuda si buscan "Video" directo
-        ).slice(0, 6); // Aumenté un poco el límite a 6 para mostrar más variedad
+            item.type.toLowerCase().includes(lowerQuery) ||
+            item.autor.toLowerCase().includes(lowerQuery)
+        ).slice(0, 6); 
     },
 
     renderSuggestions(results, container) {
@@ -163,11 +202,15 @@ const AutocompleteManager = {
         results.forEach(item => {
             const div = document.createElement('div');
             div.className = 'suggestion-item';
+            div.style.cssText = "padding:10px; cursor:pointer; border-bottom:1px solid #eee; display:flex; align-items:center; gap:10px;";
+            div.onmouseover = () => div.style.background = "#f9f9f9";
+            div.onmouseout = () => div.style.background = "#fff";
+            
             div.innerHTML = `
-                <span class="suggestion-icon">${this.getIcon(item.type)}</span>
-                <div class="suggestion-info">
-                    <span class="suggestion-title">${item.title}</span>
-                    <span class="suggestion-type">${item.type}</span>
+                <span class="suggestion-icon" style="font-size:1.2rem;">${this.getIcon(item.type)}</span>
+                <div class="suggestion-info" style="display:flex; flex-direction:column;">
+                    <span class="suggestion-title" style="font-weight:600; font-size:0.9rem;">${item.title}</span>
+                    <span class="suggestion-type" style="font-size:0.8rem; color:#666;">${item.type} • ${item.autor || ''}</span>
                 </div>
             `;
             div.addEventListener('click', () => this.goToResult(item));
@@ -187,11 +230,24 @@ const AutocompleteManager = {
             return;
         }
 
-        if (DOM.modal) {
+        // Si estamos en la página correcta y tenemos el modal, lo abrimos directo
+        if (window.location.pathname.includes(item.url) && DOM.modal) {
             this.clearSuggestions();
-            cerrarBusquedaMovil();
-            ModalManager.openFromData(item);
+            // Simular estructura de datos para el ModalManager
+            const modalData = {
+                dataset: {
+                    type: item.type,
+                    src: item.src,
+                    title: item.title,
+                    autor: item.autor,
+                    desc: item.desc,
+                    year: item.year
+                }
+            };
+            // Llamamos a abrirModal pero pasando un objeto simulado compatible
+            ModalManager.openFromData(item); 
         } else {
+            // Si estamos en otra página, redirigimos con parámetro de búsqueda
             window.location.href = `${item.url}?search=${encodeURIComponent(item.title)}`;
         }
     },
@@ -235,7 +291,11 @@ const ModalManager = {
     populateModal(data) {
         if (DOM.modalTitle) DOM.modalTitle.textContent = data.title || 'Sin título';
         if (DOM.modalAutor) DOM.modalAutor.textContent = data.autor ? `Por: ${data.autor}` : '';
-        if (DOM.modalDesc) DOM.modalDesc.textContent = data.desc || '';
+        // Respetar saltos de línea para las nuevas fichas técnicas
+        if (DOM.modalDesc) {
+            DOM.modalDesc.textContent = data.desc || '';
+            DOM.modalDesc.style.whiteSpace = 'pre-line'; 
+        }
         if (DOM.modalYear) DOM.modalYear.textContent = data.year || '';
     },
 
@@ -245,14 +305,44 @@ const ModalManager = {
         if (DOM.modalImg) DOM.modalImg.style.display = isVideo ? 'none' : 'block';
         if (DOM.modalVideo) DOM.modalVideo.style.display = isVideo ? 'block' : 'none';
         
-        if (isVideo && DOM.modalVideo) {
-            DOM.modalVideo.src = src;
-            DOM.modalVideo.play().catch(() => {});
-            this.currentVideo = DOM.modalVideo;
+        // Manejo de YouTube
+        let youtubeFrame = document.getElementById('mYoutube');
+        if (youtubeFrame) youtubeFrame.style.display = 'none';
+
+        if (isVideo) {
+            if (src.includes('youtube.com') || src.includes('youtu.be')) {
+                // Es YouTube
+                if (!youtubeFrame) youtubeFrame = this.createYoutubeFrame();
+                
+                const videoId = src.split('v=')[1] ? src.split('v=')[1].split('&')[0] : src.split('/').pop();
+                youtubeFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                youtubeFrame.style.display = 'block';
+                if (DOM.modalVideo) DOM.modalVideo.style.display = 'none'; // Ocultar tag video normal
+            } else {
+                // Es MP4 Local
+                if (DOM.modalVideo) {
+                    DOM.modalVideo.src = src;
+                    DOM.modalVideo.style.display = 'block';
+                    DOM.modalVideo.play().catch(() => {});
+                    this.currentVideo = DOM.modalVideo;
+                }
+            }
         } else if (DOM.modalImg) {
             DOM.modalImg.src = src;
             this.pauseCurrentVideo();
         }
+    },
+
+    createYoutubeFrame() {
+        const frame = document.createElement('iframe');
+        frame.id = 'mYoutube';
+        frame.style.width = '100%';
+        frame.style.height = '100%';
+        frame.style.border = 'none';
+        frame.allow = "autoplay; encrypted-media";
+        frame.allowFullscreen = true;
+        document.querySelector('.modal-media').appendChild(frame);
+        return frame;
     },
 
     close() {
@@ -260,6 +350,8 @@ const ModalManager = {
         document.body.style.overflow = '';
         this.pauseCurrentVideo();
         if (DOM.modalVideo) DOM.modalVideo.src = '';
+        const youtubeFrame = document.getElementById('mYoutube');
+        if (youtubeFrame) youtubeFrame.src = ''; // Detener YouTube
     },
 
     pauseCurrentVideo() {
@@ -287,9 +379,16 @@ const SearchManager = {
     filterCardsOnPage(text) {
         const searchText = text.toLowerCase();
         document.querySelectorAll('.file-card').forEach(card => {
-            const title = card.dataset.title?.toLowerCase() || '';
-            const autor = card.dataset.autor?.toLowerCase() || '';
-            const isVisible = title.includes(searchText) || autor.includes(searchText);
+            const title = (card.dataset.title || '').toLowerCase();
+            const autor = (card.dataset.autor || '').toLowerCase();
+            const keywords = (card.dataset.keywords || '').toLowerCase();
+            const desc = (card.dataset.desc || '').toLowerCase();
+            
+            const isVisible = title.includes(searchText) || 
+                              autor.includes(searchText) || 
+                              keywords.includes(searchText) ||
+                              desc.includes(searchText);
+            
             card.style.display = isVisible ? 'flex' : 'none';
         });
     },
@@ -301,40 +400,23 @@ const SearchManager = {
 
 const MobileNav = {
     init() {
-        document.querySelectorAll('#navLinks a').forEach(link => {
-            if (!link.getAttribute('onclick')) link.addEventListener('click', () => this.toggle());
-        });
+        const toggleBtn = document.querySelector('.menu-toggle');
+        if(toggleBtn) toggleBtn.addEventListener('click', () => this.toggle());
     },
     toggle() { DOM.navLinks?.classList.toggle('active'); }
 };
 
-/* --- Funciones Globales --- */
+/* --- Funciones Globales para el HTML (onclick) --- */
 function abrirModal(el) { ModalManager.open(el); }
 function cerrarModalBtn() { ModalManager.close(); }
 function cerrarModal(e) { if (e.target.id === 'modalVisualizador') ModalManager.close(); }
 function toggleSearch() { SearchManager.toggleSearch(); }
 function toggleMenu() { MobileNav.toggle(); }
-function filtrarObras() { /* Lógica en input event */ }
-
-function abrirBusquedaMovil() {
-    MobileNav.toggle();
-    if (DOM.mobileSearchOverlay) {
-        DOM.mobileSearchOverlay.style.display = 'flex';
-        setTimeout(() => DOM.mobileInput?.focus(), 100);
-    }
+function filtrarObras() { 
+    // Esta función se llama desde el HTML onkeyup
+    const val = document.getElementById('searchInput').value;
+    SearchManager.filterCardsOnPage(val);
 }
-function cerrarBusquedaMovil() {
-    if (DOM.mobileSearchOverlay) DOM.mobileSearchOverlay.style.display = 'none';
-    if (DOM.mobileInput) DOM.mobileInput.value = '';
-    AutocompleteManager.clearSuggestions();
-}
-function ejecutarBusquedaMovil() {
-    const busqueda = DOM.mobileInput?.value;
-    if (busqueda) {
-         window.location.href = `galeria.html?search=${encodeURIComponent(busqueda)}`;
-    }
-}
-DOM.mobileInput?.addEventListener('keyup', (e) => { if (e.key === 'Enter') ejecutarBusquedaMovil(); });
 
 /* ==========================================================================
    INICIALIZACIÓN
@@ -350,8 +432,4 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('card-enter'); observer.unobserve(e.target); } });
     });
     document.querySelectorAll('.file-card').forEach(c => observer.observe(c));
-
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        img.src = img.dataset.src; img.removeAttribute('data-src');
-    });
 });
