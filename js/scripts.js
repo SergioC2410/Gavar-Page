@@ -17,15 +17,44 @@ const normalizeText = (text) => {
    ========================================================================== */
 const SEARCH_DB = [
     // --- OBRAS GRÁFICAS Y MIXTAS ---
+{ 
+        title: "Sin título", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "maria ferreira mixta tiza escarcha pintura", 
+        images: [
+            "assets/img/maria.webp",
+            "assets/img/maria_1.webp",
+            "assets/img/maria_2.webp",
+            "assets/img/maria_3.webp",
+            "assets/img/maria_4.webp",
+            "assets/img/maria_5.webp"
+        ], 
+        autor: "María Ferreira", 
+        year: "2024", 
+        desc: "Técnica / Materia: Mixta / Tiza, escarcha y pintura.\nCantidad: 3 piezas." 
+    },
+    { 
+        title: "Sin título 2", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "camila martinez", 
+        images: [
+            "assets/img/camila.webp",
+            "assets/img/camila_1.webp"
+        ], 
+        autor: "Camila Martínez", 
+        year: "2025", 
+        desc: "Técnica / Materia: Mixta / Tiza, escarcha y pintura.\nCantidad: 1 pieza." 
+    },
     { 
         title: "Resiliencia", 
         url: "galeria.html", 
         type: "Obra", 
         keywords: "serigrafia grabado tinta papel arte grafico alix velasquez", 
-        // 2 FOTOS
         images: [
-            "assets/img/resiliencia.jpg",
-            "assets/img/resiliencia_detalle1.jpg" 
+            "assets/img/resiliencia.webp",
+            "assets/img/resiliencia_detalle1.webp",
         ], 
         autor: "Alix Velásquez", 
         year: "2025", 
@@ -36,10 +65,9 @@ const SEARCH_DB = [
         url: "galeria.html", 
         type: "Obra", 
         keywords: "xilografia madera grabado relieve impresion arantza martinez", 
-        // 2 FOTOS
         images: [
-            "assets/img/real.jpg",
-            "assets/img/real_detalle1.jpg"
+            "assets/img/real.webp",
+            "assets/img/real_detalle1.webp"
         ], 
         autor: "Arantza Martínez", 
         year: "2025", 
@@ -50,8 +78,7 @@ const SEARCH_DB = [
         url: "galeria.html", 
         type: "Obra", 
         keywords: "digital ilustracion diseño tablet computadora andrea blanco", 
-        // 1 FOTO
-        images: ["assets/img/solaria.jpg"], 
+        images: ["assets/img/solaria.webp"], 
         autor: "Andrea Blanco", 
         year: "2024", 
         desc: "Técnica / Materia: Digital.\nCantidad: 1 pieza.\nInstagram: @anbndy22" 
@@ -61,8 +88,7 @@ const SEARCH_DB = [
         url: "galeria.html", 
         type: "Obra", 
         keywords: "superposicion digital capas collage fotomontaje isabel figueroa", 
-        // 1 FOTO
-        images: ["assets/img/the_news.jpg"], 
+        images: ["assets/img/the_news.webp"], 
         autor: "Isabel Figueroa", 
         year: "2022", 
         desc: "Técnica / Materia: Superposición digital.\nCantidad: 1 pieza." 
@@ -72,11 +98,10 @@ const SEARCH_DB = [
         url: "galeria.html", 
         type: "Obra", 
         keywords: "ensamblaje hilograma hilos clavos madera escultura mixta koda efrain aguilera", 
-        // 3 FOTOS
         images: [
-            "assets/img/antimateria.jpg",
-            "assets/img/antimateria_detalle1.jpg",
-            "assets/img/antimateria_detalle2.jpg"
+            "assets/img/antimateria.webp",
+            "assets/img/antimateria_detalle1.webp",
+            "assets/img/antimateria_detalle2.webp"
         ], 
         autor: "Efraín Aguilera (Koda)", 
         year: "2024", 
@@ -89,17 +114,16 @@ const SEARCH_DB = [
         url: "galeria.html", 
         type: "Obra", 
         keywords: "pop-up popup libro objeto 3d papel escultura cristian rojas", 
-        // 9 FOTOS
         images: [
-            "assets/img/el_tapiz_del_alma.jpg",
-            "assets/img/el_tapiz_del_alma1.jpg",
-            "assets/img/el_tapiz_del_alma2.jpg",
-            "assets/img/el_tapiz_del_alma3.jpg",
-            "assets/img/el_tapiz_del_alma4.jpg",
-            "assets/img/el_tapiz_del_alma5.jpg",
-            "assets/img/el_tapiz_del_alma6.jpg",
-            "assets/img/el_tapiz_del_alma7.jpg",
-            "assets/img/el_tapiz_del_alma8.jpg"
+            "assets/img/el_tapiz_del_alma.webp",
+            "assets/img/el_tapiz_del_alma1.webp",
+            "assets/img/el_tapiz_del_alma2.webp",
+            "assets/img/el_tapiz_del_alma3.webp",
+            "assets/img/el_tapiz_del_alma4.webp",
+            "assets/img/el_tapiz_del_alma5.webp",
+            "assets/img/el_tapiz_del_alma6.webp",
+            "assets/img/el_tapiz_del_alma7.webp",
+            "assets/img/el_tapiz_del_alma8.webp"
         ], 
         autor: "Cristian Rojas", 
         year: "2025", 
@@ -110,15 +134,14 @@ const SEARCH_DB = [
         url: "galeria.html", 
         type: "Obra", 
         keywords: "pop-up popup libro objeto plegable papel mariend romero", 
-        // 7 FOTOS
         images: [
-            "assets/img/bodhiria.jpg",
-            "assets/img/bodhiria_1.jpg",
-            "assets/img/bodhiria_2.jpg",
-            "assets/img/bodhiria_3.jpg",
-            "assets/img/bodhiria_4.jpg",
-            "assets/img/bodhiria_5.jpg",
-            "assets/img/bodhiria_6.jpg"
+            "assets/img/bodhiria.webp",
+            "assets/img/bodhiria_1.webp",
+            "assets/img/bodhiria_2.webp",
+            "assets/img/bodhiria_3.webp",
+            "assets/img/bodhiria_4.webp",
+            "assets/img/bodhiria_5.webp",
+            "assets/img/bodhiria_6.webp"
         ], 
         autor: "Mariend Romero", 
         year: "2025", 
@@ -129,32 +152,30 @@ const SEARCH_DB = [
         url: "galeria.html", 
         type: "Obra", 
         keywords: "pop-up popup libro objeto memoria papel arquitectura ricardo suarez", 
-        // 9 FOTOS
         images: [
-            "assets/img/fabrica_de_la_memoria.jpg",
-            "assets/img/fabrica_de_la_memoria_1.jpg",
-            "assets/img/fabrica_de_la_memoria_2.jpg",
-            "assets/img/fabrica_de_la_memoria3.jpg",
-            "assets/img/fabrica_de_la_memoria4.jpg",
-            "assets/img/fabrica_de_la_memoria5.jpg",
-            "assets/img/fabrica_de_la_memoria6.jpg",
-            "assets/img/fabrica_de_la_memoria7.jpg",
-            "assets/img/fabrica_de_la_memoria8.jpg"
+            "assets/img/fabrica_de_la_memoria.webp",
+            "assets/img/fabrica_de_la_memoria_1.webp",
+            "assets/img/fabrica_de_la_memoria_2.webp",
+            "assets/img/fabrica_de_la_memoria3.webp",
+            "assets/img/fabrica_de_la_memoria4.webp",
+            "assets/img/fabrica_de_la_memoria5.webp",
+            "assets/img/fabrica_de_la_memoria6.webp",
+            "assets/img/fabrica_de_la_memoria7.webp",
+            "assets/img/fabrica_de_la_memoria8.webp"
         ], 
         autor: "Ricardo Suarez", 
         year: "2024", 
         desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza.\nInstagram: @richyross_art" 
     },
-    // --- NUEVAS INCORPORACIONES (2025) ---
     { 
         title: "Serie Orquídea", 
         url: "galeria.html", 
         type: "Obra", 
         keywords: "karen gonzalez serie orquidea grafito dibujo botanica", 
         images: [
-            "assets/img/serie_orquidea_1.jpg", 
-            "assets/img/serie_orquidea_2.jpg",
-            "assets/img/serie_orquidea_3.jpg"
+            "assets/img/serie_orquidea_1.webp", 
+            "assets/img/serie_orquidea_2.webp",
+            "assets/img/serie_orquidea_3.webp"
         ], 
         autor: "Karen González", 
         year: "2024", 
@@ -166,8 +187,8 @@ const SEARCH_DB = [
         type: "Obra", 
         keywords: "lennis lopez calma estampa agua fuerte grabado", 
         images: [
-            "assets/img/calma_1.jpg", 
-            "assets/img/calma_2.jpg"
+            "assets/img/calma_1.webp", 
+            "assets/img/calma_2.webp"
         ], 
         autor: "Lennis López", 
         year: "2025", 
@@ -178,7 +199,7 @@ const SEARCH_DB = [
         url: "galeria.html", 
         type: "Obra", 
         keywords: "jhonattan rovaina momo new year 2025 digital ilustracion saradragonil1", 
-        images: ["assets/img/momo_new_year.jpg"], 
+        images: ["assets/img/momo_new_year.webp"], 
         autor: "Jhonattan Rovaina", 
         year: "2025", 
         desc: "Técnica: Digital.\nCantidad: 1 pieza.\nInstagram: @saradragonil1" 
@@ -285,38 +306,99 @@ const ComponentInjector = {
         }
     }
 };
+/* ==========================================================================
+   NUEVO: GESTOR DE ORDENAMIENTO
+   ========================================================================== */
+const SortManager = {
+    sort(data, criteria) {
+        let sorted = [...data]; // Copia para no dañar el original
+        switch (criteria) {
+            case 'title-asc': // A-Z
+                return sorted.sort((a, b) => a.title.localeCompare(b.title, 'es', { sensitivity: 'base' }));
+            case 'title-desc': // Z-A
+                return sorted.sort((a, b) => b.title.localeCompare(a.title, 'es', { sensitivity: 'base' }));
+            case 'artist-asc': // Artista A-Z
+                return sorted.sort((a, b) => (a.autor || "").localeCompare((b.autor || ""), 'es', { sensitivity: 'base' }));
+            case 'year-desc': // Año (Más reciente)
+                return sorted.sort((a, b) => parseInt(b.year || 0) - parseInt(a.year || 0));
+            case 'year-asc': // Año (Más antiguo)
+                return sorted.sort((a, b) => parseInt(a.year || 0) - parseInt(b.year || 0));
+            default: return sorted;
+        }
+    }
+};
 
 /* ==========================================================================
-   4. RENDERIZADOR DE TARJETAS (CORREGIDO: EVITA CRASH EN REVERÓN)
+   NUEVO: SKELETON SCREENS (PANTALLA DE CARGA)
+   ========================================================================== */
+const SkeletonManager = {
+    render(containerId, count = 10) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        let html = '';
+        for (let i = 0; i < count; i++) {
+            html += `
+                <div class="skeleton-card">
+                    <div class="skeleton-box sk-img"></div>
+                    <div class="sk-content">
+                        <div class="skeleton-box sk-text sk-title"></div>
+                        <div class="skeleton-box sk-text sk-meta"></div>
+                    </div>
+                </div>`;
+        }
+        container.innerHTML = html;
+    }
+};
+
+/* ==========================================================================
+   4. RENDERIZADOR DE CONTENIDO (ACTUALIZADO CON ANIMACIONES Y FILTROS)
    ========================================================================== */
 const ContentRenderer = {
-    render: () => {
-        // A. GALERÍA PRINCIPAL (Filtro: Es Obra Y NO es Reverón)
-        const grid = document.getElementById('gridObras');
-        if (grid) {
-            // Aseguramos que i.autor existe antes de usar includes
-            const items = SEARCH_DB.filter(i => i.type === 'Obra' && i.autor && !i.autor.includes('Reverón'));
-            grid.innerHTML = items.map(ContentRenderer.cardTemplate).join('');
-        }
-        // B. EXPOSICIONES
-        const gridVideos = document.getElementById('gridExposiciones');
-        if (gridVideos) {
-            const items = SEARCH_DB.filter(i => i.type === 'Video');
-            gridVideos.innerHTML = items.map(ContentRenderer.cardTemplate).join('');
-        }
-        // C. CARRUSEL REVERÓN (SOLUCIÓN DEL ERROR DEL MENÚ AQUÍ)
-        const track = document.getElementById('trackObras');
-        if (track) {
-            // Filtramos solo obras, evitando el 'Perfil' que rompía el código
-            const items = SEARCH_DB.filter(i => i.type === 'Obra' && i.autor && i.autor.includes('Reverón'));
-            track.innerHTML = items.map(ContentRenderer.cardTemplate).join('');
-        }
-        // Asignar clicks
-        document.querySelectorAll('.file-card').forEach(card => {
-            card.addEventListener('click', () => ModalManager.open(card));
-        });
+    // Inicia el proceso de carga simulada y ordenamiento
+    init: (containerId, filterType = 'Obra') => {
+        const grid = document.getElementById(containerId);
+        if (!grid) return;
+
+        // 1. Mostrar Skeletons (Pantalla de carga)
+        SkeletonManager.render(containerId, 8);
+
+        // 2. Obtener criterio del selector (si existe en el HTML)
+        const sortSelect = document.getElementById('sortSelect');
+        const sortCriteria = sortSelect ? sortSelect.value : 'title-asc';
+
+        // 3. Simular tiempo de carga (800ms) para efecto visual
+        setTimeout(() => {
+            // Filtrar datos base según la página
+            let items = [];
+            if (filterType === 'Obra') {
+                items = SEARCH_DB.filter(i => i.type === 'Obra' && i.autor && !i.autor.includes('Reverón'));
+            } else if (filterType === 'Video') {
+                items = SEARCH_DB.filter(i => i.type === 'Video');
+            } else if (filterType === 'Reveron') {
+                items = SEARCH_DB.filter(i => i.type === 'Obra' && i.autor && i.autor.includes('Reverón'));
+            }
+
+            // 4. Ordenar los datos
+            const sortedItems = SortManager.sort(items, sortCriteria);
+
+            // 5. Renderizar
+            if (grid) {
+                grid.innerHTML = sortedItems.map((item, index) => 
+                    ContentRenderer.cardTemplate(item, index)
+                ).join('');
+            }
+
+            // 6. Reactivar clicks en las nuevas tarjetas
+            document.querySelectorAll('.file-card').forEach(card => {
+                card.addEventListener('click', () => ModalManager.open(card));
+            });
+
+        }, 800); 
     },
-    cardTemplate: (item) => {
+
+    cardTemplate: (item, index) => {
+        // Extraer técnica
         let tech = "";
         if (item.desc && item.desc.includes("Técnica")) {
             const match = item.desc.match(/Técnica \/ Materia: (.*?)\./);
@@ -326,13 +408,23 @@ const ContentRenderer = {
             tech = tech.charAt(0).toUpperCase() + tech.slice(1);
         }
         
+        // Imagen principal
         const img = item.images && item.images[0] ? item.images[0] : '';
+        
+        // Preview: Video o Imagen
         const preview = item.type === 'Video' 
             ? `<div class="card-preview" style="background:#e8f0fe; display:flex; align-items:center; justify-content:center; font-size:3rem;">▶</div>`
             : `<div class="card-preview"><img src="${img}" loading="lazy" alt="${item.title}"></div>`;
 
+        // Retraso de animación escalonada (stagger)
+        const delay = index * 0.05; 
+        
         return `
-            <article class="file-card" data-title="${item.title}" data-autor="${item.autor}" data-type="${item.type}">
+            <article class="file-card fade-scale-in" 
+                     style="animation-delay: ${delay}s"
+                     data-title="${item.title}" 
+                     data-autor="${item.autor}" 
+                     data-type="${item.type}">
                 ${preview}
                 <div class="card-footer">
                     <div class="card-title-text">${item.title}</div>
@@ -342,7 +434,6 @@ const ContentRenderer = {
             </article>`;
     }
 };
-
 /* ==========================================================================
    5. AUTOCOMPLETADO
    ========================================================================== */
@@ -693,8 +784,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. INYECTAR
     ComponentInjector.run();
     
-    // 2. RENDERIZAR
-    ContentRenderer.render();
+// A. Si estamos en Galería: Activar Skeletons y Escuchar el Filtro
+    if (document.getElementById('gridObras')) {
+        ContentRenderer.init('gridObras', 'Obra');
+        
+        // Cuando cambien el select, recargamos con animación
+        document.getElementById('sortSelect')?.addEventListener('change', () => {
+            ContentRenderer.init('gridObras', 'Obra');
+        });
+    } 
+    // B. Si estamos en Exposiciones
+    else if (document.getElementById('gridExposiciones')) {
+        ContentRenderer.init('gridExposiciones', 'Video');
+    }
+    // C. Si estamos en el Perfil de Reverón (Carrusel)
+    else if (document.getElementById('trackObras')) {
+        ContentRenderer.init('trackObras', 'Reveron');
+    } 
 
     // 3. CAPTURAR ELEMENTOS (Ahora que existen)
     DOM.modal = document.getElementById('modalVisualizador');
