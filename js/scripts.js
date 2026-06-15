@@ -1,876 +1,440 @@
-
 /**
- * GAVAR - Script Principal
- * Versión: Corregida (Búsqueda Flexible + Galería Full)
+ * @fileoverview GAVAR Core Engine 2026
+ * @description Sistema modular orientado a objetos con View Transitions, tipado estricto implícito y Delegación de Eventos.
  */
 
-/* ==========================================================================
-   0. UTILIDADES GLOBALES (NUEVO: Para ignorar acentos)
-   ========================================================================== */
-const normalizeText = (text) => {
-    if (!text) return "";
-    return text.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const TextEngine = {
+    /**
+     * Normaliza cadenas de texto eliminando diacríticos y homogeneizando a minúsculas.
+     * @param {string} text - Cadena de entrada.
+     * @returns {string} Cadena normalizada.
+     */
+    normalize: (text) => text ? text.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") : ""
 };
 
-/* ==========================================================================
-   1. BASE DE DATOS MAESTRA
-   ========================================================================== */
-const SEARCH_DB = [
-    // --- OBRAS GRÁFICAS Y MIXTAS ---
-{ 
-        title: "Sin título", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "maria ferreira mixta tiza escarcha pintura", 
-        images: [
-            "assets/img/maria.webp",
-            "assets/img/maria_1.webp",
-            "assets/img/maria_2.webp",
-            "assets/img/maria_3.webp",
-            "assets/img/maria_4.webp",
-            "assets/img/maria_5.webp"
-        ], 
-        autor: "María Ferreira", 
-        year: "2024", 
-        desc: "Técnica / Materia: Mixta / Tiza, escarcha y pintura.\nCantidad: 3 piezas." 
+/**
+ * Base de Datos Maestra Refactorizada a Objetos JSON Tipados
+ * @constant {Array<Object>}
+ */
+const ART_DATABASE = [
+// --- OBRAS GRÁFICAS Y MIXTAS ---
+    { 
+        id: "art-001", title: "Sin título", url: "galeria.html", type: "Obra",
+        keywords: ["maria ferreira", "mixta", "tiza", "escarcha", "pintura"],
+        images: ["assets/img/maria.webp", "assets/img/maria_1.webp", "assets/img/maria_2.webp", "assets/img/maria_3.webp", "assets/img/maria_4.webp", "assets/img/maria_5.webp"], 
+        autor: "María Ferreira", year: 2024, technique: "Mixta (Tiza, escarcha y pintura)", quantity: 3, instagram: null, desc: ""
     },
     { 
-        title: "Sin título 2", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "camila martinez", 
-        images: [
-            "assets/img/camila.webp",
-            "assets/img/camila_1.webp"
-        ], 
-        autor: "Camila Martínez", 
-        year: "2025", 
-        desc: "Técnica / Materia: Mixta / Tiza, escarcha y pintura.\nCantidad: 1 pieza." 
+        id: "art-002", title: "Sin título 2", url: "galeria.html", type: "Obra",
+        keywords: ["camila martinez"], 
+        images: ["assets/img/camila.webp", "assets/img/camila_1.webp"], 
+        autor: "Camila Martínez", year: 2025, technique: "Mixta (Tiza, escarcha y pintura)", quantity: 1, instagram: null, desc: ""
     },
     { 
-        title: "Resiliencia", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "serigrafia grabado tinta papel arte grafico alix velasquez", 
-        images: [
-            "assets/img/resiliencia.webp",
-            "assets/img/resiliencia_detalle1.webp",
-        ], 
-        autor: "Alix Velásquez", 
-        year: "2025", 
-        desc: "Técnica / Materia: Serigrafía.\nCantidad: 1 pieza.\nInstagram: @alix_v_art" 
+        id: "art-003", title: "Resiliencia", url: "galeria.html", type: "Obra",
+        keywords: ["serigrafia", "grabado", "tinta", "papel", "arte grafico", "alix velasquez"],
+        images: ["assets/img/resiliencia.webp", "assets/img/resiliencia_detalle1.webp"], 
+        autor: "Alix Velásquez", year: 2025, technique: "Serigrafía", quantity: 1, instagram: "@alix_v_art", desc: ""
     },
     { 
-        title: "Real", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "xilografia madera grabado relieve impresion arantza martinez", 
-        images: [
-            "assets/img/real.webp",
-            "assets/img/real_detalle1.webp"
-        ], 
-        autor: "Arantza Martínez", 
-        year: "2025", 
-        desc: "Técnica / Materia: Xilografía.\nCantidad: 1 pieza." 
+        id: "art-004", title: "Real", url: "galeria.html", type: "Obra",
+        keywords: ["xilografia", "madera", "grabado", "relieve", "impresion", "arantza martinez"],
+        images: ["assets/img/real.webp", "assets/img/real_detalle1.webp"], 
+        autor: "Arantza Martínez", year: 2025, technique: "Xilografía", quantity: 1, instagram: null, desc: ""
     },
     { 
-        title: "Solaria", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "digital ilustracion diseño tablet computadora andrea blanco", 
+        id: "art-005", title: "Solaria", url: "galeria.html", type: "Obra",
+        keywords: ["digital", "ilustracion", "diseño", "tablet", "computadora", "andrea blanco"],
         images: ["assets/img/solaria.webp"], 
-        autor: "Andrea Blanco", 
-        year: "2024", 
-        desc: "Técnica / Materia: Digital.\nCantidad: 1 pieza.\nInstagram: @anbndy22" 
+        autor: "Andrea Blanco", year: 2024, technique: "Digital", quantity: 1, instagram: "@anbndy22", desc: ""
     },
     { 
-        title: "The News", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "superposicion digital capas collage fotomontaje isabel figueroa", 
+        id: "art-006", title: "The News", url: "galeria.html", type: "Obra",
+        keywords: ["superposicion", "digital", "capas", "collage", "fotomontaje", "isabel figueroa"],
         images: ["assets/img/the_news.webp"], 
-        autor: "Isabel Figueroa", 
-        year: "2022", 
-        desc: "Técnica / Materia: Superposición digital.\nCantidad: 1 pieza." 
+        autor: "Isabel Figueroa", year: 2022, technique: "Superposición digital", quantity: 1, instagram: null, desc: ""
     },
     { 
-        title: "Antimateria", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "ensamblaje hilograma hilos clavos madera escultura mixta koda efrain aguilera", 
-        images: [
-            "assets/img/antimateria.webp",
-            "assets/img/antimateria_detalle1.webp",
-            "assets/img/antimateria_detalle2.webp"
-        ], 
-        autor: "Efraín Aguilera (Koda)", 
-        year: "2024", 
-        desc: "Técnica / Materia: Ensamblaje e hilograma.\nCantidad: 1 pieza.\nInstagram: @6kodafree6" 
+        id: "art-007", title: "Antimateria", url: "galeria.html", type: "Obra",
+        keywords: ["ensamblaje", "hilograma", "hilos", "clavos", "madera", "escultura", "mixta", "koda", "efrain aguilera"],
+        images: ["assets/img/antimateria.webp", "assets/img/antimateria_detalle1.webp", "assets/img/antimateria_detalle2.webp"], 
+        autor: "Efraín Aguilera (Koda)", year: 2024, technique: "Ensamblaje e hilograma", quantity: 1, instagram: "@6kodafree6", desc: ""
     },
 
     // --- LIBROS OBJETO (POP-UP) ---
     { 
-        title: "El Tapiz del Alma", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "pop-up popup libro objeto 3d papel escultura cristian rojas", 
-        images: [
-            "assets/img/el_tapiz_del_alma.webp",
-            "assets/img/el_tapiz_del_alma1.webp",
-            "assets/img/el_tapiz_del_alma2.webp",
-            "assets/img/el_tapiz_del_alma3.webp",
-            "assets/img/el_tapiz_del_alma4.webp",
-            "assets/img/el_tapiz_del_alma5.webp",
-            "assets/img/el_tapiz_del_alma6.webp",
-            "assets/img/el_tapiz_del_alma7.webp",
-            "assets/img/el_tapiz_del_alma8.webp"
-        ], 
-        autor: "Cristian Rojas", 
-        year: "2025", 
-        desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza." 
+        id: "art-008", title: "El Tapiz del Alma", url: "galeria.html", type: "Obra",
+        keywords: ["pop-up", "popup", "libro objeto", "3d", "papel", "escultura", "cristian rojas"],
+        images: ["assets/img/el_tapiz_del_alma.webp", "assets/img/el_tapiz_del_alma1.webp", "assets/img/el_tapiz_del_alma2.webp", "assets/img/el_tapiz_del_alma3.webp", "assets/img/el_tapiz_del_alma4.webp", "assets/img/el_tapiz_del_alma5.webp", "assets/img/el_tapiz_del_alma6.webp", "assets/img/el_tapiz_del_alma7.webp", "assets/img/el_tapiz_del_alma8.webp"], 
+        autor: "Cristian Rojas", year: 2025, technique: "Pop-up (Libro objeto)", quantity: 1, instagram: null, desc: ""
     },
     { 
-        title: "Bodhiria", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "pop-up popup libro objeto plegable papel mariend romero", 
-        images: [
-            "assets/img/bodhiria.webp",
-            "assets/img/bodhiria_1.webp",
-            "assets/img/bodhiria_2.webp",
-            "assets/img/bodhiria_3.webp",
-            "assets/img/bodhiria_4.webp",
-            "assets/img/bodhiria_5.webp",
-            "assets/img/bodhiria_6.webp"
-        ], 
-        autor: "Mariend Romero", 
-        year: "2025", 
-        desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza." 
+        id: "art-009", title: "Bodhiria", url: "galeria.html", type: "Obra",
+        keywords: ["pop-up", "popup", "libro objeto", "plegable", "papel", "mariend romero"],
+        images: ["assets/img/bodhiria.webp", "assets/img/bodhiria_1.webp", "assets/img/bodhiria_2.webp", "assets/img/bodhiria_3.webp", "assets/img/bodhiria_4.webp", "assets/img/bodhiria_5.webp", "assets/img/bodhiria_6.webp"], 
+        autor: "Mariend Romero", year: 2025, technique: "Pop-up (Libro objeto)", quantity: 1, instagram: null, desc: ""
     },
     { 
-        title: "Fábrica de la Memoria", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "pop-up popup libro objeto memoria papel arquitectura ricardo suarez", 
-        images: [
-            "assets/img/fabrica_de_la_memoria.webp",
-            "assets/img/fabrica_de_la_memoria_1.webp",
-            "assets/img/fabrica_de_la_memoria_2.webp",
-            "assets/img/fabrica_de_la_memoria3.webp",
-            "assets/img/fabrica_de_la_memoria4.webp",
-            "assets/img/fabrica_de_la_memoria5.webp",
-            "assets/img/fabrica_de_la_memoria6.webp",
-            "assets/img/fabrica_de_la_memoria7.webp",
-            "assets/img/fabrica_de_la_memoria8.webp"
-        ], 
-        autor: "Ricardo Suarez", 
-        year: "2024", 
-        desc: "Técnica / Materia: Pop-up. Libro objeto.\nCantidad: 1 pieza.\nInstagram: @richyross_art" 
+        id: "art-010", title: "Fábrica de la Memoria", url: "galeria.html", type: "Obra",
+        keywords: ["pop-up", "popup", "libro objeto", "memoria", "papel", "arquitectura", "ricardo suarez"],
+        images: ["assets/img/fabrica_de_la_memoria.webp", "assets/img/fabrica_de_la_memoria_1.webp", "assets/img/fabrica_de_la_memoria_2.webp", "assets/img/fabrica_de_la_memoria3.webp", "assets/img/fabrica_de_la_memoria4.webp", "assets/img/fabrica_de_la_memoria5.webp", "assets/img/fabrica_de_la_memoria6.webp", "assets/img/fabrica_de_la_memoria7.webp", "assets/img/fabrica_de_la_memoria8.webp"], 
+        autor: "Ricardo Suarez", year: 2024, technique: "Pop-up (Libro objeto)", quantity: 1, instagram: "@richyross_art", desc: ""
     },
     { 
-        title: "Serie Orquídea", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "karen gonzalez serie orquidea grafito dibujo botanica", 
-        images: [
-            "assets/img/serie_orquidea_1.webp", 
-            "assets/img/serie_orquidea_2.webp",
-            "assets/img/serie_orquidea_3.webp"
-        ], 
-        autor: "Karen González", 
-        year: "2024", 
-        desc: "Técnica / Materia: Grafito.\nCantidad: 1 pieza." 
+        id: "art-011", title: "Serie Orquídea", url: "galeria.html", type: "Obra",
+        keywords: ["karen gonzalez", "serie orquidea", "grafito", "dibujo", "botanica"],
+        images: ["assets/img/serie_orquidea_1.webp", "assets/img/serie_orquidea_2.webp", "assets/img/serie_orquidea_3.webp"], 
+        autor: "Karen González", year: 2024, technique: "Grafito", quantity: 1, instagram: null, desc: ""
     },
     { 
-        title: "Calma", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "lennis lopez calma estampa agua fuerte grabado", 
-        images: [
-            "assets/img/calma_1.webp", 
-            "assets/img/calma_2.webp"
-        ], 
-        autor: "Lennis López", 
-        year: "2025", 
-        desc: "Técnica / Materia: Estampa de agua fuerte.\nCantidad: 1 pieza." 
+        id: "art-012", title: "Calma", url: "galeria.html", type: "Obra",
+        keywords: ["lennis lopez", "calma", "estampa", "agua fuerte", "grabado"],
+        images: ["assets/img/calma_1.webp", "assets/img/calma_2.webp"], 
+        autor: "Lennis López", year: 2025, technique: "Estampa de agua fuerte", quantity: 1, instagram: null, desc: ""
     },
     { 
-        title: "Momo New Year 2025", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "jhonattan rovaina momo new year 2025 digital ilustracion saradragonil1", 
+        id: "art-013", title: "Momo New Year 2025", url: "galeria.html", type: "Obra",
+        keywords: ["jhonattan rovaina", "momo new year 2025", "digital", "ilustracion", "saradragonil1"],
         images: ["assets/img/momo_new_year.webp"], 
-        autor: "Jhonattan Rovaina", 
-        year: "2025", 
-        desc: "Técnica: Digital.\nCantidad: 1 pieza.\nInstagram: @saradragonil1" 
+        autor: "Jhonattan Rovaina", year: 2025, technique: "Digital", quantity: 1, instagram: "@saradragonil1", desc: ""
     },
 
-    // --- EXPOSICIONES Y REVERÓN (SIN CAMBIOS) ---
+    // --- EXPOSICIONES Y REVERÓN ---
     { 
-        title: "Recorrido Virtual 2024", 
-        url: "exposiciones.html", 
-        type: "Video", 
-        keywords: "tour virtual video recorrido", 
-        images: [""], 
-        autor: "Curaduría GAVAR", 
-        year: "2024", 
-        desc: "Video introductorio al espacio virtual." 
+        id: "vid-001", title: "Recorrido Virtual 2024", url: "exposiciones.html", type: "Video",
+        keywords: ["tour virtual", "video", "recorrido"], 
+        images: [""], // Nota: Si tienes link de youtube, colócalo aquí, ej: "https://www.youtube.com/embed/..."
+        autor: "Curaduría GAVAR", year: 2024, technique: "Multimedia", quantity: 1, instagram: null, desc: "Video introductorio al espacio virtual." 
     },
     { 
-        title: "Armando Reverón (Perfil)", 
-        url: "mencion-especial.html", 
-        type: "Perfil", 
-        keywords: "reveron armando maestro luz castillete" 
+        id: "rev-001", title: "Armando Reverón (Perfil)", url: "mencion-especial.html", type: "Perfil", 
+        keywords: ["reveron", "armando", "maestro", "luz", "castillete"],
+        images: [], autor: "", year: null, technique: "", quantity: 0, instagram: null, desc: ""
     },
     { 
-        title: "La Cueva", 
-        url: "mencion-especial.html", 
-        type: "Obra", 
-        keywords: "reveron azul pintura clasica", 
+        id: "rev-002", title: "La Cueva", url: "mencion-especial.html", type: "Obra",
+        keywords: ["reveron", "azul", "pintura clasica"], 
         images: ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/La_Cueva_-_Armando_Rever%C3%B3n.jpg/1200px-La_Cueva_-_Armando_Rever%C3%B3n.jpg"], 
-        autor: "Armando Reverón", 
-        year: "1920", 
-        desc: "Obra maestra de su Período Azul." 
+        autor: "Armando Reverón", year: 1920, technique: "Óleo", quantity: 1, instagram: null, desc: "Obra maestra de su Período Azul." 
     },
     { 
-        title: "Reino Fungi", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "isadora parada reino fungi mixta folielolie 2023 hongos", 
-        images: [
-            "assets/img/reino_fungi_1.avif",
-            "assets/img/reino_fungi_2.avif",
-            "assets/img/reino_fungi_3.avif",
-            "assets/img/reino_fungi_4.avif",
-            "assets/img/reino_fungi_5.avif",
-            "assets/img/reino_fungi_6.avif"
-        ], 
-        autor: "Isadora Parada", 
-        year: "2023", 
-        desc: "Técnica / Materia: Mixta.\nCantidad: 3 piezas.\nInstagram: @folielolie" 
+        id: "art-014", title: "Reino Fungi", url: "galeria.html", type: "Obra",
+        keywords: ["isadora parada", "reino fungi", "mixta", "folielolie", "2023", "hongos"], 
+        images: ["assets/img/reino_fungi_1.avif", "assets/img/reino_fungi_2.avif", "assets/img/reino_fungi_3.avif", "assets/img/reino_fungi_4.avif", "assets/img/reino_fungi_5.avif", "assets/img/reino_fungi_6.avif"], 
+        autor: "Isadora Parada", year: 2023, technique: "Mixta", quantity: 3, instagram: "@folielolie", desc: "" 
     },
     { 
-        title: "Cotidianidad", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "nelyireh mejias cotidianidad acrilico sobre lienzo artes graficas nelyire", 
-        images: [
-            "assets/img/cotidianidad_1.avif",
-            "assets/img/cotidianidad_2.avif"
-        ], 
-        autor: "Nelyireh Mejias", 
-        year: "N/D", 
-        desc: "Técnica / Materia: Acrílico sobre lienzo.\nMención: Artes gráficas.\nCantidad: 1 pieza.\nInstagram: @nelyire" 
+        id: "art-015", title: "Cotidianidad", url: "galeria.html", type: "Obra",
+        keywords: ["nelyireh mejias", "cotidianidad", "acrilico sobre lienzo", "artes graficas", "nelyire"], 
+        images: ["assets/img/cotidianidad_1.avif", "assets/img/cotidianidad_2.avif"], 
+        autor: "Nelyireh Mejias", year: "N/D", technique: "Acrílico sobre lienzo", quantity: 1, instagram: "@nelyire", desc: "Mención: Artes gráficas." 
     },
     { 
-        title: "Hombre en penumbras", 
-        url: "galeria.html", 
-        type: "Obra", 
-        keywords: "orissa liendo lyu venus hombre en penumbras mixta el_lienzo.devenus 2023", 
-        images: [
-            "assets/img/hombre_en_penumbras_1.avif",
-            "assets/img/hombre_en_penumbras_2.avif"
-        ], 
-        autor: "Orissa Liendo (Lyu Venus)", 
-        year: "2023", 
-        desc: "Técnica / Materia: Mixta.\nCantidad: 1 pieza.\nInstagram: @el_lienzo.devenus" 
+        id: "art-016", title: "Hombre en penumbras", url: "galeria.html", type: "Obra",
+        keywords: ["orissa liendo", "lyu venus", "hombre en penumbras", "mixta", "el_lienzo.devenus", "2023"], 
+        images: ["assets/img/hombre_en_penumbras_1.avif", "assets/img/hombre_en_penumbras_2.avif"], 
+        autor: "Orissa Liendo (Lyu Venus)", year: 2023, technique: "Mixta", quantity: 1, instagram: "@el_lienzo.devenus", desc: "" 
     }
 ];
-/* ==========================================================================
-   2. DOM GLOBAL
-   ========================================================================== */
-// Se inicializa vacío y se rellena tras la inyección
-let DOM = {}; 
-
-/* ==========================================================================
-   3. INYECTOR DE HTML (COMPONENTES)
-   ========================================================================== */
-/* 3. INYECTOR DE HTML */
-const ComponentInjector = {
-    run: () => {
-        // CORRECCIÓN: Quitamos el '!important' del display base para que el media query funcione
-        const styleFix = `
-            <style>
-                .nav-arrow { 
-                    display: flex; /* Se muestra por defecto, el JS lo ocultará si es necesario */
-                    align-items: center !important; 
-                    justify-content: center !important; 
-                    padding-bottom: 2px !important; 
-                }
-                .modal-desc-block { font-size: 1.1rem !important; line-height: 1.6 !important; margin-top:15px; }
-                .suggestion-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 4px; background: #eee; }
-                
-                /* ESTO AHORA SÍ FUNCIONARÁ: Oculta flechas en móvil obligatoriamente */
-                @media (max-width: 768px) { .nav-arrow { display: none !important; } }
-            </style>`;
-        
-        // ... (El resto del HTML del modal y buscador sigue igual, no necesitas copiarlo todo si no quieres, 
-        // pero asegúrate de que el styleFix sea el de arriba)
-        
-        // CÓDIGO DE INYECCIÓN COMPLETO PARA EVITAR ERRORES DE COPIA:
-        if (!document.getElementById('modalVisualizador')) {
-            const modalHTML = `
-                <div id="modalVisualizador" class="modal-overlay" aria-hidden="true" style="display:none;">
-                    <div class="modal-window">
-                        <div class="modal-media">
-                            <button id="btnModalPrev" class="nav-arrow modal-arrow left">&#10094;</button>
-                            <div class="media-container" id="mediaContainer">
-                                <img id="mImg" src="" style="display:none;" alt="Obra">
-                                <video id="mVideo" controls style="display:none; width:100%;"></video>
-                                <iframe id="mYoutube" style="display:none; width:100%; height:100%; border:none;"></iframe>
-                            </div>
-                            <button id="btnModalNext" class="nav-arrow modal-arrow right">&#10095;</button>
-                            <div id="modalThumbnails" class="thumbnails-strip"></div>
-                            <div id="mobileDots" class="mobile-dots"></div>
+class ComponentInjector {
+    /**
+     * Inyecta el modal semántico de forma segura en el DOM
+     */
+    static run() {
+        if (document.getElementById('modalVisualizador')) return;
+        const modalHTML = `
+            <dialog id="modalVisualizador" class="modal-overlay" aria-labelledby="mTitle">
+                <div class="modal-window">
+                    <div class="modal-media">
+                        <button id="btnModalPrev" class="nav-arrow modal-arrow left" aria-label="Anterior">&#10094;</button>
+                        <div class="media-container" id="mediaContainer">
+                            <img id="mImg" src="" alt="Visualización de obra">
+                            <iframe id="mYoutube" src="" style="display:none; width:100%; height:100%; border:none;" title="Video de la exposición"></iframe>
                         </div>
-                        <div class="modal-details">
-                            <button id="btnModalClose" class="close-modal">×</button>
-                            <div id="modalTextContent"></div>
-                        </div>
+                        <button id="btnModalNext" class="nav-arrow modal-arrow right" aria-label="Siguiente">&#10095;</button>
+                        <div id="modalThumbnails" class="thumbnails-strip"></div>
+                        <div id="mobileDots" class="mobile-dots"></div>
                     </div>
-                </div>`;
-            
-            const searchHTML = `
-                <div id="mobileSearchOverlay" class="search-modal-overlay" aria-hidden="true" style="display:none;">
-                    <div class="search-modal-content">
-                        <h3>¿Qué deseas buscar?</h3>
-                        <input type="text" id="mobileInput" placeholder="Buscar..." autocomplete="off">
-                        <div id="mobile-suggestions" class="suggestions-list"></div>
-                        <button onclick="cerrarBusquedaMovil()" class="btn-cancel" style="margin-top:10px;">Cerrar</button>
+                    <div class="modal-details">
+                        <button id="btnModalClose" class="close-modal" aria-label="Cerrar modal">×</button>
+                        <div id="modalTextContent"></div>
                     </div>
-                </div>`;
+                </div>
+            </dialog>`;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+}
 
-            document.body.insertAdjacentHTML('beforeend', styleFix + modalHTML + searchHTML);
+class ViewTransitionEngine {
+    /**
+     * Coordina la transición de la API GPU nativa
+     * @param {HTMLElement} cardElement 
+     * @param {Object} dataItem 
+     */
+    static async trigger(cardElement, dataItem) {
+        const targetImg = cardElement.querySelector('img');
+        if (targetImg) targetImg.style.viewTransitionName = 'active-artwork';
+
+        if (!document.startViewTransition) {
+            ModalManager.open(dataItem);
+            if (targetImg) targetImg.style.viewTransitionName = '';
+            return;
         }
+
+        const transition = document.startViewTransition(() => {
+            ModalManager.open(dataItem);
+            const dialogImg = document.getElementById('mImg');
+            if (dialogImg) dialogImg.style.viewTransitionName = 'active-artwork';
+        });
+
+        await transition.finished;
+        if (targetImg) targetImg.style.viewTransitionName = '';
+        const dialogImg = document.getElementById('mImg');
+        if (dialogImg) dialogImg.style.viewTransitionName = '';
+    }
+}
+
+class ModalManager {
+    static state = { currentItem: null, index: 0, touchX: 0 };
+
+    static init() {
+        const dialog = document.getElementById('modalVisualizador');
+        if (!dialog) return;
+
+        // Delegación de eventos maestra para el Modal
+        dialog.addEventListener('click', (e) => {
+            // Cierre del modal (Clic fuera o en la X)
+            if (e.target.id === 'modalVisualizador' || e.target.closest('#btnModalClose')) {
+                dialog.close();
+            }
+            // Controles de navegación
+            if (e.target.closest('#btnModalPrev')) this.navigate(-1);
+            if (e.target.closest('#btnModalNext')) this.navigate(1);
+        });
+
+        // Limpieza de memoria (Gobernanza de recursos)
+        dialog.addEventListener('close', () => {
+            document.body.style.overflow = '';
+            const ytEl = document.getElementById('mYoutube');
+            if (ytEl) ytEl.src = '';
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!dialog.open) return;
+            if (e.key === 'ArrowRight') this.navigate(1);
+            if (e.key === 'ArrowLeft') this.navigate(-1);
+            if (e.key === 'Escape') dialog.close();
+        });
+
+        const mediaContainer = document.getElementById('mediaContainer');
+        if (mediaContainer) {
+            mediaContainer.addEventListener('touchstart', e => {
+                this.state.touchX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            mediaContainer.addEventListener('touchend', e => {
+                const delta = this.state.touchX - e.changedTouches[0].screenX;
+                if (Math.abs(delta) > 60) this.navigate(Math.sign(delta));
+            }, { passive: true });
+        }
+    }
+
+    static open(item) {
+        this.state.currentItem = item;
+        this.state.index = 0;
         
-        const desktopBox = document.getElementById('searchBoxDesktop');
-        if(desktopBox && !document.getElementById('desktopSuggestions')) {
-            desktopBox.insertAdjacentHTML('beforeend', '<div id="desktopSuggestions" class="suggestions-list" style="display:none;"></div>');
-        }
-    }
-};
-/* ==========================================================================
-   NUEVO: GESTOR DE ORDENAMIENTO
-   ========================================================================== */
-const SortManager = {
-    sort(data, criteria) {
-        let sorted = [...data]; // Copia para no dañar el original
-        switch (criteria) {
-            case 'title-asc': // A-Z
-                return sorted.sort((a, b) => a.title.localeCompare(b.title, 'es', { sensitivity: 'base' }));
-            case 'title-desc': // Z-A
-                return sorted.sort((a, b) => b.title.localeCompare(a.title, 'es', { sensitivity: 'base' }));
-            case 'artist-asc': // Artista A-Z
-                return sorted.sort((a, b) => (a.autor || "").localeCompare((b.autor || ""), 'es', { sensitivity: 'base' }));
-            case 'year-desc': // Año (Más reciente)
-                return sorted.sort((a, b) => parseInt(b.year || 0) - parseInt(a.year || 0));
-            case 'year-asc': // Año (Más antiguo)
-                return sorted.sort((a, b) => parseInt(a.year || 0) - parseInt(b.year || 0));
-            default: return sorted;
-        }
-    }
-};
+        const dialog = document.getElementById('modalVisualizador');
+        const txtContainer = document.getElementById('modalTextContent');
+        const imgEl = document.getElementById('mImg');
+        const ytEl = document.getElementById('mYoutube');
+        const btnPrev = document.getElementById('btnModalPrev');
+        const btnNext = document.getElementById('btnModalNext');
 
-/* ==========================================================================
-   NUEVO: SKELETON SCREENS (PANTALLA DE CARGA)
-   ========================================================================== */
-const SkeletonManager = {
-    render(containerId, count = 10) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        
-        let html = '';
-        for (let i = 0; i < count; i++) {
-            html += `
-                <div class="skeleton-card">
-                    <div class="skeleton-box sk-img"></div>
-                    <div class="sk-content">
-                        <div class="skeleton-box sk-text sk-title"></div>
-                        <div class="skeleton-box sk-text sk-meta"></div>
-                    </div>
-                </div>`;
-        }
-        container.innerHTML = html;
-    }
-};
+        txtContainer.innerHTML = `
+            <h2 id="mTitle" style="font-size:2rem; font-weight:700; margin-bottom:5px; color:var(--text-main);">${item.title}</h2>
+            <h3 style="font-size:1.1rem; font-weight:400; margin-bottom:20px; color:var(--text-light);">${item.autor || ''}</h3>
+            <span class="modal-year" style="display:block; font-size:1.5rem; font-weight:700; color:var(--text-main); margin-bottom:10px;">${item.year || ''}</span>
+            <div class="modal-desc-block">
+                <strong>Técnica:</strong> ${item.technique || 'No especificada'}<br>
+                <strong>Cantidad de piezas:</strong> ${item.quantity || 1}<br>
+                ${item.instagram ? `<strong>Instagram:</strong> ${item.instagram}<br>` : ''}
+                ${item.desc ? `<p style="margin-top:15px;">${item.desc}</p>` : ''}
+            </div>`;
 
-/* ==========================================================================
-   4. RENDERIZADOR DE CONTENIDO (ACTUALIZADO CON ANIMACIONES Y FILTROS)
-   ========================================================================== */
-const ContentRenderer = {
-    // Inicia el proceso de carga simulada y ordenamiento
-    init: (containerId, filterType = 'Obra') => {
+        if (item.type === "Video") {
+            imgEl.style.display = 'none';
+            ytEl.style.display = 'block';
+            ytEl.src = item.images[0];
+            btnPrev.style.display = 'none';
+            btnNext.style.display = 'none';
+        } else {
+            ytEl.style.display = 'none';
+            imgEl.style.display = 'block';
+            btnPrev.style.display = 'flex';
+            btnNext.style.display = 'flex';
+            this.updateImage();
+        }
+
+        dialog.showModal();
+        document.body.style.overflow = 'hidden';
+    }
+
+    static updateImage() {
+        const images = this.state.currentItem.images || [];
+        if (!images.length) return;
+        document.getElementById('mImg').src = images[this.state.index];
+        this.renderThumbs();
+    }
+
+    static navigate(dir) {
+        const images = this.state.currentItem.images || [];
+        if (images.length < 2) return;
+        this.state.index = (this.state.index + dir + images.length) % images.length;
+        this.updateImage();
+    }
+
+    static renderThumbs() {
+        const strip = document.getElementById('modalThumbnails');
+        const dots = document.getElementById('mobileDots');
+        strip.innerHTML = ''; dots.innerHTML = '';
+        const images = this.state.currentItem.images || [];
+
+        if (images.length < 2) return;
+
+        images.forEach((src, idx) => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.className = `thumb-img ${idx === this.state.index ? 'active' : ''}`;
+            img.addEventListener('click', () => { this.state.index = idx; this.updateImage(); });
+            strip.appendChild(img);
+
+            const dot = document.createElement('div');
+            dot.className = `dot ${idx === this.state.index ? 'active' : ''}`;
+            dots.appendChild(dot);
+        });
+    }
+}
+
+class ContentRenderer {
+    static init(containerId, filterType = 'Obra') {
         const grid = document.getElementById(containerId);
         if (!grid) return;
 
-        // 1. Mostrar Skeletons (Pantalla de carga)
-        SkeletonManager.render(containerId, 8);
+        this.renderSkeleton(grid);
 
-        // 2. Obtener criterio del selector (si existe en el HTML)
-        const sortSelect = document.getElementById('sortSelect');
-        const sortCriteria = sortSelect ? sortSelect.value : 'title-asc';
-
-        // 3. Simular tiempo de carga (800ms) para efecto visual
-        setTimeout(() => {
-            // Filtrar datos base según la página
-            let items = [];
-            if (filterType === 'Obra') {
-                items = SEARCH_DB.filter(i => i.type === 'Obra' && i.autor && !i.autor.includes('Reverón'));
-            } else if (filterType === 'Video') {
-                items = SEARCH_DB.filter(i => i.type === 'Video');
-            } else if (filterType === 'Reveron') {
-                items = SEARCH_DB.filter(i => i.type === 'Obra' && i.autor && i.autor.includes('Reverón'));
-            }
-
-            // 4. Ordenar los datos
-            const sortedItems = SortManager.sort(items, sortCriteria);
-
-            // 5. Renderizar
-            if (grid) {
-                grid.innerHTML = sortedItems.map((item, index) => 
-                    ContentRenderer.cardTemplate(item, index)
-                ).join('');
-            }
-
-            // 6. Reactivar clicks en las nuevas tarjetas
-            document.querySelectorAll('.file-card').forEach(card => {
-                card.addEventListener('click', () => ModalManager.open(card));
+        // Delegación de eventos para la grilla (Solo se asigna una vez, independientemente del renderizado)
+        if (!grid.dataset.bound) {
+            grid.addEventListener('click', this.handleGridInteraction.bind(this));
+            grid.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.handleGridInteraction(e);
+                }
             });
-
-        }, 800); 
-    },
-
-    cardTemplate: (item, index) => {
-        // Extraer técnica
-        let tech = "";
-        if (item.desc && item.desc.includes("Técnica")) {
-            const match = item.desc.match(/Técnica \/ Materia: (.*?)\./);
-            if(match) tech = match[1];
-        } else if (item.keywords) {
-            tech = item.keywords.split(' ')[0];
-            tech = tech.charAt(0).toUpperCase() + tech.slice(1);
+            grid.dataset.bound = "true";
         }
-        
-        // Imagen principal
-        const img = item.images && item.images[0] ? item.images[0] : '';
-        
-        // Preview: Video o Imagen
-        const preview = item.type === 'Video' 
-            ? `<div class="card-preview" style="background:#e8f0fe; display:flex; align-items:center; justify-content:center; font-size:3rem;">▶</div>`
-            : `<div class="card-preview"><img src="${img}" loading="lazy" alt="${item.title}"></div>`;
 
-        // Retraso de animación escalonada (stagger)
-        const delay = index * 0.05; 
-        
-        return `
-            <article class="file-card fade-scale-in" 
-                     style="animation-delay: ${delay}s"
-                     data-title="${item.title}" 
-                     data-autor="${item.autor}" 
-                     data-type="${item.type}">
-                ${preview}
+        const sortSelect = document.getElementById('sortSelect');
+        const criteria = sortSelect ? sortSelect.value : 'title-asc';
+
+        let items = ART_DATABASE.filter(i => {
+            if (filterType === 'Obra') return i.type === 'Obra' && i.autor && !i.autor.includes('Reverón');
+            if (filterType === 'Video') return i.type === 'Video';
+            if (filterType === 'Reveron') return i.type === 'Obra' && i.autor && i.autor.includes('Reverón');
+            return false;
+        });
+
+        items = this.sortItems(items, criteria);
+
+        // Se usa tabindex="0" y role="button" para WCAG 3.0
+        grid.innerHTML = items.map((item, index) => `
+            <article class="file-card fade-scale-in" tabindex="0" role="button" aria-label="Ver detalles de ${item.title}" style="animation-delay: ${index * 0.03}s" data-id="${item.id}">
+                <div class="card-preview">
+                    ${item.type === 'Video' ? '<div style="font-size:3rem;">▶</div>' : `<img src="${item.images[0]}" loading="lazy" alt="${item.title}">`}
+                </div>
                 <div class="card-footer">
                     <div class="card-title-text">${item.title}</div>
                     <div class="card-author-text">${item.autor}</div>
-                    <div style="font-size:0.8rem; color:#888; margin-top:2px;">${tech}</div>
+                    <div style="font-size:0.8rem; color:var(--text-light); margin-top:4px;">${item.technique || ''}</div>
                 </div>
-            </article>`;
+            </article>`).join('');
     }
-};
-/* ==========================================================================
-   5. AUTOCOMPLETADO
-   ========================================================================== */
-const AutocompleteManager = {
-    init() {
-        this.createSuggestionsBox('desktop-suggestions', DOM.searchBox);
-        const mobileContainer = document.querySelector('.search-modal-content');
-        if(mobileContainer) this.createSuggestionsBox('mobile-suggestions', mobileContainer);
-        this.bindEvents();
-    },
-    createSuggestionsBox(id, parent) {
-        if (!parent || document.getElementById(id)) return;
-        const box = document.createElement('div');
-        box.id = id; box.className = 'suggestions-list';
-        box.style.cssText = "display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ccc; border-radius:0 0 12px 12px; z-index:1000; box-shadow:0 4px 6px rgba(0,0,0,0.1); max-height:300px; overflow-y:auto;";
-        parent.appendChild(box);
-    },
-    bindEvents() {
-        DOM.searchInput?.addEventListener('input', (e) => {
-            this.handleInput(e.target.value, 'desktop-suggestions');
-            SearchManager.filterCardsOnPage(e.target.value); 
-        });
-        DOM.mobileInput?.addEventListener('input', (e) => {
-            this.handleInput(e.target.value, 'mobile-suggestions');
-        });
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.search-box') && !e.target.closest('.search-modal-content')) this.clearSuggestions();
-        });
-    },
-    handleInput(text, containerId) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        if (text.length < 2) { container.style.display = 'none'; return; }
-        const matches = this.searchInDB(text);
-        this.renderSuggestions(matches, container);
-    },
-    searchInDB(query) {
-        const cleanQuery = normalizeText(query);
-        return SEARCH_DB.filter(item => 
-            normalizeText(item.title).includes(cleanQuery) || 
-            normalizeText(item.keywords).includes(cleanQuery) ||
-            (item.autor && normalizeText(item.autor).includes(cleanQuery))
-        ).slice(0, 6);
-    },
-    renderSuggestions(results, container) {
-        if (!results.length) { container.style.display = 'none'; return; }
-        container.innerHTML = ''; container.style.display = 'block';
-        results.forEach(item => {
-            const imgUrl = item.images && item.images[0] ? item.images[0] : 'assets/img/Logo GAVAR.png';
-            const div = document.createElement('div');
-            div.className = 'suggestion-item';
-            div.style.cssText = "padding:10px; cursor:pointer; border-bottom:1px solid #eee; display:flex; align-items:center; gap:10px; color: #333; background:white;";
-            div.innerHTML = `
-                <img src="${imgUrl}" class="suggestion-thumb" alt="Miniatura">
-                <div style="display:flex; flex-direction:column; text-align:left;">
-                    <span style="font-weight:600; font-size:0.9rem;">${item.title}</span>
-                    <span style="font-size:0.75rem; color:#666;">${item.autor || ''}</span>
-                </div>`;
-            div.onmouseover = () => div.style.background = "#f9f9f9";
-            div.onmouseout = () => div.style.background = "#fff";
-            div.addEventListener('click', () => this.goToResult(item));
-            container.appendChild(div);
-        });
-    },
-    goToResult(item) {
-        if (item.type === 'Perfil') { window.location.href = item.url; return; }
-        if (document.getElementById('modalVisualizador')) {
-            this.clearSuggestions();
-            cerrarBusquedaMovil();
-            ModalManager.openFromData(item); // Pasamos el ITEM completo de la DB
-        } else {
-            window.location.href = `${item.url}?search=${encodeURIComponent(item.title)}`;
-        }
-    },
-    clearSuggestions() { document.querySelectorAll('.suggestions-list').forEach(el => el.style.display = 'none'); }
-};
 
-/* ==========================================================================
-   6. GESTIÓN DE MODALES (CORREGIDO: FLECHAS)
-   ========================================================================== */
-/* ==========================================================================
-   6. GESTIÓN DE MODALES (CORREGIDO: SWIPE TÁCTIL ROBUSTO)
-   ========================================================================== */
-const ModalManager = {
-    currentVideo: null,
-    currentImages: [],
-    currentIndex: 0,
-    touchStartX: 0,
-    touchEndX: 0,
+    static handleGridInteraction(e) {
+        const card = e.target.closest('.file-card');
+        if (!card) return;
 
-    init() { this.bindEvents(); },
-    
-    bindEvents() {
-        // Teclado
-        document.addEventListener('keydown', (e) => { 
-            const m = document.getElementById('modalVisualizador');
-            if (m && m.style.display === 'flex') {
-                if (e.key === 'Escape') this.close(); 
-                if (e.key === 'ArrowRight') this.nextImage();
-                if (e.key === 'ArrowLeft') this.prevImage();
-            }
-        });
-        // Clicks en botones estáticos
-        document.body.addEventListener('click', (e) => {
-            if (e.target.id === 'modalVisualizador' || e.target.id === 'btnModalClose') this.close();
-            if (e.target.id === 'btnModalPrev') this.prevImage();
-            if (e.target.id === 'btnModalNext') this.nextImage();
-        });
-    },
-
-    open(element) {
-        const dbEntry = SEARCH_DB.find(item => normalizeText(item.title) === normalizeText(element.dataset.title));
-        if (dbEntry) this.openFromData(dbEntry);
-    },
-
-    openFromData(data) {
-        const modal = document.getElementById('modalVisualizador');
-        if (!modal) return;
-        
-        this.currentImages = data.images || [];
-        if (typeof this.currentImages === 'string') this.currentImages = [this.currentImages];
-        
-        this.currentIndex = 0;
-        this.populateText(data);
-        this.updateGalleryUI(data.type);
-        
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-
-        // --- LÓGICA DE SWIPE MEJORADA ---
-        const mediaContainer = document.getElementById('mediaContainer');
-        if(mediaContainer) {
-            // Limpiar eventos anteriores
-            mediaContainer.ontouchstart = null;
-            mediaContainer.ontouchmove = null;
-            mediaContainer.ontouchend = null;
-
-            // 1. Tocar pantalla
-            mediaContainer.ontouchstart = (e) => { 
-                this.touchStartX = e.changedTouches[0].screenX;
-                this.touchEndX = this.touchStartX; // Reiniciar final para evitar saltos
-            };
-            
-            // 2. Mover dedo (IMPORTANTE: Actualizar posición constantemente)
-            mediaContainer.ontouchmove = (e) => {
-                this.touchEndX = e.changedTouches[0].screenX;
-            };
-
-            // 3. Soltar dedo
-            mediaContainer.ontouchend = (e) => { 
-                this.handleSwipe(); 
-            };
-        }
-    },
-
-    handleSwipe() {
-        const limit = 50; // Mínimo de píxeles para considerar swipe
-        // Deslizar a la izquierda (Siguiente)
-        if (this.touchStartX - this.touchEndX > limit) {
-            this.nextImage();
-        }
-        // Deslizar a la derecha (Anterior)
-        if (this.touchEndX - this.touchStartX > limit) {
-            this.prevImage();
-        }
-    },
-
-    populateText(data) {
-        const container = document.getElementById('modalTextContent');
-        if (container) {
-            container.innerHTML = `
-                <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 5px; color: #000; line-height:1.2;">${data.title}</h2>
-                <h3 style="font-size: 1.1rem; font-weight: 400; margin-bottom: 20px; color: #666;">${data.autor || ''}</h3>
-                <span class="modal-year" style="display:block; font-size: 1.5rem; font-weight: 700; color: #000; margin-bottom: 10px;">${data.year || ''}</span>
-                <div class="modal-desc-block">${data.desc || ''}</div>
-            `;
-        }
-    },
-
-    updateGalleryUI(type) {
-        const isVideo = type === 'Video';
-        const els = {
-            prev: document.getElementById('btnModalPrev'),
-            next: document.getElementById('btnModalNext'),
-            thumbs: document.getElementById('modalThumbnails'),
-            dots: document.getElementById('mobileDots'),
-            img: document.getElementById('mImg'),
-            vid: document.getElementById('mVideo'),
-            yt: document.getElementById('mYoutube')
-        };
-
-        // Limpieza inicial
-        if(els.img) els.img.style.display = 'none';
-        if(els.vid) els.vid.style.display = 'none';
-        if(els.yt) els.yt.style.display = 'none';
-        
-        // Ocultar controles
-        [els.prev, els.next, els.thumbs, els.dots].forEach(e => { if(e) e.style.setProperty('display', 'none', 'important'); });
-
-        if (isVideo) {
-            const src = this.currentImages[0] || ""; 
-            if (src.includes('youtube') || src.includes('youtu.be')) {
-                if(els.yt) {
-                    let vidId = src.split('v=')[1] || src.split('/').pop();
-                    if(vidId.includes('&')) vidId = vidId.split('&')[0];
-                    els.yt.src = `https://www.youtube.com/embed/${vidId}?autoplay=1`;
-                    els.yt.style.display = 'block';
-                }
-            } else if (els.vid) {
-                els.vid.src = src; els.vid.style.display = 'block';
-            }
-        } else {
-            // IMAGEN
-            if(els.img) {
-                els.img.style.display = 'block';
-                els.img.draggable = false; // <--- ESTO ES VITAL: Evita que se arrastre la imagen en vez de hacer swipe
-            }
-            
-            // Mostrar controles solo si hay > 1
-            if (this.currentImages.length > 1) {
-                if(els.prev) { els.prev.style.removeProperty('display'); els.prev.style.display = 'flex'; }
-                if(els.next) { els.next.style.removeProperty('display'); els.next.style.display = 'flex'; }
-                if(els.thumbs) { els.thumbs.style.removeProperty('display'); els.thumbs.style.display = 'flex'; }
-                if(els.dots) { els.dots.style.removeProperty('display'); els.dots.style.display = 'flex'; }
-            }
-            
-            this.showImage(this.currentIndex, null);
-            this.renderControls(); 
-        }
-    },
-
-    showImage(index, direction) {
-        const mImg = document.getElementById('mImg');
-        if (this.currentImages.length > 0) {
-            mImg.src = this.currentImages[index];
-            if (direction) {
-                mImg.classList.remove('anim-next', 'anim-prev');
-                void mImg.offsetWidth; 
-                if (direction === 'next') mImg.classList.add('anim-next');
-                if (direction === 'prev') mImg.classList.add('anim-prev');
-            }
-        }
-        document.querySelectorAll('.thumb-img').forEach((t, i) => {
-            t.classList.toggle('active', i === index);
-            // Auto-scroll de miniaturas
-            if (i === index && t.parentNode) {
-                t.parentNode.scrollLeft = t.offsetLeft - (t.parentNode.clientWidth / 2) + (t.clientWidth / 2);
-            }
-        });
-        document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === index));
-    },
-
-    renderControls() {
-        const thumbs = document.getElementById('modalThumbnails');
-        const dots = document.getElementById('mobileDots');
-        if(thumbs) thumbs.innerHTML = ''; 
-        if(dots) dots.innerHTML = '';
-
-        if (this.currentImages.length < 2) return;
-
-        this.currentImages.forEach((src, index) => {
-            const img = document.createElement('img');
-            img.src = src; img.className = 'thumb-img';
-            if (index === this.currentIndex) img.classList.add('active');
-            img.onclick = (e) => { e.stopPropagation(); this.currentIndex = index; this.showImage(index, 'next'); };
-            if(thumbs) thumbs.appendChild(img);
-
-            const dot = document.createElement('div');
-            dot.className = 'dot';
-            if (index === this.currentIndex) dot.classList.add('active');
-            dot.onclick = (e) => { e.stopPropagation(); this.currentIndex = index; this.showImage(index, 'next'); }; 
-            if(dots) dots.appendChild(dot);
-        });
-    },
-
-    nextImage() {
-        if (this.currentImages.length < 2) return;
-        this.currentIndex = (this.currentIndex + 1) % this.currentImages.length;
-        this.showImage(this.currentIndex, 'next');
-    },
-
-    prevImage() {
-        if (this.currentImages.length < 2) return;
-        this.currentIndex = (this.currentIndex - 1 + this.currentImages.length) % this.currentImages.length;
-        this.showImage(this.currentIndex, 'prev');
-    },
-
-    close() {
-        const modal = document.getElementById('modalVisualizador');
-        if (modal) modal.style.display = 'none';
-        document.body.style.overflow = '';
-        const vid = document.getElementById('mVideo'); if (vid) { vid.pause(); vid.currentTime = 0; }
-        const yt = document.getElementById('mYoutube'); if (yt) yt.src = '';
+        const item = ART_DATABASE.find(db => db.id === card.dataset.id);
+        if (item) ViewTransitionEngine.trigger(card, item);
     }
-};
 
-/* ==========================================================================
-   7. NAVEGACIÓN Y FILTROS
-   ========================================================================== */
-const SearchManager = {
-    init() { this.checkURLParams(); },
-    checkURLParams() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchTerm = urlParams.get('search');
-        if (searchTerm && DOM.searchInput) {
-            DOM.searchInput.value = searchTerm;
-            DOM.searchBox?.classList.add('active');
-            setTimeout(() => this.filterCardsOnPage(searchTerm), 100);
+    static sortItems(items, criteria) {
+        let sorted = [...items];
+        const locale = 'es';
+        const opts = { sensitivity: 'base' };
+        
+        switch (criteria) {
+            case 'title-asc': return sorted.sort((a, b) => a.title.localeCompare(b.title, locale, opts));
+            case 'title-desc': return sorted.sort((a, b) => b.title.localeCompare(a.title, locale, opts));
+            case 'artist-asc': return sorted.sort((a, b) => (a.autor || "").localeCompare((b.autor || ""), locale, opts));
+            case 'year-desc': return sorted.sort((a, b) => parseInt(b.year || 0) - parseInt(a.year || 0));
+            case 'year-asc': return sorted.sort((a, b) => parseInt(a.year || 0) - parseInt(b.year || 0));
+            default: return sorted;
         }
-    },
-    filterCardsOnPage(text) {
-        const cleanText = normalizeText(text);
-        document.querySelectorAll('.file-card').forEach(card => {
-            const title = normalizeText(card.dataset.title);
-            const autor = normalizeText(card.dataset.autor);
-            // Re-chequear DB para keywords porque no están en el DOM
-            const item = SEARCH_DB.find(i => normalizeText(i.title) === title);
-            const keys = item ? normalizeText(item.keywords) : "";
-            
-            const isVisible = title.includes(cleanText) || autor.includes(cleanText) || keys.includes(cleanText);
-            card.style.display = isVisible ? 'flex' : 'none';
-        });
-    },
-    toggleSearch() {
-        DOM.searchBox?.classList.toggle('active');
-        if (DOM.searchBox?.classList.contains('active')) setTimeout(() => DOM.searchInput.focus(), 400);
     }
-};
 
-const MobileNav = {
-    init() {},
-    toggle() { if (DOM.navLinks) DOM.navLinks.classList.toggle('active'); }
-};
-
-/* --- FUNCIONES HELPER GLOBALES --- */
-function cerrarBusquedaMovil() { 
-    const overlay = document.getElementById('mobileSearchOverlay');
-    if (overlay) overlay.style.display = 'none';
-    const input = document.getElementById('mobileInput');
-    if (input) input.value = ''; 
-    AutocompleteManager.clearSuggestions(); 
+    static renderSkeleton(grid) {
+        grid.innerHTML = Array(8).fill(0).map(() => `
+            <div class="skeleton-card">
+                <div class="skeleton-box sk-img"></div>
+                <div class="sk-content">
+                    <div class="skeleton-box sk-text sk-title"></div>
+                    <div class="skeleton-box sk-text sk-meta"></div>
+                </div>
+            </div>`).join('');
+    }
 }
 
-/* ==========================================================================
-   8. BOOTSTRAP FINAL (SOLO UNO, AL FINAL)
-   ========================================================================== */
+class SearchController {
+    static init() {
+        const input = document.getElementById('searchInput');
+        input?.addEventListener('input', (e) => this.handleSearch(e.target.value));
+    }
+
+    static handleSearch(value) {
+        const clean = TextEngine.normalize(value);
+        const cards = document.querySelectorAll('.file-card');
+        let counter = 0;
+
+        cards.forEach(card => {
+            const item = ART_DATABASE.find(db => db.id === card.dataset.id);
+            if (!item) return;
+
+            const targetStr = TextEngine.normalize(`${item.title} ${item.autor} ${item.keywords ? item.keywords.join(' ') : ''}`);
+            const visible = targetStr.includes(clean);
+            card.style.display = visible ? 'flex' : 'none';
+            if (visible) counter++;
+        });
+
+        const announcer = document.getElementById('announcer');
+        if (announcer) announcer.textContent = `Filtrado completado. ${counter} elementos visibles.`;
+    }
+}
+
+/**
+ * Bootstrap de la Aplicación
+ */
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. INYECTAR
     ComponentInjector.run();
-    
-// A. Si estamos en Galería: Activar Skeletons y Escuchar el Filtro
+    ModalManager.init();
+    SearchController.init();
+
     if (document.getElementById('gridObras')) {
         ContentRenderer.init('gridObras', 'Obra');
-        
-        // Cuando cambien el select, recargamos con animación
-        document.getElementById('sortSelect')?.addEventListener('change', () => {
-            ContentRenderer.init('gridObras', 'Obra');
-        });
-    } 
-    // B. Si estamos en Exposiciones
-    else if (document.getElementById('gridExposiciones')) {
+        document.getElementById('sortSelect')?.addEventListener('change', () => ContentRenderer.init('gridObras', 'Obra'));
+    } else if (document.getElementById('gridExposiciones')) {
         ContentRenderer.init('gridExposiciones', 'Video');
-    }
-    // C. Si estamos en el Perfil de Reverón (Carrusel)
-    else if (document.getElementById('trackObras')) {
+    } else if (document.getElementById('trackObras')) {
         ContentRenderer.init('trackObras', 'Reveron');
-    } 
-
-    // 3. CAPTURAR ELEMENTOS (Ahora que existen)
-    DOM.modal = document.getElementById('modalVisualizador');
-    DOM.searchInput = document.getElementById('searchInput');
-    DOM.searchBox = document.querySelector('.search-box');
-    DOM.navLinks = document.getElementById('navLinks');
-    DOM.mobileInput = document.getElementById('mobileInput');
-    DOM.mobileSearchOverlay = document.getElementById('mobileSearchOverlay');
-
-    // 4. INICIAR LÓGICAS
-    ModalManager.init(); 
-    SearchManager.init(); 
-    AutocompleteManager.init();
-
-    // Eventos Navbar
-    document.getElementById('btnMenuToggle')?.addEventListener('click', MobileNav.toggle);
-    document.getElementById('btnSearchToggle')?.addEventListener('click', SearchManager.toggleSearch);
-    document.getElementById('btnMobileSearch')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        const overlay = document.getElementById('mobileSearchOverlay');
-        if(overlay) overlay.style.display = 'flex';
-        setTimeout(() => document.getElementById('mobileInput')?.focus(), 100);
-    });
-
-    // Animación entrada
-    const observer = new IntersectionObserver((entries) => { 
-        entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('card-enter'); observer.unobserve(e.target); } }); 
-    });
-    document.querySelectorAll('.file-card').forEach(c => observer.observe(c));
+    }
 });
