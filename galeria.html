@@ -4,52 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Colección de obras de la Galería GAVAR. Explora piezas de serigrafía, xilografía, arte digital y libros pop-up.">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="oklch(0.99 0.005 260)">
     
     <title>GAVAR | Galería</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="assets/img/Logo GAVAR.png" type="image/png">
 </head>
 <body>
 
-    <header class="main-header">
+    <header class="main-header" role="banner">
         <div class="logo-container">
-            <a href="index.html">
-                <img src="assets/img/Logo GAVAR.png" alt="GAVAR Logo" width="120" height="45">
+            <a href="index.html" aria-label="Ir a la página de inicio">
+                <img src="assets/img/Logo GAVAR.png" alt="GAVAR Logo" width="120" height="45" fetchpriority="high">
             </a>
         </div>
 
-        <button id="btnMenuToggle" class="menu-toggle" aria-label="Abrir menú">☰</button>
+        <button id="btnMenuToggle" class="menu-toggle" aria-expanded="false" aria-controls="mainNav" aria-label="Abrir menú de navegación">☰</button>
         
-        <nav id="mainNav">
-            <div class="search-box" id="searchBoxDesktop">
+        <nav id="mainNav" role="navigation" aria-label="Navegación principal">
+            <div class="search-box" id="searchBoxDesktop" role="search">
+                <label for="searchInput" class="sr-only">Filtrar obras o artistas</label>
                 <input type="text" class="search-input" id="searchInput" placeholder="Filtrar por obra o artista..." autocomplete="off">
-                <button id="btnSearchToggle" class="search-btn" aria-label="Activar búsqueda">🔍</button>
+                <button id="btnSearchToggle" class="search-btn" aria-label="Activar cuadro de búsqueda">🔍</button>
             </div>
 
             <ul class="nav-links" id="navLinks">
                 <li class="mobile-only">
-                    <a href="#" id="btnMobileSearch">Búsqueda</a>
+                    <a href="#" id="btnMobileSearch" aria-haspopup="dialog">Búsqueda</a>
                 </li>
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="galeria.html" class="active">Galería</a></li>
+                <li><a href="galeria.html" class="active" aria-current="page">Galería</a></li>
                 <li><a href="exposiciones.html">Exposiciones</a></li>
                 <li><a href="mencion-especial.html">Artista de Caño Amarillo</a></li>
             </ul>
         </nav>
     </header>
 
-<main class="main-content">
-        <div class="filter-container">
-            <h2 class="section-title" style="margin-bottom:0;">Archivos de Obras</h2>
+    <main class="main-content" role="main">
+        <section class="filter-container" aria-labelledby="filterHeading">
+            <h2 id="filterHeading" class="section-title" style="margin-bottom:0;">Archivos de Obras</h2>
             
             <div class="filter-group">
-                <span class="filter-label">Ordenar por:</span>
+                <label for="sortSelect" class="filter-label">Ordenar por:</label>
                 <select id="sortSelect" class="custom-select">
                     <option value="title-asc" selected>Nombre (A-Z)</option>
                     <option value="title-desc">Nombre (Z-A)</option>
@@ -58,9 +59,11 @@
                     <option value="year-asc">Año (Más antiguo)</option>
                 </select>
             </div>
-        </div>
+        </section>
 
-        <div class="drive-grid" id="gridObras"></div>
+        <div class="sr-only" aria-live="polite" id="announcer"></div>
+
+        <div class="drive-grid" id="gridObras" role="region" aria-label="Cuadrícula de obras de arte"></div>
     </main>
 
     <script src="js/scripts.js"></script>
