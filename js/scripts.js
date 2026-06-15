@@ -231,6 +231,49 @@ const SEARCH_DB = [
         autor: "Armando Reverón", 
         year: "1920", 
         desc: "Obra maestra de su Período Azul." 
+    },
+    { 
+        title: "Reino Fungi", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "isadora parada reino fungi mixta folielolie 2023 hongos", 
+        images: [
+            "assets/img/reino_fungi_1.avif",
+            "assets/img/reino_fungi_2.avif",
+            "assets/img/reino_fungi_3.avif",
+            "assets/img/reino_fungi_4.avif",
+            "assets/img/reino_fungi_5.avif",
+            "assets/img/reino_fungi_6.avif"
+        ], 
+        autor: "Isadora Parada", 
+        year: "2023", 
+        desc: "Técnica / Materia: Mixta.\nCantidad: 3 piezas.\nInstagram: @folielolie" 
+    },
+    { 
+        title: "Cotidianidad", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "nelyireh mejias cotidianidad acrilico sobre lienzo artes graficas nelyire", 
+        images: [
+            "assets/img/cotidianidad_1.avif",
+            "assets/img/cotidianidad_2.avif"
+        ], 
+        autor: "Nelyireh Mejias", 
+        year: "N/D", 
+        desc: "Técnica / Materia: Acrílico sobre lienzo.\nMención: Artes gráficas.\nCantidad: 1 pieza.\nInstagram: @nelyire" 
+    },
+    { 
+        title: "Hombre en penumbras", 
+        url: "galeria.html", 
+        type: "Obra", 
+        keywords: "orissa liendo lyu venus hombre en penumbras mixta el_lienzo.devenus 2023", 
+        images: [
+            "assets/img/hombre_en_penumbras_1.avif",
+            "assets/img/hombre_en_penumbras_2.avif"
+        ], 
+        autor: "Orissa Liendo (Lyu Venus)", 
+        year: "2023", 
+        desc: "Técnica / Materia: Mixta.\nCantidad: 1 pieza.\nInstagram: @el_lienzo.devenus" 
     }
 ];
 /* ==========================================================================
